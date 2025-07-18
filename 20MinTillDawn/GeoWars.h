@@ -19,7 +19,6 @@
 #include "Scene.h"
 #include "Background.h"
 #include "Player.h"
-#include "Hud.h"
 
 // ------------------------------------------------------------------------------
 
@@ -35,7 +34,6 @@ class GeoWars : public Game
 {
 private:
     Background * backg = nullptr;   // pano de fundo
-    Hud * hud = nullptr;            // painel de informações
     bool viewBBox = false;          // visualização das bouding boxes
 
 public:

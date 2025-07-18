@@ -12,11 +12,6 @@
 #include "Resources.h"
 #include "GeoWars.h"
 #include "Engine.h"    
-#include "Magenta.h"
-#include "Blue.h"    
-#include "Green.h"
-#include "Orange.h"
-#include "Delay.h"
 
 // ------------------------------------------------------------------------------
 
@@ -47,16 +42,8 @@ void GeoWars::Init()
     player  = new Player();
     scene   = new Scene();
 
-    // cria o painel de informações
-    hud = new Hud();
-
     // adiciona objetos na cena (sem colisão)
     scene->Add(player, STATIC);
-    scene->Add(new Magenta(player), STATIC);
-    scene->Add(new Blue(player), STATIC);
-    scene->Add(new Green(player), STATIC);
-    scene->Add(new Orange(player), STATIC);
-    scene->Add(new Delay(), STATIC);
 
     // ----------------------
     // inicializa a viewport
@@ -135,10 +122,6 @@ void GeoWars::Draw()
     // desenha a cena
     scene->Draw();
 
-    // desenha painel de informações
-    if (viewHUD)
-        hud->Draw();
-
     // desenha bounding box
     if (viewBBox)
         scene->DrawBBox();
@@ -149,7 +132,6 @@ void GeoWars::Draw()
 void GeoWars::Finalize()
 {
     delete audio;
-    delete hud;
     delete scene;
     delete backg;
 }
