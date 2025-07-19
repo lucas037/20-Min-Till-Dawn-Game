@@ -17,7 +17,7 @@
 Player::Player()
 {
     // configuração do objeto
-    sprite = new Sprite("Resources/Player.png");
+    sprite = new Sprite("OldResources/Player.png");
     speed  = new Vector(90.0f, 0.0f);
     BBox(new Circle(18.0f));
     MoveTo(game->CenterX(), game->CenterY());
@@ -25,7 +25,7 @@ Player::Player()
 
     // configuração do gerador de partículas
     Generator emitter;
-    emitter.imgFile = "Resources/Spark.png";    // arquivo de imagem
+    emitter.imgFile = "OldResources/Spark.png";    // arquivo de imagem
     emitter.angle = 270.0f;                     // ângulo base do emissor
     emitter.spread = 50;                        // espalhamento em graus
     emitter.lifetime = 0.3f;                    // tempo de vida em segundos
@@ -55,7 +55,6 @@ Player::~Player()
 
 void Player::Move(Vector && v)
 {
-
 }
 
 // -------------------------------------------------------------------------------

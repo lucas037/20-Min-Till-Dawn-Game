@@ -12,6 +12,7 @@
 #include "Resources.h"
 #include "GeoWars.h"
 #include "Engine.h"    
+#include "TentacleMonster.h"    
 
 // ------------------------------------------------------------------------------
 
@@ -26,11 +27,11 @@ void GeoWars::Init()
 {
     // cria sistema de áudio
     audio = new Audio();
-    audio->Add(THEME, "Resources/Theme.wav");
-    audio->Add(FIRE, "Resources/Fire.wav");
-    audio->Add(HITWALL, "Resources/Hitwall.wav");
-    audio->Add(EXPLODE, "Resources/Explode.wav");
-    audio->Add(START, "Resources/Start.wav");
+    audio->Add(THEME, "OldResources/Theme.wav");
+    audio->Add(FIRE, "OldResources/Fire.wav");
+    audio->Add(HITWALL, "OldResources/Hitwall.wav");
+    audio->Add(EXPLODE, "OldResources/Explode.wav");
+    audio->Add(START, "OldResources/Start.wav");
 
     // ajusta volumes
     audio->Volume(FIRE, 0.2f);
@@ -38,12 +39,15 @@ void GeoWars::Init()
     audio->Volume(THEME, 0.6f);
 
     // carrega/incializa objetos
-    backg   = new Background("Resources/Space.jpg");
+    backg   = new Background("OldResources/Space.jpg");
     player  = new Player();
     scene   = new Scene();
 
     // adiciona objetos na cena (sem colisão)
     scene->Add(player, STATIC);
+
+    TentacleMonster* enemy = new TentacleMonster(game->CenterX() - 100.0, game->CenterY() - 100.0);
+    scene->Add(enemy, MOVING);
 
     // ----------------------
     // inicializa a viewport
