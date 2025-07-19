@@ -2,7 +2,7 @@
 #include "Aleatory.h"
 #include "GeoWars.h"-
 
-Enemy::Enemy(Sprite * newSprite) {
+Enemy::Enemy() {
 	float initPosX = game->CenterX();
 	float initPosY = game->CenterY();
 	int positionDirection = Aleatory::randrange(0, 4);
@@ -29,7 +29,6 @@ Enemy::Enemy(Sprite * newSprite) {
 	}
 
 	MoveTo(initPosX, initPosY);
-	sprite = newSprite;
 }
 
 Enemy::~Enemy() {
@@ -57,6 +56,20 @@ void Enemy::Update()
 	Vector v(angle, 100.0f);
 
 	Translate(v.XComponent() * gameTime, v.YComponent() * gameTime);
+
+	if (v.XComponent() > 0 && spriteR != nullptr) {
+		sprite = spriteR;
+	}
+	else if (v.XComponent() < 0 && spriteL != nullptr) {
+		sprite = spriteL;
+	}
+
+	if (v.YComponent() > 0 && spriteB != nullptr) {
+		sprite = spriteB;
+	}
+	else if (v.YComponent() < 0 && spriteT != nullptr) {
+		sprite = spriteT;
+	}
 }
 
 // -------------------------------------------------------------------------------
@@ -64,4 +77,10 @@ void Enemy::Update()
 void Enemy::Draw() {
 	sprite->Draw(x, y, Layer::MIDDLE);
 	int k = 2;
+}
+
+// -------------------------------------------------------------------------------
+
+void Enemy::UpdateSprite(Sprite * newSprite) {
+	sprite = newSprite;
 }
