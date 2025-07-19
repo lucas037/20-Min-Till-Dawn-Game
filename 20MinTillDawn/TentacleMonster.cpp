@@ -1,6 +1,6 @@
 #include "TentacleMonster.h"
 
-TentacleMonster::TentacleMonster(float posX, float posY): Enemy(posX, posY, new Sprite("OldResources/Player.png")){
+TentacleMonster::TentacleMonster(): Enemy(new Sprite("Resources/Tentacle_Monster.png")){
 }
 
 TentacleMonster::~TentacleMonster() {
