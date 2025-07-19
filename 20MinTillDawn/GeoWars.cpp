@@ -46,8 +46,12 @@ void GeoWars::Init()
     // adiciona objetos na cena (sem colisão)
     scene->Add(player, STATIC);
 
-    TentacleMonster* enemy = new TentacleMonster(game->CenterX() - 100.0, game->CenterY() - 100.0);
-    scene->Add(enemy, MOVING);
+    TentacleMonster* enemy;
+
+    for (int i = 0; i < 3; i++) {
+        enemy = new TentacleMonster();
+        scene->Add(enemy, MOVING);
+    }
 
     // ----------------------
     // inicializa a viewport
