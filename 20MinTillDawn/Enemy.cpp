@@ -1,10 +1,11 @@
 #include "Enemy.h"
 #include "Aleatory.h"
+#include "GeoWars.h"-
 
 Enemy::Enemy(Sprite * newSprite) {
 	float initPosX = game->CenterX();
 	float initPosY = game->CenterY();
-	int positionDirection = Aleatory::randrange(2, 4);
+	int positionDirection = Aleatory::randrange(0, 4);
 	float auxNumBetween1s = (Aleatory::randrange(0, 201) - 100.0) / 100;
 
 	switch (positionDirection) {
@@ -43,6 +44,19 @@ void Enemy::Move(Vector&& v)
 
 void Enemy::Update()
 {
+	float xPlayer = GeoWars::player->X();
+	float yPlayer = GeoWars::player->Y();
+	float xEnemy = X();
+	float yEnemy = Y();
+
+	float distX = xPlayer - xEnemy;
+	float distY = yPlayer - yEnemy;
+
+	float angleRad = atan2(distY, distX);
+	float angle = angleRad * (180.0f / 3.14159265f);
+	Vector v(angle, 100.0f);
+
+	Translate(v.XComponent() * gameTime, v.YComponent() * gameTime);
 }
 
 // -------------------------------------------------------------------------------
