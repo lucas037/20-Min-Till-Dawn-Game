@@ -29,6 +29,8 @@ Enemy::Enemy() {
 	}
 
 	MoveTo(initPosX, initPosY);
+
+	type = ENEMY;
 }
 
 Enemy::~Enemy() {
