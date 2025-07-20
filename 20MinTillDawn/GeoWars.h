@@ -19,10 +19,14 @@
 #include "Scene.h"
 #include "Background.h"
 #include "Player.h"
+#include "Heart.h"
+#include "Vector.h"
+
+using namespace std;
 
 // ------------------------------------------------------------------------------
 
-enum ObjectIds { PLAYER, MISSILE, BLUE, GREEN, MAGENTA, ORANGE, WALLHIT };
+enum ObjectIds { PLAYER, MISSILE, BLUE, GREEN, MAGENTA, ORANGE, WALLHIT, ENEMY };
 
 // ------------------------------------------------------------------------------
 

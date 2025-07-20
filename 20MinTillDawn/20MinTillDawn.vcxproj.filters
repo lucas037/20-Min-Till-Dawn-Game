@@ -105,7 +105,13 @@
     <ClCompile Include="TentacleMonster.cpp">
       <Filter>Game\Arquivos de Origem</Filter>
     </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>Game\Arquivos de Origem</Filter>
+    </ClCompile>
     <ClCompile Include="Aleatory.cpp">
+      <Filter>Game\Arquivos de Origem</Filter>
+    </ClCompile>
+    <ClCompile Include="Heart.cpp">
       <Filter>Game\Arquivos de Origem</Filter>
     </ClCompile>
   </ItemGroup>
@@ -194,7 +200,13 @@
     <ClInclude Include="TentacleMonster.h">
       <Filter>Game\Arquivos de Cabeçalho</Filter>
     </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>Game\Arquivos de Cabeçalho</Filter>
+    </ClInclude>
     <ClInclude Include="Aleatory.h">
+      <Filter>Game\Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="Heart.h">
       <Filter>Game\Arquivos de Cabeçalho</Filter>
     </ClInclude>
   </ItemGroup>

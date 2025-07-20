@@ -18,6 +18,7 @@
 #include "Sprite.h"                        // desenho de sprites
 #include "Vector.h"                        // representação de vetores
 #include "Particles.h"                    // sistema de partículas
+#include "Character.h"                    // personagem do jogador
 
 // ---------------------------------------------------------------------------------
 

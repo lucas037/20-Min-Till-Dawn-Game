@@ -5,6 +5,8 @@ TentacleMonster::TentacleMonster(): Enemy(){
 	spriteR = new Sprite("Resources/Tentacle-Monster-R.png");
 
 	UpdateSprite(spriteL);
+
+	BBox(new Rect(-32, -32, 32, 32));
 }
 
 TentacleMonster::~TentacleMonster() {
