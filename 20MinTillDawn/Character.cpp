@@ -36,65 +36,11 @@ Character::Character()
 	}
 }
 
-void Character::Move() {
-	float dx = 0.0f;
-	float dy = 0.0f;
-
-	if (window->KeyDown('W')) dy += 1.0f;
-	if (window->KeyDown('S')) dy -= 1.0f;  
-	if (window->KeyDown('A')) {
-		dx -= 1.0f;
-		if (right) {
-			anim->FlipX();
-			right = false;
-		}
-	}
-	if (window->KeyDown('D')) {
-		dx += 1.0f;
-		if (!right) {
-			anim->FlipX();
-			right = true;
-		}
-	}
-	if (dx == 0.0f && dy == 0.0f) {
-		speed->ScaleTo(0.0f);
-		return;
-	}
-
-	float angle = atan2f(dy, dx) * (180.0f / 3.14159265f);
-	if (angle < 0.0f) angle += 360.0f;
-
-	speed->RotateTo(angle);
-
-	if (speed->Magnitude() < 20.0f) {
-		speed->ScaleTo(speed->Magnitude() + 20 * gameTime);
-	}
-}
-
 void Character::OnCollision(Object* obj)
 {
 	if (obj->Type() == ENEMY) {
 		Damage();
 	}
-}
-
-void Character::Damage()
-{
-	if (isInvincible || lifePoints <= 0) return;
-
-	lifePoints--;
-
-	if (lifePoints < maxLifePoints) {
-		for (uint i = lifePoints; i < maxLifePoints; i++) {
-			if (i < hearts.size()) {
-
-				hearts[i]->SetInactive(); 
-			}
-		}
-	}
-
-	isInvincible = true;
-	timeCounter = 0.0f;
 }
 
 void Character::Update()
@@ -126,6 +72,120 @@ void Character::Update()
 	Translate(speed->XComponent() * 0.1f * delta, -speed->YComponent() * 0.1f * delta);
 
 	GeoWars::player->MoveTo(X(), Y());
+}
+
+// ---------------------------------------------------------------------------------
+// METODOS AUXILIARES
+// ---------------------------------------------------------------------------------
+void Character::Move() {
+	float dx = 0.0f;
+	float dy = 0.0f;
+
+	HandleXboxInput(dx, dy);
+	HandleGenericControllerInput(dx, dy);
+	HandleKeyboardInput(dx, dy);
+
+	if (dx == 0.0f && dy == 0.0f) {
+		speed->ScaleTo(0.0f);
+		return;
+	}
+
+	UpdateAnimationDirection(dx);
+	UpdateMovement(dx, dy);
+}
+
+void Character::HandleXboxInput(float& dx, float& dy) {
+	const float deadZone = 0.2f;
+
+	if (!GeoWars::xboxOn)
+		return;
+
+	if (!GeoWars::controller->XboxUpdateState(0)) {
+		GeoWars::xboxOn = false;
+		GeoWars::controllerOn = GeoWars::controller->UpdateState();
+		return;
+	}
+
+	GeoWars::controller->XboxUpdateState();
+
+	float x = GeoWars::controller->XboxAnalog(ThumbLX);
+	float y = GeoWars::controller->XboxAnalog(ThumbLY);
+
+	if (fabs(x) >= deadZone) dx += x;
+	if (fabs(y) >= deadZone) dy += y;
+}
+
+void Character::HandleGenericControllerInput(float& dx, float& dy) {
+	const float deadZone = 0.2f;
+
+	if (!GeoWars::controllerOn)
+		return;
+
+	if (!GeoWars::controller->UpdateState()) {
+		GeoWars::controllerOn = false;
+		GeoWars::xboxOn = GeoWars::controller->XboxInitialize(0);
+		return;
+	}
+
+	float x = GeoWars::controller->Axis(AxisX);
+	float y = GeoWars::controller->Axis(AxisY);
+
+	if (fabs(x) >= deadZone) dx += x;
+	if (fabs(y) >= deadZone) dy += y;
+}
+
+void Character::HandleKeyboardInput(float& dx, float& dy) {
+	if (window->KeyDown('W')) dy += 1.0f;
+	if (window->KeyDown('S')) dy -= 1.0f;
+	if (window->KeyDown('A')) dx -= 1.0f;
+	if (window->KeyDown('D')) dx += 1.0f;
+}
+
+void Character::UpdateAnimationDirection(float dx) {
+	if (dx < 0 && right) {
+		anim->FlipX();
+		right = false;
+	}
+	else if (dx > 0 && !right) {
+		anim->FlipX();
+		right = true;
+	}
+}
+
+void Character::UpdateMovement(float dx, float dy) {
+	float magnitude = sqrtf(dx * dx + dy * dy);
+	if (magnitude > 1.0f) {
+		dx /= magnitude;
+		dy /= magnitude;
+	}
+
+	float angle = atan2f(dy, dx) * (180.0f / 3.14159265f);
+	if (angle < 0.0f) angle += 360.0f;
+
+	speed->RotateTo(angle);
+
+	if (speed->Magnitude() < 20.0f) {
+		speed->ScaleTo(speed->Magnitude() + 20 * gameTime);
+	}
+}
+
+void Character::Damage()
+{
+	if (isInvincible || lifePoints <= 0) return;
+
+	lifePoints--;
+
+	if (lifePoints < maxLifePoints) {
+		for (uint i = lifePoints; i < maxLifePoints; i++) {
+			if (i < hearts.size()) {
+
+				hearts[i]->SetInactive();
+			}
+		}
+	}
+
+	isInvincible = true;
+	timeCounter = 0.0f;
 }
 
 void Character::Draw()

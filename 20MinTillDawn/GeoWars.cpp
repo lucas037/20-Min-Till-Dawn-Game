@@ -16,18 +16,29 @@
 #include "Character.h"
 #include "Heart.h"
 #include "Audio.h"
+#include "Controller.h"
 
 // ------------------------------------------------------------------------------
 
 Player * GeoWars::player  = nullptr;
 Audio  * GeoWars::audio   = nullptr;
 Scene  * GeoWars::scene   = nullptr;
+Controller* GeoWars::controller = nullptr;
+bool     GeoWars::xboxOn = false;
+bool     GeoWars::controllerOn = false;
 bool     GeoWars::viewHUD = true;
 
 // ------------------------------------------------------------------------------
 
 void GeoWars::Init() 
 {
+	controller = new Controller();
+
+    xboxOn = controller->XboxInitialize(0);
+
+    if (!xboxOn)
+        controllerOn = controller->Initialize();
+
     // cria sistema de áudio
     audio = new Audio();
     audio->Add(THEME, "OldResources/Theme.wav");
@@ -78,6 +89,11 @@ void GeoWars::Update()
     // sai com o pressionamento da tecla ESC
     if (window->KeyDown(VK_ESCAPE))
         window->Close();
+
+    xboxOn = controller->XboxInitialize(0);
+
+    if (!xboxOn)
+        controllerOn = controller->Initialize();
 
     // atualiza cena e calcula colisões
     scene->Update();
