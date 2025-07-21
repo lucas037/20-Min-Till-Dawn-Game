@@ -1,5 +1,6 @@
 #include "Character.h"
 #include "MinutesTillDawn.h"
+#include "RepulsionArea.h"
 
 Character::Character()
 {
@@ -174,6 +175,8 @@ void Character::Damage()
 	if (isInvincible || lifePoints <= 0) return;
 
 	lifePoints--;
+
+	MinutesTillDawn::scene->Add(new RepulsionArea(X(), Y()), MOVING);
 
 	if (lifePoints < maxLifePoints) {
 		for (uint i = lifePoints; i < maxLifePoints; i++) {
