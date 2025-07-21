@@ -36,41 +36,6 @@ Character::Character()
 	}
 }
 
-void Character::Move() {
-	float dx = 0.0f;
-	float dy = 0.0f;
-
-	if (window->KeyDown('W')) dy += 1.0f;
-	if (window->KeyDown('S')) dy -= 1.0f;  
-	if (window->KeyDown('A')) {
-		dx -= 1.0f;
-		if (right) {
-			anim->FlipX();
-			right = false;
-		}
-	}
-	if (window->KeyDown('D')) {
-		dx += 1.0f;
-		if (!right) {
-			anim->FlipX();
-			right = true;
-		}
-	}
-	if (dx == 0.0f && dy == 0.0f) {
-		speed->ScaleTo(0.0f);
-		return;
-	}
-
-	float angle = atan2f(dy, dx) * (180.0f / 3.14159265f);
-	if (angle < 0.0f) angle += 360.0f;
-
-	speed->RotateTo(angle);
-
-	if (speed->Magnitude() < 20.0f) {
-		speed->ScaleTo(speed->Magnitude() + 40 * gameTime);
-	}
-}
-
 void Character::OnCollision(Object* obj)
 {
 	if (obj->Type() == ENEMY) {
