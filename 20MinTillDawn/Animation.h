@@ -52,6 +52,8 @@ public:
     void Add(uint id, uint * seq, uint seqSize);    // adiciona sequência de animação
     void Select(uint id);                           // seleciona sequência atual 
 
+    void FlipX() { sprite.flipX = !sprite.flipX; }  // inverte a animação horizontalmente
+
     void Draw(                                      // desenha o quadro atual da animação
         float x, float y, float z = Layer::MIDDLE,  // coordenadas da tela
         float scale = 1.0f, float rotation = 0.0f,  // escala e rotação

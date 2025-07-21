@@ -1155,7 +1155,7 @@ void Renderer::RenderBatch(ID3D11ShaderResourceView * texture, SpriteData ** spr
                 { 1, 1 },
             };
 
-            int mirrorBits = 0;
+            int mirrorBits = sprites[i]->flipX;;
 
             // gere os quatro vértices 
             for (int i = 0; i < VerticesPerSprite; ++i)

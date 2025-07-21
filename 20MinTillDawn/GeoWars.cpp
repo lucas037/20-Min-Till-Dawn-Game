@@ -13,14 +13,16 @@
 #include "GeoWars.h"
 #include "Engine.h"    
 #include "TentacleMonster.h"    
-#include "Weapon.h"
+#include "Character.h"
+#include "Heart.h"
+#include "Audio.h"
 
 // ------------------------------------------------------------------------------
 
 Player * GeoWars::player  = nullptr;
 Audio  * GeoWars::audio   = nullptr;
 Scene  * GeoWars::scene   = nullptr;
-bool     GeoWars::viewHUD = false;
+bool     GeoWars::viewHUD = true;
 
 // ------------------------------------------------------------------------------
 
@@ -44,14 +46,15 @@ void GeoWars::Init()
     player  = new Player();
     scene   = new Scene();
 
-    // adiciona objetos na cena (sem colisão)
-    scene->Add(player, STATIC);
+	Character* charac = new Character();
+	scene->Add(charac, MOVING);
 
-    TentacleMonster* enemy = new TentacleMonster(game->CenterX() - 100.0, game->CenterY() - 100.0);
-    scene->Add(enemy, MOVING);
+    TentacleMonster* enemy;
 
-    Weapon* weapon = new Weapon(player, "Resources/Revolver.png", "");
-    scene->Add(weapon, MOVING);
+    for (int i = 0; i < 3; i++) {
+        enemy = new TentacleMonster();
+        scene->Add(enemy, MOVING);
+    }
 
     // ----------------------
     // inicializa a viewport

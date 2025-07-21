@@ -52,6 +52,7 @@ struct SpriteData
     float depth;
     float scale;
     float rotation;
+    bool flipX;
     uint  width;
     uint  height;
     ID3D11ShaderResourceView* texture;

@@ -1,8 +1,9 @@
 #include "Enemy.h"
+#include "Sprite.h"
 
 class TentacleMonster: public Enemy {
-
+private:
 public:
-	TentacleMonster(float posX, float posY);
+	TentacleMonster();
 	~TentacleMonster();
 };
