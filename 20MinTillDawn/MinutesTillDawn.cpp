@@ -186,10 +186,10 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
     //engine->graphics->VSync(true);
 
     // cria o jogo
-    Game * game = new MinutesTillDawn();
+    Game * game = new HomeScreen();
 
     // configura o jogo
-    game->Size(3840, 2160);
+    game->Size(1024, 720);
     
     // inicia execução
     engine->Start(game);

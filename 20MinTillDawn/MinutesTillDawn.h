@@ -22,6 +22,7 @@
 #include "Heart.h"
 #include "Vector.h"
 #include "Controller.h"
+#include "HomeScreen.h"
 
 using namespace std;
 
@@ -32,6 +33,8 @@ enum ObjectIds { PLAYER, MISSILE, BLUE, GREEN, MAGENTA, ORANGE, WALLHIT, ENEMY, 
 // ------------------------------------------------------------------------------
 
 enum SoundIds { THEME, START, FIRE, EXPLODE, HITWALL };
+
+enum ScreensIds { GOHOME, GOLEVEL };
 
 // ------------------------------------------------------------------------------
 
@@ -54,6 +57,24 @@ public:
     void Update();                  // atualização
     void Draw();                    // desenho
     void Finalize();                // finalização
+
+    static void NextLevel(int screen)
+    {
+        game->Finalize();
+
+        switch (screen) {
+        case GOLEVEL:
+            game = new MinutesTillDawn();
+            game->Size(3840, 2160);
+            break;
+        case GOHOME:
+            game = new HomeScreen();
+            game->Size(1024, 720);
+            break;
+        }
+
+        game->Init();
+    };
 };
 
 // ---------------------------------------------------------------------------------
