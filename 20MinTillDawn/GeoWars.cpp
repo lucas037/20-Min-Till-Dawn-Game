@@ -1,11 +1,11 @@
 /**********************************************************************************
-// GeoWars (Código Fonte)
+// GeoWars (Cï¿½digo Fonte)
 // 
-// Criação:     23 Out 2012
-// Atualização: 01 Nov 2021
+// Criaï¿½ï¿½o:     23 Out 2012
+// Atualizaï¿½ï¿½o: 01 Nov 2021
 // Compilador:  Visual C++ 2022
 //
-// Descrição:   Demonstração da versão final do motor
+// Descriï¿½ï¿½o:   Demonstraï¿½ï¿½o da versï¿½o final do motor
 //
 **********************************************************************************/
 
@@ -17,19 +17,30 @@
 #include "Heart.h"
 #include "Audio.h"
 #include "Weapon.h"
+#include "Controller.h"
 
 // ------------------------------------------------------------------------------
 
 Player * GeoWars::player  = nullptr;
 Audio  * GeoWars::audio   = nullptr;
 Scene  * GeoWars::scene   = nullptr;
+Controller* GeoWars::controller = nullptr;
+bool     GeoWars::xboxOn = false;
+bool     GeoWars::controllerOn = false;
 bool     GeoWars::viewHUD = true;
 
 // ------------------------------------------------------------------------------
 
 void GeoWars::Init() 
 {
-    // cria sistema de áudio
+	controller = new Controller();
+
+    xboxOn = controller->XboxInitialize(0);
+
+    if (!xboxOn)
+        controllerOn = controller->Initialize();
+
+    // cria sistema de ï¿½udio
     audio = new Audio();
     audio->Add(THEME, "OldResources/Theme.wav");
     audio->Add(FIRE, "OldResources/Fire.wav");
@@ -64,7 +75,7 @@ void GeoWars::Init()
     // inicializa a viewport
     // ----------------------
 
-    // calcula posição para manter viewport centralizada
+    // calcula posiï¿½ï¿½o para manter viewport centralizada
     float difx = (game->Width() - window->Width()) / 2.0f;
     float dify = (game->Height() - window->Height()) / 2.0f;
 
@@ -83,7 +94,12 @@ void GeoWars::Update()
     if (window->KeyDown(VK_ESCAPE))
         window->Close();
 
-    // atualiza cena e calcula colisões
+    xboxOn = controller->XboxInitialize(0);
+
+    if (!xboxOn)
+        controllerOn = controller->Initialize();
+
+    // atualiza cena e calcula colisï¿½es
     scene->Update();
     scene->CollisionDetection();
 
@@ -179,10 +195,10 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
     // configura o jogo
     game->Size(3840, 2160);
     
-    // inicia execução
+    // inicia execuï¿½ï¿½o
     engine->Start(game);
 
-    // destrói motor e encerra jogo
+    // destrï¿½i motor e encerra jogo
     delete engine;
     return 0;
 }

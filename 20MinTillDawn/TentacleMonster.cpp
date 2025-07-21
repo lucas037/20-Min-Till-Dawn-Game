@@ -1,4 +1,5 @@
 #include "TentacleMonster.h"
+#include "GeoWars.h"
 
 TentacleMonster::TentacleMonster(): Enemy(){
 	spriteL = new Sprite("Resources/Tentacle-Monster-L.png");
@@ -6,7 +7,7 @@ TentacleMonster::TentacleMonster(): Enemy(){
 
 	UpdateSprite(spriteL);
 
-	BBox(new Rect(-32, -32, 32, 32));
+	BBox(new Rect(-24, -24, 24, 24));
 }
 
 TentacleMonster::~TentacleMonster() {

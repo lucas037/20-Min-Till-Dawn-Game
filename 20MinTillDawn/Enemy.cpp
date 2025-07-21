@@ -41,6 +41,15 @@ void Enemy::Move(Vector&& v)
 {
 }
 
+void Enemy::OnCollision(Object* obj) {
+	if (obj->Type() == ENEMY) {
+		int xDirection = X() - obj->X() > 0 ? 1 : -1;
+		int yDirection = Y() - obj->Y() > 0 ? 1 : -1;
+
+		MoveTo(x + xDirection * 0.45f, y + yDirection * 0.45f);
+	}
+}
+
 // -------------------------------------------------------------------------------
 
 void Enemy::Update()

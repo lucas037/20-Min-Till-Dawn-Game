@@ -21,12 +21,13 @@
 #include "Player.h"
 #include "Heart.h"
 #include "Vector.h"
+#include "Controller.h"
 
 using namespace std;
 
 // ------------------------------------------------------------------------------
 
-enum ObjectIds { PLAYER, MISSILE, BLUE, GREEN, MAGENTA, ORANGE, WALLHIT, ENEMY };
+enum ObjectIds { PLAYER, MISSILE, BLUE, GREEN, MAGENTA, ORANGE, WALLHIT, ENEMY, TENTACLE };
 
 // ------------------------------------------------------------------------------
 
@@ -46,6 +47,9 @@ public:
     static Audio * audio;           // sitema de áudio
     static Scene * scene;           // cena do jogo
     static bool viewHUD;            // visualização do painel
+    static Controller * controller;
+	static bool xboxOn;             // gamepad xbox conectado
+	static bool controllerOn;       // gamepad conectado
 
     void Init();                    // inicialização
     void Update();                  // atualização

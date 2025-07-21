@@ -26,5 +26,7 @@ public:
 	void Update();
 	void Draw();
 
+	void OnCollision(Object* obj);
+
 	void UpdateSprite(Sprite* newSprite);
 };
