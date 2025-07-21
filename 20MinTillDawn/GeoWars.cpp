@@ -13,6 +13,7 @@
 #include "GeoWars.h"
 #include "Engine.h"    
 #include "TentacleMonster.h"    
+#include "Weapon.h"
 
 // ------------------------------------------------------------------------------
 
@@ -48,6 +49,9 @@ void GeoWars::Init()
 
     TentacleMonster* enemy = new TentacleMonster(game->CenterX() - 100.0, game->CenterY() - 100.0);
     scene->Add(enemy, MOVING);
+
+    Weapon* weapon = new Weapon(player, "Resources/Revolver.png", "");
+    scene->Add(weapon, MOVING);
 
     // ----------------------
     // inicializa a viewport
