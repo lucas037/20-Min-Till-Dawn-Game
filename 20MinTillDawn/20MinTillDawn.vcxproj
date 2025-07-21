@@ -249,6 +249,7 @@
     <ClCompile Include="Particles.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="RepulsionArea.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Sprite.cpp" />
@@ -280,6 +281,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Random.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="RepulsionArea.h" />
     <ClInclude Include="Resources.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Sound.h" />

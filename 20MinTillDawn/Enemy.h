@@ -13,6 +13,9 @@ enum EnemyPosition {
 class Enemy: public Object {
 private:
 	Sprite* sprite;
+
+protected:
+	Vector* speed;
 public:
 	Sprite* spriteL = nullptr;
 	Sprite* spriteR = nullptr;
@@ -29,4 +32,5 @@ public:
 	void OnCollision(Object* obj);
 
 	void UpdateSprite(Sprite* newSprite);
+	void UpdateMovement(float dx, float dy);
 };
