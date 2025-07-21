@@ -1,11 +1,11 @@
 /**********************************************************************************
-// GeoWars (Código Fonte)
+// GeoWars (Cï¿½digo Fonte)
 // 
-// Criação:     23 Out 2012
-// Atualização: 01 Nov 2021
+// Criaï¿½ï¿½o:     23 Out 2012
+// Atualizaï¿½ï¿½o: 01 Nov 2021
 // Compilador:  Visual C++ 2022
 //
-// Descrição:   Demonstração da versão final do motor
+// Descriï¿½ï¿½o:   Demonstraï¿½ï¿½o da versï¿½o final do motor
 //
 **********************************************************************************/
 
@@ -16,6 +16,7 @@
 #include "Character.h"
 #include "Heart.h"
 #include "Audio.h"
+#include "Weapon.h"
 #include "Controller.h"
 
 // ------------------------------------------------------------------------------
@@ -39,7 +40,7 @@ void MinutesTillDawn::Init()
     if (!xboxOn)
         controllerOn = controller->Initialize();
 
-    // cria sistema de áudio
+    // cria sistema de ï¿½udio
     audio = new Audio();
     audio->Add(THEME, "OldResources/Theme.wav");
     audio->Add(FIRE, "OldResources/Fire.wav");
@@ -59,6 +60,9 @@ void MinutesTillDawn::Init()
 
 	Character* charac = new Character();
 	scene->Add(charac, MOVING);
+    
+    Weapon* weapon = new Weapon(charac, "Resources/Revolver.png", "");
+    scene->Add(weapon, MOVING);
 
     TentacleMonster* enemy;
 
@@ -71,7 +75,7 @@ void MinutesTillDawn::Init()
     // inicializa a viewport
     // ----------------------
 
-    // calcula posição para manter viewport centralizada
+    // calcula posiï¿½ï¿½o para manter viewport centralizada
     float difx = (game->Width() - window->Width()) / 2.0f;
     float dify = (game->Height() - window->Height()) / 2.0f;
 
@@ -95,7 +99,7 @@ void MinutesTillDawn::Update()
     if (!xboxOn)
         controllerOn = controller->Initialize();
 
-    // atualiza cena e calcula colisões
+    // atualiza cena e calcula colisï¿½es
     scene->Update();
     scene->CollisionDetection();
 
@@ -191,10 +195,10 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
     // configura o jogo
     game->Size(1024, 720);
     
-    // inicia execução
+    // inicia execuï¿½ï¿½o
     engine->Start(game);
 
-    // destrói motor e encerra jogo
+    // destrï¿½i motor e encerra jogo
     delete engine;
     return 0;
 }
