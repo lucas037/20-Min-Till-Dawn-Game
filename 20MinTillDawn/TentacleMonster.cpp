@@ -1,5 +1,5 @@
 #include "TentacleMonster.h"
-#include "GeoWars.h"
+#include "MinutesTillDawn.h"
 
 TentacleMonster::TentacleMonster(): Enemy(){
 	spriteL = new Sprite("Resources/Tentacle-Monster-L.png");

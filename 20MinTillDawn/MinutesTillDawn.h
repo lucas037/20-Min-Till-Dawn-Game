@@ -9,8 +9,8 @@
 //
 **********************************************************************************/
 
-#ifndef _GEOWARS_H_
-#define _GEOWARS_H_
+#ifndef _MINUTESTILLDAWN_H_
+#define _MINUTESTILLDAWN_H_
 
 // ------------------------------------------------------------------------------
 
@@ -35,7 +35,7 @@ enum SoundIds { THEME, START, FIRE, EXPLODE, HITWALL };
 
 // ------------------------------------------------------------------------------
 
-class GeoWars : public Game
+class MinutesTillDawn : public Game
 {
 private:
     Background * backg = nullptr;   // pano de fundo
