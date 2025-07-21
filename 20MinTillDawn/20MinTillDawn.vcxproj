@@ -241,7 +241,7 @@
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Geometry.cpp" />
-    <ClCompile Include="GeoWars.cpp" />
+    <ClCompile Include="MinutesTillDawn.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="Heart.cpp" />
     <ClCompile Include="Image.cpp" />
@@ -273,7 +273,7 @@
     <ClInclude Include="Font.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Geometry.h" />
-    <ClInclude Include="GeoWars.h" />
+    <ClInclude Include="MinutesTillDawn.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Heart.h" />
     <ClInclude Include="Image.h" />

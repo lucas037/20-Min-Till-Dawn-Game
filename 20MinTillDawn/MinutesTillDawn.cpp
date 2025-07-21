@@ -10,7 +10,7 @@
 **********************************************************************************/
 
 #include "Resources.h"
-#include "GeoWars.h"
+#include "MinutesTillDawn.h"
 #include "Engine.h"    
 #include "TentacleMonster.h"    
 #include "Character.h"
@@ -21,17 +21,17 @@
 
 // ------------------------------------------------------------------------------
 
-Player * GeoWars::player  = nullptr;
-Audio  * GeoWars::audio   = nullptr;
-Scene  * GeoWars::scene   = nullptr;
-Controller* GeoWars::controller = nullptr;
-bool     GeoWars::xboxOn = false;
-bool     GeoWars::controllerOn = false;
-bool     GeoWars::viewHUD = true;
+Player * MinutesTillDawn::player  = nullptr;
+Audio  * MinutesTillDawn::audio   = nullptr;
+Scene  * MinutesTillDawn::scene   = nullptr;
+Controller* MinutesTillDawn::controller = nullptr;
+bool     MinutesTillDawn::xboxOn = false;
+bool     MinutesTillDawn::controllerOn = false;
+bool     MinutesTillDawn::viewHUD = true;
 
 // ------------------------------------------------------------------------------
 
-void GeoWars::Init() 
+void MinutesTillDawn::Init() 
 {
 	controller = new Controller();
 
@@ -88,7 +88,7 @@ void GeoWars::Init()
 
 // ------------------------------------------------------------------------------
 
-void GeoWars::Update()
+void MinutesTillDawn::Update()
 {
     // sai com o pressionamento da tecla ESC
     if (window->KeyDown(VK_ESCAPE))
@@ -145,7 +145,7 @@ void GeoWars::Update()
 
 // ------------------------------------------------------------------------------
 
-void GeoWars::Draw()
+void MinutesTillDawn::Draw()
 {
     // desenha pano de fundo
     backg->Draw(viewport);
@@ -160,7 +160,7 @@ void GeoWars::Draw()
 
 // ------------------------------------------------------------------------------
 
-void GeoWars::Finalize()
+void MinutesTillDawn::Finalize()
 {
     delete audio;
     delete scene;
@@ -190,7 +190,7 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
     //engine->graphics->VSync(true);
 
     // cria o jogo
-    Game * game = new GeoWars();
+    Game * game = new MinutesTillDawn();
 
     // configura o jogo
     game->Size(3840, 2160);

@@ -1,5 +1,5 @@
 #include "Character.h"
-#include "GeoWars.h"
+#include "MinutesTillDawn.h"
 #include "RepulsionArea.h"
 
 Character::Character()
@@ -33,7 +33,7 @@ Character::Character()
 		heart = new Heart(50 * (i + 1), 40);
 		hearts.push_back(heart);
 
-		GeoWars::scene->Add(heart, STATIC);
+		MinutesTillDawn::scene->Add(heart, STATIC);
 	}
 }
 
@@ -72,7 +72,7 @@ void Character::Update()
 
 	Translate(speed->XComponent() * 0.1f * delta, -speed->YComponent() * 0.1f * delta);
 
-	GeoWars::player->MoveTo(X(), Y());
+	MinutesTillDawn::player->MoveTo(X(), Y());
 }
 
 // ---------------------------------------------------------------------------------
@@ -98,19 +98,19 @@ void Character::Move() {
 void Character::HandleXboxInput(float& dx, float& dy) {
 	const float deadZone = 0.2f;
 
-	if (!GeoWars::xboxOn)
+	if (!MinutesTillDawn::xboxOn)
 		return;
 
-	if (!GeoWars::controller->XboxUpdateState(0)) {
-		GeoWars::xboxOn = false;
-		GeoWars::controllerOn = GeoWars::controller->UpdateState();
+	if (!MinutesTillDawn::controller->XboxUpdateState(0)) {
+		MinutesTillDawn::xboxOn = false;
+		MinutesTillDawn::controllerOn = MinutesTillDawn::controller->UpdateState();
 		return;
 	}
 
-	GeoWars::controller->XboxUpdateState();
+	MinutesTillDawn::controller->XboxUpdateState();
 
-	float x = GeoWars::controller->XboxAnalog(ThumbLX);
-	float y = GeoWars::controller->XboxAnalog(ThumbLY);
+	float x = MinutesTillDawn::controller->XboxAnalog(ThumbLX);
+	float y = MinutesTillDawn::controller->XboxAnalog(ThumbLY);
 
 	if (fabs(x) >= deadZone) dx += x;
 	if (fabs(y) >= deadZone) dy += y;
@@ -119,17 +119,17 @@ void Character::HandleXboxInput(float& dx, float& dy) {
 void Character::HandleGenericControllerInput(float& dx, float& dy) {
 	const float deadZone = 0.2f;
 
-	if (!GeoWars::controllerOn)
+	if (!MinutesTillDawn::controllerOn)
 		return;
 
-	if (!GeoWars::controller->UpdateState()) {
-		GeoWars::controllerOn = false;
-		GeoWars::xboxOn = GeoWars::controller->XboxInitialize(0);
+	if (!MinutesTillDawn::controller->UpdateState()) {
+		MinutesTillDawn::controllerOn = false;
+		MinutesTillDawn::xboxOn = MinutesTillDawn::controller->XboxInitialize(0);
 		return;
 	}
 
-	float x = GeoWars::controller->Axis(AxisX);
-	float y = GeoWars::controller->Axis(AxisY);
+	float x = MinutesTillDawn::controller->Axis(AxisX);
+	float y = MinutesTillDawn::controller->Axis(AxisY);
 
 	if (fabs(x) >= deadZone) dx += x;
 	if (fabs(y) >= deadZone) dy += y;
@@ -176,7 +176,7 @@ void Character::Damage()
 
 	lifePoints--;
 
-	GeoWars::scene->Add(new RepulsionArea(X(), Y()), MOVING);
+	MinutesTillDawn::scene->Add(new RepulsionArea(X(), Y()), MOVING);
 
 	if (lifePoints < maxLifePoints) {
 		for (uint i = lifePoints; i < maxLifePoints; i++) {

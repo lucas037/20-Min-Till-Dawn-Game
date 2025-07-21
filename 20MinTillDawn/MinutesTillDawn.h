@@ -35,7 +35,7 @@ enum SoundIds { THEME, START, FIRE, EXPLODE, HITWALL };
 
 // ------------------------------------------------------------------------------
 
-class GeoWars : public Game
+class MinutesTillDawn : public Game
 {
 private:
     Background * backg = nullptr;   // pano de fundo
