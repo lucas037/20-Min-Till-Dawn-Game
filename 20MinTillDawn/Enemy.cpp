@@ -1,6 +1,6 @@
 #include "Enemy.h"
 #include "Aleatory.h"
-#include "GeoWars.h"
+#include "MinutesTillDawn.h"-
 #include "RepulsionArea.h"
 
 Enemy::Enemy() {
@@ -83,8 +83,8 @@ void Enemy::OnCollision(Object* obj) {
 
 void Enemy::Update()
 {
-	float xPlayer = GeoWars::player->X();
-	float yPlayer = GeoWars::player->Y();
+	float xPlayer = MinutesTillDawn::player->X();
+	float yPlayer = MinutesTillDawn::player->Y();
 	float xEnemy = X();
 	float yEnemy = Y();
 

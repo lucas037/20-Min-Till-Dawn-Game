@@ -1,5 +1,5 @@
 #include "RepulsionArea.h"
-#include "GeoWars.h"
+#include "MinutesTillDawn.h"
 
 RepulsionArea::RepulsionArea(float x, float y)
 {
@@ -17,7 +17,7 @@ void RepulsionArea::Update()
 {
 	timeCounter += gameTime;
 	if (timeCounter >= duration) {
-		GeoWars::scene->Delete(this, MOVING);
+		MinutesTillDawn::scene->Delete(this, MOVING);
 	}
 }
 

@@ -9,8 +9,8 @@
 //
 **********************************************************************************/
 
-#ifndef _GEOWARS_PLAYER_H_
-#define _GEOWARS_PLAYER_H_
+#ifndef _MINUTESTILLDAWN_PLAYER_H_
+#define _MINUTESTILLDAWN_PLAYER_H_
 
 // ---------------------------------------------------------------------------------
 

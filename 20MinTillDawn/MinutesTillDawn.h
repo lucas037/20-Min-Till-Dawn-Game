@@ -9,8 +9,8 @@
 //
 **********************************************************************************/
 
-#ifndef _GEOWARS_H_
-#define _GEOWARS_H_
+#ifndef _MINUTESTILLDAWN_H_
+#define _MINUTESTILLDAWN_H_
 
 // ------------------------------------------------------------------------------
 
@@ -22,6 +22,8 @@
 #include "Heart.h"
 #include "Vector.h"
 #include "Controller.h"
+#include "HomeScreen.h"
+#include "SelectChar.h"
 
 using namespace std;
 
@@ -33,9 +35,11 @@ enum ObjectIds { PLAYER, MISSILE, BLUE, GREEN, MAGENTA, ORANGE, WALLHIT, ENEMY, 
 
 enum SoundIds { THEME, START, FIRE, EXPLODE, HITWALL };
 
+enum ScreensIds { GOHOME, GOLEVEL, GOSELECTCHAR };
+
 // ------------------------------------------------------------------------------
 
-class GeoWars : public Game
+class MinutesTillDawn : public Game
 {
 private:
     Background * backg = nullptr;   // pano de fundo
@@ -55,6 +59,28 @@ public:
     void Update();                  // atualização
     void Draw();                    // desenho
     void Finalize();                // finalização
+
+    static void NextLevel(int screen)
+    {
+        game->Finalize();
+
+        switch (screen) {
+        case GOLEVEL:
+            game = new MinutesTillDawn();
+            game->Size(3840, 2160);
+            break;
+        case GOHOME:
+            game = new HomeScreen();
+            game->Size(1024, 720);
+            break;
+        case GOSELECTCHAR:
+            game = new SelectChar();
+            game->Size(1024, 720);
+            break;
+        }
+
+        game->Init();
+    };
 };
 
 // ---------------------------------------------------------------------------------
