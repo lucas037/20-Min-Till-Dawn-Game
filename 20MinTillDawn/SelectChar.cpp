@@ -1,12 +1,12 @@
-#include "HomeScreen.h"
+#include "SelectChar.h"
 #include "MinutesTillDawn.h"
 #include "Resources.h"
 #include "Engine.h"
 #include "Game.h"
 
-void HomeScreen::Init()
+void SelectChar::Init()
 {
-    backg = new Background("Resources/HomeScreen.png");
+    backg = new Background("Resources/SelectCharScreen.png");
 
     // calcula posição para manter viewport centralizada
     float difx = (game->Width() - window->Width()) / 2.0f;
@@ -15,22 +15,23 @@ void HomeScreen::Init()
 
 }
 
-void HomeScreen::Finalize()
+void SelectChar::Finalize()
 {
     delete backg;
 }
 
-void HomeScreen::Update()
+void SelectChar::Update()
 {
-    if (window->KeyPress(VK_ESCAPE))
-        window->Close();
+    if (window->KeyPress(VK_ESCAPE)) {
+        MinutesTillDawn::NextLevel(GOHOME);
+    }
 
     if (window->KeyPress(VK_RETURN)) {
-        MinutesTillDawn::NextLevel(GOSELECTCHAR);
+        MinutesTillDawn::NextLevel(GOLEVEL);
     }
 }
 
-void HomeScreen::Draw()
+void SelectChar::Draw()
 {
     if (backg)
     {

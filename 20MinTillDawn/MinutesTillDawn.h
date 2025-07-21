@@ -23,6 +23,7 @@
 #include "Vector.h"
 #include "Controller.h"
 #include "HomeScreen.h"
+#include "SelectChar.h"
 
 using namespace std;
 
@@ -34,7 +35,7 @@ enum ObjectIds { PLAYER, MISSILE, BLUE, GREEN, MAGENTA, ORANGE, WALLHIT, ENEMY, 
 
 enum SoundIds { THEME, START, FIRE, EXPLODE, HITWALL };
 
-enum ScreensIds { GOHOME, GOLEVEL };
+enum ScreensIds { GOHOME, GOLEVEL, GOSELECTCHAR };
 
 // ------------------------------------------------------------------------------
 
@@ -70,6 +71,10 @@ public:
             break;
         case GOHOME:
             game = new HomeScreen();
+            game->Size(1024, 720);
+            break;
+        case GOSELECTCHAR:
+            game = new SelectChar();
             game->Size(1024, 720);
             break;
         }

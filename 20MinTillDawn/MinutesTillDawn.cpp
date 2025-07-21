@@ -91,8 +91,10 @@ void MinutesTillDawn::Init()
 void MinutesTillDawn::Update()
 {
     // sai com o pressionamento da tecla ESC
-    if (window->KeyDown(VK_ESCAPE))
-        window->Close();
+    if (window->KeyPress(VK_ESCAPE)) {
+        NextLevel(GOHOME);
+        return;
+    }
 
     xboxOn = controller->XboxInitialize(0);
 
