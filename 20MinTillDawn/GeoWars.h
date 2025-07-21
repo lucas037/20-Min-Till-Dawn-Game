@@ -21,6 +21,7 @@
 #include "Player.h"
 #include "Heart.h"
 #include "Vector.h"
+#include "Controller.h"
 
 using namespace std;
 
@@ -45,6 +46,9 @@ public:
     static Audio * audio;           // sitema de áudio
     static Scene * scene;           // cena do jogo
     static bool viewHUD;            // visualização do painel
+    static Controller * controller;
+	static bool xboxOn;             // gamepad xbox conectado
+	static bool controllerOn;       // gamepad conectado
 
     void Init();                    // inicialização
     void Update();                  // atualização

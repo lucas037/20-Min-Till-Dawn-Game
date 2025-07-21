@@ -5,6 +5,7 @@
 #include "Animation.h"
 #include "Vector.h"                        // representação de vetores
 #include "Particles.h"                    // sistema de partículas
+#include "Controller.h"
 #include "Heart.h"
 using namespace std;
 
@@ -35,7 +36,13 @@ public:
     void Damage();
     void Move();            
     void Update();                      
-    void Draw();        
+    void Draw();   
+
+    void HandleXboxInput(float& dx, float& dy);
+    void HandleGenericControllerInput(float& dx, float& dy);
+    void HandleKeyboardInput(float& dx, float& dy);
+    void UpdateAnimationDirection(float dx);
+    void UpdateMovement(float dx, float dy);
 
     void OnCollision(Object* obj);
 };
