@@ -7,7 +7,7 @@ Character::Character()
 
 	MoveTo(game->CenterX(), game->CenterY());
 
-	tileset = new TileSet("Resources/Player_Shana.png", 64, 60, 8, 24);
+	tileset = new TileSet("Resources/Player_Shana.png", 64, 58, 8, 24);
 	anim = new Animation(tileset, 0.120f, true);
 
 	uint stop[6] = { 0, 1, 2, 3, 4, 5 };
@@ -67,7 +67,7 @@ void Character::Move() {
 	speed->RotateTo(angle);
 
 	if (speed->Magnitude() < 20.0f) {
-		speed->ScaleTo(speed->Magnitude() + 20 * gameTime);
+		speed->ScaleTo(speed->Magnitude() + 40 * gameTime);
 	}
 }
 

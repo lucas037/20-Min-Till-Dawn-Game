@@ -42,6 +42,7 @@ private:
 
 public:
     static Player * player;         // nave controlada pela jogador
+	static Character* character;    // personagem do jogador
     static Audio * audio;           // sitema de áudio
     static Scene * scene;           // cena do jogo
     static bool viewHUD;            // visualização do painel

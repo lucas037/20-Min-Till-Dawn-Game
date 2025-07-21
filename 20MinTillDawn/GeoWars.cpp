@@ -16,6 +16,7 @@
 #include "Character.h"
 #include "Heart.h"
 #include "Audio.h"
+#include "Weapon.h"
 
 // ------------------------------------------------------------------------------
 
@@ -48,6 +49,9 @@ void GeoWars::Init()
 
 	Character* charac = new Character();
 	scene->Add(charac, MOVING);
+    
+    Weapon* weapon = new Weapon(charac, "Resources/Revolver.png", "");
+    scene->Add(weapon, MOVING);
 
     TentacleMonster* enemy;
 
