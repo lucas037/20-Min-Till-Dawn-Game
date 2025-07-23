@@ -67,13 +67,6 @@ void MinutesTillDawn::Init()
     weapon = new Weapon(charac, "Resources/Revolver.png", "");
     scene->Add(weapon, MOVING);
 
-    TentacleMonster* enemy;
-
-    for (int i = 0; i < 100; i++) {
-        enemy = new TentacleMonster();
-        scene->Add(enemy, MOVING);
-    }
-
     // ----------------------
     // inicializa a viewport
     // ----------------------
