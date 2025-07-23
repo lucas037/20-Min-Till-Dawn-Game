@@ -44,6 +44,7 @@ class MinutesTillDawn : public Game
 private:
     Background * backg = nullptr;   // pano de fundo
     bool viewBBox = false;          // visualização das bouding boxes
+    Timer* enemiesSpawnTimer = new Timer();
 
 public:
     static Player * player;         // nave controlada pela jogador

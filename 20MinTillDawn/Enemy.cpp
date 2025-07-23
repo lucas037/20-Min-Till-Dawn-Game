@@ -4,34 +4,33 @@
 #include "RepulsionArea.h"
 
 Enemy::Enemy() {
-	float initPosX = game->CenterX();
-	float initPosY = game->CenterY();
-	int positionDirection = Aleatory::randrange(0, 4);
-	float auxNumBetween1s = (Aleatory::randrange(0, 201) - 100.0) / 100;
+	int positionDirection = Aleatory::randrange(3, 4);
+	float zeroToOneNumber = (Aleatory::randrange(0, 101)) / 100.0;
+	float screenDistanceSpawn = 50.0;
+	float randomPosition = 0.0;
 
 	speed = new Vector(0, 0);
 
 	switch (positionDirection) {
-		case ENEMY_UP:
-			initPosY += (-window->Height() / 2);
-			initPosX += (auxNumBetween1s * window->Width() / 2);
-			break;
-		case ENEMY_DOWN:
-			initPosY += (window->Height() / 2);
-			initPosX += (auxNumBetween1s * window->Width() / 2);
-			break;
-		case ENEMY_LEFT:
-			initPosX += (-window->Width() / 2);
-			initPosY += (auxNumBetween1s * window->Height() / 2);
-			break;
-		case ENEMY_RIGHT:
-			initPosX += (window->Width() / 2);
-			initPosY += (auxNumBetween1s * window->Height() / 2);
-			break;
+
+	case ENEMY_UP:
+		randomPosition = (zeroToOneNumber * window->Width());
+		MoveTo(game->viewport.left + randomPosition, game->viewport.top - screenDistanceSpawn);
+		break;
+	case ENEMY_DOWN:
+		randomPosition = (zeroToOneNumber * window->Width());
+		MoveTo(game->viewport.left + randomPosition, game->viewport.bottom + screenDistanceSpawn);
+		break;
+	case ENEMY_LEFT:
+		randomPosition = (zeroToOneNumber * window->Height());
+		MoveTo(game->viewport.left - screenDistanceSpawn, game->viewport.top + randomPosition);
+		break;
+	case ENEMY_RIGHT:
+		randomPosition = (zeroToOneNumber * window->Height());
+		MoveTo(game->viewport.right + screenDistanceSpawn, game->viewport.top + randomPosition);
+		break;
 
 	}
-
-	MoveTo(initPosX, initPosY);
 
 	type = ENEMY;
 }

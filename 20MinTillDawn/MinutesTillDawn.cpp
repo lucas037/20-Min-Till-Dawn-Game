@@ -64,13 +64,6 @@ void MinutesTillDawn::Init()
     Weapon* weapon = new Weapon(charac, "Resources/Revolver.png", "");
     scene->Add(weapon, MOVING);
 
-    TentacleMonster* enemy;
-
-    for (int i = 0; i < 3; i++) {
-        enemy = new TentacleMonster();
-        scene->Add(enemy, MOVING);
-    }
-
     // ----------------------
     // inicializa a viewport
     // ----------------------
@@ -142,6 +135,19 @@ void MinutesTillDawn::Update()
     {
         viewport.top = game->Height() - window->Height();
         viewport.bottom = game->Height();
+    }
+
+    // ENEMIES
+    Enemy* enemy;
+
+
+    if (enemiesSpawnTimer->Elapsed() > 1) {
+        enemiesSpawnTimer->Reset();
+
+        for (int i = 0; i < 1; i++) {
+            enemy = new TentacleMonster();
+            scene->Add(enemy, MOVING);
+        }
     }
 } 
 
