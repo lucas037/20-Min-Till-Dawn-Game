@@ -27,6 +27,7 @@
 #include "Enemy.h"
 #include "Aim.h"
 #include "Weapon.h"
+#include "Font.h"
 
 using namespace std;
 
@@ -62,6 +63,7 @@ public:
     static Timer stageTimer;
     static std::vector<Enemy*> enemies;
     bool aimMouseMode = true;
+    static Font* font16;
 
     Weapon* weapon;
     Aim* aim;
