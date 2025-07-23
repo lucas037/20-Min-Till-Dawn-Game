@@ -5,7 +5,7 @@ bool flipped = false;
 float centerX;
 float centerY;
 
-Weapon::Weapon(Character* newCharacter, string newSprite, string newProjectileSprite) {
+Weapon::Weapon(Character* character, string newSprite, string newProjectileSprite) {
 	TileSet* tileSet = new TileSet(newSprite, 32, 32, 5, 10);
 	anim = new Animation(tileSet, 0.1f, true);
 
@@ -19,8 +19,6 @@ Weapon::Weapon(Character* newCharacter, string newSprite, string newProjectileSp
 
 	projectileSprite = newProjectileSprite;
 
-	character = newCharacter;
-
 	x = character->X();
 	y = character->Y();
 
@@ -28,8 +26,6 @@ Weapon::Weapon(Character* newCharacter, string newSprite, string newProjectileSp
 	centerY = character->Y();
 
 	MoveTo(x, y);
-
-	direction = new Vector(0, 0);
 }
 
 Weapon::~Weapon()
@@ -39,18 +35,12 @@ Weapon::~Weapon()
 
 void Weapon::Update() {
 	if (window->KeyDown(VK_LBUTTON))
-	{
-		new 
+	{ 
 	}
 
 	//-------------------------------
 	//        Posicionamento
 	//-------------------------------
-
-	// centro do movimento
-	// coordenadas globais
-	float centerX = character->X();
-	float centerY = character->Y();
 
 	// raio do movimento
 	float radius = 15.0f;
@@ -59,8 +49,8 @@ void Weapon::Update() {
 	float mouseX = window->MouseX() + game->viewport.left;
 	float mouseY = window->MouseY() + game->viewport.top;
 
-	float deltaX = aimX - centerX;
-	float deltaY = aimY - centerY;
+	float deltaX = aimX - centerX + game->viewport.left;
+	float deltaY = aimY - centerY + game->viewport.top;
 
 	float angle = atan2(deltaY, deltaX);
 

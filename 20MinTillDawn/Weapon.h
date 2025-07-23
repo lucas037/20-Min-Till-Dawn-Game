@@ -2,6 +2,7 @@
 #include "Animation.h"
 #include "Vector.h"
 #include "Character.h"
+#include "Player.h"
 
 enum AnimationDirection { RIGHTRELOAD, LEFTRELOAD };
 
