@@ -1,3 +1,6 @@
+#ifndef ENEMY_H
+#define ENEMY_H
+
 #include "Object.h"
 #include "Vector.h"
 #include "Sprite.h"
@@ -21,6 +24,8 @@ public:
 	Sprite* spriteR = nullptr;
 	Sprite* spriteT = nullptr;
 	Sprite* spriteB = nullptr;
+	float life;
+	int id;
 
 	Enemy();
 	~Enemy();
@@ -33,4 +38,7 @@ public:
 
 	void UpdateSprite(Sprite* newSprite);
 	void UpdateMovement(float dx, float dy);
+
+	void TakeDamage(float damage);
 };
+#endif

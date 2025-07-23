@@ -59,8 +59,8 @@ void Weapon::Update() {
 	float mouseX = window->MouseX() + game->viewport.left;
 	float mouseY = window->MouseY() + game->viewport.top;
 
-	float deltaX = mouseX - centerX;
-	float deltaY = mouseY - centerY;
+	float deltaX = aimX - centerX;
+	float deltaY = aimY - centerY;
 
 	float angle = atan2(deltaY, deltaX);
 
