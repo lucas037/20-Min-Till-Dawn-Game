@@ -1,17 +1,19 @@
 #include "Object.h"
-#include "Sprite.h"
 #include "Vector.h"
+#include "Animation.h"
 
 class Projectile : public Object {
 private:
-	Sprite* sprite;          // sprite do projétil
-	Vector speed;            // velocidade do projétil
+	Animation* anim;          // sprite do projétil
+	Vector* speed;            // velocidade do projétil
+
+	float rotation;
 
 public:
-	Projectile(float angle, string newProjectileSprite);
+	Projectile(float x, float y, float angle, float rotation, string newProjectileSprite);
 	~Projectile();
 
 	void Move(Vector&& v);
 	void Update() override;
-	void Draw() override { sprite->Draw(X(), Y(), Layer::FRONT, 1.0f, Rotation()); };
+	void Draw() override { anim->Draw(X(), Y(), Layer::FRONT, 1.0f, rotation); };
 };
