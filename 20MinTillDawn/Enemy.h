@@ -1,3 +1,6 @@
+#ifndef ENEMY_H
+#define ENEMY_H
+
 #include "Object.h"
 #include "Vector.h"
 #include "Sprite.h"
@@ -21,6 +24,8 @@ public:
 	Sprite* spriteR = nullptr;
 	Sprite* spriteT = nullptr;
 	Sprite* spriteB = nullptr;
+	float life;
+	int id;
 
 	Enemy();
 	~Enemy();
@@ -36,3 +41,7 @@ public:
 
 	Vector* Speed() { return speed; }
 };
+
+	void TakeDamage(float damage);
+};
+#endif

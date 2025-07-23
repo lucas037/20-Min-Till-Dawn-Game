@@ -17,7 +17,6 @@
 #include "CharShana.h"  
 #include "Heart.h"
 #include "Audio.h"
-#include "Weapon.h"
 #include "Controller.h"
 
 // ------------------------------------------------------------------------------
@@ -29,6 +28,9 @@ Controller* MinutesTillDawn::controller = nullptr;
 bool     MinutesTillDawn::xboxOn = false;
 bool     MinutesTillDawn::controllerOn = false;
 bool     MinutesTillDawn::viewHUD = true;
+Timer MinutesTillDawn::stageTimer;
+std::vector<Enemy*> MinutesTillDawn::enemies;
+int MinutesTillDawn::newEnemyId = 0;
 
 // ------------------------------------------------------------------------------
 
@@ -62,7 +64,7 @@ void MinutesTillDawn::Init()
 	Character* charac = new CharShana();
 	scene->Add(charac, MOVING);
     
-    Weapon* weapon = new Weapon(charac, "Resources/Revolver.png", "");
+    weapon = new Weapon(charac, "Resources/Revolver.png", "");
     scene->Add(weapon, MOVING);
 
     TentacleMonster* enemy;
@@ -85,6 +87,11 @@ void MinutesTillDawn::Init()
     viewport.right = viewport.left + window->Width();
     viewport.top = 0.0f + dify;
     viewport.bottom = viewport.top + window->Height();
+
+    stageTimer.Reset();
+
+    aim = new Aim(game->CenterX(), game->CenterY());
+    scene->Add(aim, STATIC);
 }
 
 // ------------------------------------------------------------------------------
@@ -113,6 +120,10 @@ void MinutesTillDawn::Update()
     // ativa ou desativa o heads up display
     if (window->KeyPress('H'))
         viewHUD = !viewHUD;
+
+    if (window->KeyPress(VK_SPACE)) {
+        aimMouseMode = !aimMouseMode;
+    }
 
     // --------------------
     // atualiza a viewport
@@ -143,6 +154,49 @@ void MinutesTillDawn::Update()
     {
         viewport.top = game->Height() - window->Height();
         viewport.bottom = game->Height();
+    }
+
+    if (aimMouseMode) {
+        float centerX = window->CenterX();
+        aim->MoveTo(game->viewport.left + window->MouseX(), game->viewport.top + window->MouseY());
+        weapon->Move(game->viewport.left + window->MouseX(), game->viewport.top + window->MouseY());
+    }
+    else {
+        int indexClosest = 0;
+        Enemy* enemyTest = enemies.at(0);
+        float distanceClosest = -1.0;
+        
+        for (int i = 0; i < enemies.size(); i++) {
+            Enemy* enemyTest = enemies.at(i);
+
+            float distanceX = enemyTest->X() - player->X();
+            float distanceY = enemyTest->Y() - player->Y();
+
+            float newDistance = distanceX * distanceX + distanceY * distanceY; // a raiz acaba sendo desnecessaria
+
+            if (distanceClosest < 0 || newDistance < distanceClosest) {
+                distanceClosest = newDistance;
+                indexClosest = i;
+            }
+
+        }
+
+        enemyTest = enemies.at(indexClosest);
+        aim->MoveTo(enemyTest->X(), enemyTest->Y());
+        weapon->Move(enemyTest->X(), enemyTest->Y());
+    }
+
+    // ENEMIES
+    Enemy* enemy;
+
+    if (enemiesSpawnTimer->Elapsed() > 3) {
+        enemiesSpawnTimer->Reset();
+
+        for (int i = 0; i < 3; i++) {
+            enemy = new TentacleMonster();
+            enemies.push_back(enemy);
+            scene->Add(enemy, MOVING);
+        }
     }
 } 
 

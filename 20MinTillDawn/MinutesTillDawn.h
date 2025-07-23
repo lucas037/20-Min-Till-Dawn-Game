@@ -24,6 +24,9 @@
 #include "Controller.h"
 #include "HomeScreen.h"
 #include "SelectChar.h"
+#include "Enemy.h"
+#include "Aim.h"
+#include "Weapon.h"
 
 using namespace std;
 
@@ -44,6 +47,7 @@ class MinutesTillDawn : public Game
 private:
     Background * backg = nullptr;   // pano de fundo
     bool viewBBox = false;          // visualização das bouding boxes
+    Timer* enemiesSpawnTimer = new Timer();
 
 public:
     static Player * player;         // nave controlada pela jogador
@@ -53,7 +57,15 @@ public:
     static bool viewHUD;            // visualização do painel
     static Controller * controller;
 	static bool xboxOn;             // gamepad xbox conectado
-	static bool controllerOn;       // gamepad conectado
+    static bool controllerOn;       // gamepad conectado
+    static int newEnemyId;
+    static Timer stageTimer;
+    static std::vector<Enemy*> enemies;
+    bool aimMouseMode = true;
+
+    Weapon* weapon;
+    Aim* aim;
+
 
     void Init();                    // inicialização
     void Update();                  // atualização

@@ -129,6 +129,18 @@
     <ClCompile Include="CharShana.cpp">
       <Filter>Game\Arquivos de Origem</Filter>
     </ClCompile>
+    <ClCompile Include="Aim.cpp">
+      <Filter>Game\Arquivos de Origem</Filter>
+    </ClCompile>
+    <ClCompile Include="HomeScreen.cpp">
+      <Filter>Game\Arquivos de Origem</Filter>
+    </ClCompile>
+    <ClCompile Include="SelectChar.cpp">
+      <Filter>Game\Arquivos de Origem</Filter>
+    </ClCompile>
+    <ClCompile Include="Weapon.cpp">
+      <Filter>Game\Arquivos de Origem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -227,9 +239,6 @@
     <ClInclude Include="RepulsionArea.h">
       <Filter>Game\Arquivos de Cabeçalho</Filter>
     </ClInclude>
-    <ClInclude Include="CharShana.h">
-      <Filter>Game\Arquivos de Cabeçalho</Filter>
-    </ClInclude>
     <ClInclude Include="HomeScreen.h">
       <Filter>Game\Arquivos de Cabeçalho</Filter>
     </ClInclude>
@@ -237,6 +246,9 @@
       <Filter>Game\Arquivos de Cabeçalho</Filter>
     </ClInclude>
     <ClInclude Include="Weapon.h">
+      <Filter>Game\Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="Aim.h">
       <Filter>Game\Arquivos de Cabeçalho</Filter>
     </ClInclude>
   </ItemGroup>
