@@ -115,7 +115,6 @@ void MinutesTillDawn::Update()
 
     if (window->KeyPress(VK_SPACE)) {
         aimMouseMode = !aimMouseMode;
-        aim->ChangeMouseMode(aimMouseMode);
     }
 
     // --------------------
@@ -152,6 +151,29 @@ void MinutesTillDawn::Update()
     if (aimMouseMode) {
         float centerX = window->CenterX();
         aim->MoveTo(game->viewport.left + window->MouseX(), game->viewport.top + window->MouseY());
+    }
+    else {
+        int indexClosest = 0;
+        Enemy* enemyTest = enemies.at(0);
+        float distanceClosest = -1.0;
+        
+        for (int i = 0; i < enemies.size(); i++) {
+            Enemy* enemyTest = enemies.at(i);
+
+            float distanceX = enemyTest->X() - player->X();
+            float distanceY = enemyTest->Y() - player->Y();
+
+            float newDistance = distanceX * distanceX + distanceY * distanceY; // a raiz acaba sendo desnecessaria
+
+            if (distanceClosest < 0 || newDistance < distanceClosest) {
+                distanceClosest = newDistance;
+                indexClosest = i;
+            }
+
+        }
+
+        enemyTest = enemies.at(indexClosest);
+        aim->MoveTo(enemyTest->X(), enemyTest->Y());
     }
 
     // ENEMIES
