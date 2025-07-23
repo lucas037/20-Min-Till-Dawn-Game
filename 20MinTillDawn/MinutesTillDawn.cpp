@@ -31,6 +31,7 @@ bool     MinutesTillDawn::viewHUD = true;
 Timer MinutesTillDawn::stageTimer;
 std::vector<Enemy*> MinutesTillDawn::enemies;
 int MinutesTillDawn::newEnemyId = 0;
+Font* MinutesTillDawn::font16 = nullptr;
 
 // ------------------------------------------------------------------------------
 
@@ -56,10 +57,16 @@ void MinutesTillDawn::Init()
     audio->Volume(START, 0.8f);
     audio->Volume(THEME, 0.6f);
 
+	// fonte de texto
+    font16 = new Font("Resources/font16.png");
+    font16->Spacing("Resources/Font16.dat");
+
     // carrega/incializa objetos
     backg   = new Background("OldResources/Space.jpg");
     player  = new Player();
     scene   = new Scene();
+
+    
 
 	Character* charac = new CharShana();
 	scene->Add(charac, MOVING);
@@ -215,6 +222,8 @@ void MinutesTillDawn::Finalize()
     delete audio;
     delete scene;
     delete backg;
+  
+  
 }
 
 
