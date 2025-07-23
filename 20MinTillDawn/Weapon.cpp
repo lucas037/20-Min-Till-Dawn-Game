@@ -2,6 +2,8 @@
 #include "TileSet.h"
 
 bool flipped = false;
+float centerX;
+float centerY;
 
 Weapon::Weapon(Character* newCharacter, string newSprite, string newProjectileSprite) {
 	TileSet* tileSet = new TileSet(newSprite, 32, 32, 5, 10);
@@ -22,6 +24,9 @@ Weapon::Weapon(Character* newCharacter, string newSprite, string newProjectileSp
 	x = character->X();
 	y = character->Y();
 
+	centerX = character->X();
+	centerY = character->Y();
+
 	MoveTo(x, y);
 
 	direction = new Vector(0, 0);
@@ -35,7 +40,7 @@ Weapon::~Weapon()
 void Weapon::Update() {
 	if (window->KeyDown(VK_LBUTTON))
 	{
-
+		new 
 	}
 
 	//-------------------------------

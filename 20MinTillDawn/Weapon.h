@@ -11,9 +11,6 @@ private:
 	Animation* anim;
 	string projectileSprite;
 
-	Character* character;
-	Vector* direction;
-
 	float x, y, rotation;
 
 public:
