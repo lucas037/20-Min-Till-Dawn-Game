@@ -118,19 +118,40 @@ void Enemy::Update()
 
 	Translate(speed->XComponent() * gameTime, speed->YComponent() * gameTime);
 
-	// Modifiquei isso tbm para o inimigo sempre olhar para o player
-	if (dx >= 0 && spriteR != nullptr) {
-		sprite = spriteR;
+	if (dx >= 0 && !lookRight) {
+		if (anim != nullptr) {
+			anim->FlipX();
+		}
+
+		if (spriteR != nullptr) {
+			sprite = spriteR;
+		}
+
+		lookRight = true;
 	}
-	else if (dx < 0 && spriteL != nullptr) {
-		sprite = spriteL;
+	else if (dx < 0 && lookRight) {
+		if (anim != nullptr) {
+			anim->FlipX();
+		}
+
+		if (spriteL != nullptr) {
+			sprite = spriteL;
+		}
+
+		lookRight = false;
 	}
+
+	if (anim != nullptr)
+		anim->NextFrame();
 }
 
 // -------------------------------------------------------------------------------
 
 void Enemy::Draw() {
-	sprite->Draw(x, y, Layer::MIDDLE);
+	if (anim != nullptr)
+		anim->Draw(x, y, Layer::MIDDLE);
+	else if (sprite != nullptr)
+		sprite->Draw(x, y, Layer::MIDDLE);
 }
 
 // Métodos auxiliares
