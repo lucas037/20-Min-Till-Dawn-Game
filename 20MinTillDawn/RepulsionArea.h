@@ -14,6 +14,8 @@ private:
     float duration = 0.5f;
 	float intensity = 100.0f;
 	Character* character = nullptr; // Pointer to the character that caused the repulsion
+    uint maxHalfWidth = 0.0f;
+	uint maxHalfHeight = 0.0f;
 
 public:
     RepulsionArea(float x, float y);

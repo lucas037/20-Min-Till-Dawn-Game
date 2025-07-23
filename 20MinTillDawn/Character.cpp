@@ -13,7 +13,7 @@ Character::Character()
 	tileset = nullptr;
 	anim = nullptr;
 
-	speed = new Vector(0, 0);
+	speed = nullptr;
 
 	right = true;
 	lifePoints = 0;
@@ -174,7 +174,7 @@ void Character::Damage()
 {
 	if (isInvincible || lifePoints <= 0) return;
 
-	lifePoints--;
+	//lifePoints--;
 
 	MinutesTillDawn::scene->Add(new RepulsionArea(this), MOVING);
 

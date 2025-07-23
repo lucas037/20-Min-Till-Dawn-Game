@@ -17,7 +17,7 @@ CharShana::CharShana()
 
 	BBox(new Rect(-18, -18, 16, 26));
 
-	lifePoints = 2;
+	lifePoints = 3;
 	maxLifePoints = 4;
 
 	StartHearts();
