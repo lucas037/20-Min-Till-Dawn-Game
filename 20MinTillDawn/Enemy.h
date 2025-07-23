@@ -4,6 +4,7 @@
 #include "Object.h"
 #include "Vector.h"
 #include "Sprite.h"
+#include "Animation.h"
 
 enum EnemyPosition {
 	ENEMY_UP,
@@ -15,7 +16,6 @@ enum EnemyPosition {
 
 class Enemy: public Object {
 private:
-	Sprite* sprite;
 
 protected:
 	Vector* speed;
@@ -26,6 +26,10 @@ public:
 	Sprite* spriteB = nullptr;
 	float life;
 	int id;
+	TileSet* tileset;
+	Animation* anim;
+	bool lookRight = true;
+	Sprite* sprite;
 
 	Enemy();
 	~Enemy();
