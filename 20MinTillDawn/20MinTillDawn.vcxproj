@@ -231,7 +231,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Aim.cpp" />
-    <ClCompile Include="Aim.h" />
     <ClCompile Include="Aleatory.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Audio.cpp" />
@@ -266,6 +265,7 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Aim.h" />
     <ClInclude Include="Aleatory.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Audio.h" />

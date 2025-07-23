@@ -15,20 +15,19 @@ private:
 	Vector* direction;
 
 	float x, y, rotation;
-	bool show = true;
+	float aimX, aimY;
 
 public:
 	Weapon(Character* character, string newSprite, string newProjectileSprite);
 	~Weapon();
 
 	void Move(Vector&& v);
+	void Move(float x, float y) {
+		aimX = x;
+		aimY = y;
+	}
 	void Update();
 	void Draw() {
-		if (show)
-			anim->Draw(x, y, Layer::FRONT, 1.0f, rotation); 
+		anim->Draw(x, y, Layer::FRONT, 1.0f, rotation); 
 	};
-
-	void ChangeMouseMode(bool newShow) {
-		show = newShow;
-	}
 };
