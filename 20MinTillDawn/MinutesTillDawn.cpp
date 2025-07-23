@@ -14,6 +14,7 @@
 #include "Engine.h"    
 #include "TentacleMonster.h"    
 #include "Character.h"
+#include "CharShana.h"  
 #include "Heart.h"
 #include "Audio.h"
 #include "Weapon.h"
@@ -58,7 +59,7 @@ void MinutesTillDawn::Init()
     player  = new Player();
     scene   = new Scene();
 
-	Character* charac = new Character();
+	Character* charac = new CharShana();
 	scene->Add(charac, MOVING);
     
     Weapon* weapon = new Weapon(charac, "Resources/Revolver.png", "");
