@@ -230,6 +230,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Aim.cpp" />
+    <ClCompile Include="Aim.h" />
     <ClCompile Include="Aleatory.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Audio.cpp" />

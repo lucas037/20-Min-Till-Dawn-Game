@@ -115,7 +115,6 @@ void Enemy::Update()
 
 void Enemy::Draw() {
 	sprite->Draw(x, y, Layer::MIDDLE);
-	int k = 2;
 }
 
 // Métodos auxiliares

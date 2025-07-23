@@ -16,7 +16,6 @@
 #include "Character.h"
 #include "Heart.h"
 #include "Audio.h"
-#include "Weapon.h"
 #include "Controller.h"
 
 // ------------------------------------------------------------------------------
@@ -64,7 +63,7 @@ void MinutesTillDawn::Init()
 	Character* charac = new Character();
 	scene->Add(charac, MOVING);
     
-    Weapon* weapon = new Weapon(charac, "Resources/Revolver.png", "");
+    weapon = new Weapon(charac, "Resources/Revolver.png", "");
     scene->Add(weapon, MOVING);
 
     // ----------------------
@@ -82,6 +81,9 @@ void MinutesTillDawn::Init()
     viewport.bottom = viewport.top + window->Height();
 
     stageTimer.Reset();
+
+    aim = new Aim(game->CenterX(), game->CenterY());
+    scene->Add(aim, STATIC);
 }
 
 // ------------------------------------------------------------------------------
@@ -110,6 +112,11 @@ void MinutesTillDawn::Update()
     // ativa ou desativa o heads up display
     if (window->KeyPress('H'))
         viewHUD = !viewHUD;
+
+    if (window->KeyPress(VK_SPACE)) {
+        aimMouseMode = !aimMouseMode;
+        aim->ChangeMouseMode(aimMouseMode);
+    }
 
     // --------------------
     // atualiza a viewport
@@ -140,6 +147,11 @@ void MinutesTillDawn::Update()
     {
         viewport.top = game->Height() - window->Height();
         viewport.bottom = game->Height();
+    }
+
+    if (aimMouseMode) {
+        float centerX = window->CenterX();
+        aim->MoveTo(game->viewport.left + window->MouseX(), game->viewport.top + window->MouseY());
     }
 
     // ENEMIES

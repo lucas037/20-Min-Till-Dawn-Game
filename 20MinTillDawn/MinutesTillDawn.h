@@ -25,6 +25,8 @@
 #include "HomeScreen.h"
 #include "SelectChar.h"
 #include "Enemy.h"
+#include "Aim.h"
+#include "Weapon.h"
 
 using namespace std;
 
@@ -59,6 +61,10 @@ public:
     static int newEnemyId;
     static Timer stageTimer;
     static std::vector<Enemy*> enemies;
+    bool aimMouseMode = true;
+
+    Weapon* weapon;
+    Aim* aim;
 
 
     void Init();                    // inicialização

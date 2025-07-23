@@ -15,6 +15,7 @@ private:
 	Vector* direction;
 
 	float x, y, rotation;
+	bool show = true;
 
 public:
 	Weapon(Character* character, string newSprite, string newProjectileSprite);
@@ -22,5 +23,12 @@ public:
 
 	void Move(Vector&& v);
 	void Update();
-	void Draw() { anim->Draw(x, y, Layer::FRONT, 1.0f, rotation); };
+	void Draw() {
+		if (show)
+			anim->Draw(x, y, Layer::FRONT, 1.0f, rotation); 
+	};
+
+	void ChangeMouseMode(bool newShow) {
+		show = newShow;
+	}
 };
