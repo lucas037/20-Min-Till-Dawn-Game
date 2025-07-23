@@ -6,35 +6,18 @@ Character::Character()
 {
 	particles = nullptr;
 
+	maxSpeed = 15.0f;
+
 	MoveTo(game->CenterX(), game->CenterY());
 
-	tileset = new TileSet("Resources/Player_Shana.png", 64, 58, 8, 24);
-	anim = new Animation(tileset, 0.120f, true);
+	tileset = nullptr;
+	anim = nullptr;
 
-	uint stop[6] = { 0, 1, 2, 3, 4, 5 };
-	uint running[4] = {8, 9, 10 , 11 };
-	uint walking[8] = { 16, 17, 18, 19, 20, 21, 22, 23};
-
-	anim->Add(STOP, stop, 6);
-	anim->Add(RUNNIG, running, 4);
-	anim->Add(WALKING, walking, 8);
-
-	speed = new Vector(0, 0);
-
-	BBox(new Rect(-18, -18, 16, 26));
+	speed = nullptr;
 
 	right = true;
-	lifePoints = 4;
-	maxLifePoints = 4;
-
-	Heart* heart;
-
-	for (int i = 0; i < maxLifePoints; i++) {
-		heart = new Heart(50 * (i + 1), 40);
-		hearts.push_back(heart);
-
-		MinutesTillDawn::scene->Add(heart, STATIC);
-	}
+	lifePoints = 0;
+	maxLifePoints = 0;
 }
 
 void Character::OnCollision(Object* obj)
@@ -46,8 +29,6 @@ void Character::OnCollision(Object* obj)
 
 void Character::Update()
 {
-	float delta = 100 * gameTime;
-
 	Move();
 
 	if (isInvincible) {
@@ -59,21 +40,15 @@ void Character::Update()
 		}
 	}
 
-	if (speed->Magnitude() > 0.0f && speed->Magnitude() < 10.0f) {
-		anim->Select(WALKING);
-	}
-	else if (speed->Magnitude() >= 20.0f) {
-		anim->Select(RUNNIG);
-	}
-	else {
-		anim->Select(STOP);
-	}
-	anim->NextFrame();
-
-	Translate(speed->XComponent() * 0.1f * delta, -speed->YComponent() * 0.1f * delta);
-
 	MinutesTillDawn::player->MoveTo(X(), Y());
 }
+
+void Character::Draw()
+{
+	anim->Draw(x, y, Layer::FRONT);
+}
+
+Character::~Character() {}
 
 // ---------------------------------------------------------------------------------
 // METODOS AUXILIARES
@@ -81,6 +56,7 @@ void Character::Update()
 void Character::Move() {
 	float dx = 0.0f;
 	float dy = 0.0f;
+	float delta = maxSpeed * gameTime;
 
 	HandleXboxInput(dx, dy);
 	HandleGenericControllerInput(dx, dy);
@@ -93,6 +69,10 @@ void Character::Move() {
 
 	UpdateAnimationDirection(dx);
 	UpdateMovement(dx, dy);
+
+	speed->ScaleTo(maxSpeed);
+
+	Translate(speed->XComponent() * delta, -speed->YComponent() * delta);
 }
 
 void Character::HandleXboxInput(float& dx, float& dy) {
@@ -170,13 +150,33 @@ void Character::UpdateMovement(float dx, float dy) {
 	}
 }
 
+void Character::StartHearts()
+{
+	Heart* heart;
+
+	for (uint i = 0; i < maxLifePoints; i++) {
+		heart = new Heart(50 * (i + 1), 40);
+		hearts.push_back(heart);
+		MinutesTillDawn::scene->Add(heart, STATIC);
+	}
+
+	if (lifePoints < maxLifePoints) {
+		for (uint i = lifePoints; i < maxLifePoints; i++) {
+			if (i < hearts.size()) {
+
+				hearts[i]->SetInactive();
+			}
+		}
+	}
+}
+
 void Character::Damage()
 {
 	if (isInvincible || lifePoints <= 0) return;
 
-	lifePoints--;
+	//lifePoints--;
 
-	MinutesTillDawn::scene->Add(new RepulsionArea(X(), Y()), MOVING);
+	MinutesTillDawn::scene->Add(new RepulsionArea(this), MOVING);
 
 	if (lifePoints < maxLifePoints) {
 		for (uint i = lifePoints; i < maxLifePoints; i++) {
@@ -189,19 +189,4 @@ void Character::Damage()
 
 	isInvincible = true;
 	timeCounter = 0.0f;
-}
-
-void Character::Draw()
-{
-	anim->Draw(x, y, Layer::FRONT);
-}
-
-Character::~Character()
-{
-	delete anim;
-	delete tileset;
-	if (particles != nullptr) {
-		delete particles;
-	}
-	delete speed;
 }

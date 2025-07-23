@@ -50,10 +50,26 @@ void Enemy::Move(Vector&& v)
 
 void Enemy::OnCollision(Object* obj) {
 	if (obj->Type() == ENEMY) {
-		int xDirection = X() - obj->X() > 0 ? 1 : -1;
-		int yDirection = Y() - obj->Y() > 0 ? 1 : -1;
+		float dx = x - obj->X();
+		float dy = y - obj->Y();
 
-		MoveTo(x + xDirection * 0.45f, y + yDirection * 0.45f);
+		float length = sqrt(dx * dx + dy * dy);
+		if (length == 0.0f) {
+			length = 0.0001f;
+		}
+
+		dx /= length;
+		dy /= length;
+
+		float separationForce = 150.0f;
+
+		float separationAngle = atan2f(dy, dx) * (180.0f / 3.14159265f);
+		if (separationAngle < 0.0f) {
+			separationAngle += 360.0f;
+		}
+
+		Vector separationVector(separationAngle, separationForce * gameTime);
+		speed->Add(separationVector);
 	}
 
 	if (obj->Type() == REPULSION_AREA) {

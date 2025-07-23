@@ -39,6 +39,9 @@ public:
 	void UpdateSprite(Sprite* newSprite);
 	void UpdateMovement(float dx, float dy);
 
+	Vector* Speed() { return speed; }
+
 	void TakeDamage(float damage);
 };
+
 #endif

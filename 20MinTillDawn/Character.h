@@ -15,13 +15,14 @@ enum charAnim { STOP, RUNNIG, WALKING };
 
 class Character : public Object
 {
-private:
+protected:
 	TileSet* tileset;
     Animation* anim;  
     Particles* particles;   
 	bool right;           
     float timeCounter = 0.0f;
     float invincibilityTime = 1.5f;
+    float maxSpeed = 0.0f;
     bool isInvincible = false;
 
 public:
@@ -43,6 +44,7 @@ public:
     void HandleKeyboardInput(float& dx, float& dy);
     void UpdateAnimationDirection(float dx);
     void UpdateMovement(float dx, float dy);
+    void StartHearts();
 
     void OnCollision(Object* obj);
 };
