@@ -28,6 +28,9 @@ Controller* MinutesTillDawn::controller = nullptr;
 bool     MinutesTillDawn::xboxOn = false;
 bool     MinutesTillDawn::controllerOn = false;
 bool     MinutesTillDawn::viewHUD = true;
+Timer MinutesTillDawn::stageTimer;
+std::vector<Enemy*> MinutesTillDawn::enemies;
+int MinutesTillDawn::newEnemyId = 0;
 
 // ------------------------------------------------------------------------------
 
@@ -77,6 +80,8 @@ void MinutesTillDawn::Init()
     viewport.right = viewport.left + window->Width();
     viewport.top = 0.0f + dify;
     viewport.bottom = viewport.top + window->Height();
+
+    stageTimer.Reset();
 }
 
 // ------------------------------------------------------------------------------
@@ -140,12 +145,12 @@ void MinutesTillDawn::Update()
     // ENEMIES
     Enemy* enemy;
 
-
-    if (enemiesSpawnTimer->Elapsed() > 1) {
+    if (enemiesSpawnTimer->Elapsed() > 3) {
         enemiesSpawnTimer->Reset();
 
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 3; i++) {
             enemy = new TentacleMonster();
+            enemies.push_back(enemy);
             scene->Add(enemy, MOVING);
         }
     }

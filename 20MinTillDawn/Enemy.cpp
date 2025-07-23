@@ -4,12 +4,15 @@
 #include "RepulsionArea.h"
 
 Enemy::Enemy() {
-	int positionDirection = Aleatory::randrange(3, 4);
-	float zeroToOneNumber = (Aleatory::randrange(0, 101)) / 100.0;
-	float screenDistanceSpawn = 50.0;
-	float randomPosition = 0.0;
-
+	id = MinutesTillDawn::newEnemyId;
+	MinutesTillDawn::newEnemyId += 1;
+	life = 0.0f;
 	speed = new Vector(0, 0);
+
+	int positionDirection = Aleatory::randrange(0, 4);
+	float zeroToOneNumber = (Aleatory::randrange(0, 101)) / 100.0;
+	float screenDistanceSpawn = 200.0;
+	float randomPosition = 0.0;
 
 	switch (positionDirection) {
 
@@ -134,4 +137,20 @@ void Enemy::UpdateMovement(float dx, float dy) {
 
 void Enemy::UpdateSprite(Sprite * newSprite) {
 	sprite = newSprite;
+}
+
+void Enemy::TakeDamage(float damage) {
+	life -= damage;
+
+	if (life < 0.0) {
+		MinutesTillDawn::scene->Delete(this, MOVING);
+		
+		for (int i = 0; i < MinutesTillDawn::enemies.size(); ++i) {
+			if (MinutesTillDawn::enemies[i]->id == id) {
+				MinutesTillDawn::enemies.erase(MinutesTillDawn::enemies.begin() + i);
+				break;
+			}
+		}
+
+	}
 }

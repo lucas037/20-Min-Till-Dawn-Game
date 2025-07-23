@@ -24,6 +24,7 @@
 #include "Controller.h"
 #include "HomeScreen.h"
 #include "SelectChar.h"
+#include "Enemy.h"
 
 using namespace std;
 
@@ -54,7 +55,11 @@ public:
     static bool viewHUD;            // visualização do painel
     static Controller * controller;
 	static bool xboxOn;             // gamepad xbox conectado
-	static bool controllerOn;       // gamepad conectado
+    static bool controllerOn;       // gamepad conectado
+    static int newEnemyId;
+    static Timer stageTimer;
+    static std::vector<Enemy*> enemies;
+
 
     void Init();                    // inicialização
     void Update();                  // atualização
