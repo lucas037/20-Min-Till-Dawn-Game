@@ -5,6 +5,9 @@ class Config {
 private:
 public:
 	static float stageTotalTime;
+
+	static float shotCountdown;
+	static int numMaxShots;
 };
 
 #endif

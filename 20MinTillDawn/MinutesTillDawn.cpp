@@ -18,6 +18,8 @@
 #include "Heart.h"
 #include "Audio.h"
 #include "Controller.h"
+#include "Projectile.h"
+#include "Config.h"
 
 // ------------------------------------------------------------------------------
 
@@ -92,6 +94,8 @@ void MinutesTillDawn::Init()
 
     aim = new Aim(game->CenterX(), game->CenterY());
     scene->Add(aim, STATIC);
+
+    numShots = Config::numMaxShots;
 }
 
 // ------------------------------------------------------------------------------
@@ -102,6 +106,23 @@ void MinutesTillDawn::Update()
     if (window->KeyPress(VK_ESCAPE)) {
         NextLevel(GOHOME);
         return;
+    }
+
+    if (window->KeyDown(VK_LBUTTON) && shotTimer->Elapsed() > Config::shotCountdown && numShots > 0) {
+        shotTimer->Reset();
+
+        float dx = aim->X() - weapon->X();
+        float dy = aim->Y() - weapon->Y();
+        float angle = atan2(dy, dx);
+
+        Projectile* proj = new Projectile(weapon->X(), weapon->Y(), 400.0, angle);
+        scene->Add(proj, MOVING);
+
+        numShots--;
+    }
+
+    if (window->KeyPress('R')) {
+        numShots = Config::numMaxShots;
     }
 
     xboxOn = controller->XboxInitialize(0);
