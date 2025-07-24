@@ -6,12 +6,21 @@ Projectile::Projectile(float x, float y, float speedMag, float angle) {
     MoveTo(x, y);
 
     speed = new Vector(XMConvertToDegrees(angle), speedMag);
+
+    type = PROJECTILE;
+    BBox(new Rect(-12, -12, 12, 12));
 }
 
 Projectile::~Projectile() {
 }
 
 void Projectile::Move(Vector&& v) {
+}
+
+void Projectile::OnCollision(Object* obj) {
+    if (obj->Type() == ENEMY) {
+        MinutesTillDawn::scene->Delete(this, MOVING);
+    }
 }
 
 void Projectile::Update() {

@@ -17,6 +17,7 @@ public:
 	void Move(Vector&& v);
 	void Update();
 	void Draw();
+	void OnCollision(Object* obj);
 
 };
 #endif
