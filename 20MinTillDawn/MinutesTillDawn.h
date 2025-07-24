@@ -33,7 +33,7 @@ using namespace std;
 
 // ------------------------------------------------------------------------------
 
-enum ObjectIds { PLAYER, MISSILE, BLUE, GREEN, MAGENTA, ORANGE, WALLHIT, ENEMY, TENTACLE, REPULSION_AREA };
+enum ObjectIds { PLAYER, MISSILE, BLUE, GREEN, MAGENTA, ORANGE, WALLHIT, ENEMY, TENTACLE, REPULSION_AREA, PROJECTILE};
 
 // ------------------------------------------------------------------------------
 
@@ -48,7 +48,11 @@ class MinutesTillDawn : public Game
 private:
     Background * backg = nullptr;   // pano de fundo
     bool viewBBox = false;          // visualização das bouding boxes
+
     Timer* enemiesSpawnTimer = new Timer();
+    Timer* shotTimer = new Timer();
+    int numShots = 0;
+    bool elderSpawned = false;
 
 public:
     static Player * player;         // nave controlada pela jogador

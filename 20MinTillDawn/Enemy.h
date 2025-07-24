@@ -20,10 +20,8 @@ private:
 protected:
 	Vector* speed;
 public:
-	Sprite* spriteL = nullptr;
 	Sprite* spriteR = nullptr;
-	Sprite* spriteT = nullptr;
-	Sprite* spriteB = nullptr;
+	Sprite* spriteL = nullptr;
 	float life;
 	int id;
 	TileSet* tileset;
@@ -37,6 +35,14 @@ public:
 	void Move(Vector&& v);
 	void Update();
 	void Draw();
+	void Finalize() {
+		delete tileset;
+		delete anim;
+		delete sprite;
+		delete spriteR;
+		delete spriteL;
+		delete speed;
+	}
 
 	void OnCollision(Object* obj);
 

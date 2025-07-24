@@ -2,6 +2,7 @@
 #include "Aleatory.h"
 #include "MinutesTillDawn.h"-
 #include "RepulsionArea.h"
+#include "Config.h"
 
 Enemy::Enemy() {
 	id = MinutesTillDawn::newEnemyId;
@@ -72,6 +73,10 @@ void Enemy::OnCollision(Object* obj) {
 		speed->Add(separationVector);
 	}
 
+	if (obj->Type() == PROJECTILE) {
+		TakeDamage(Config::shotDamage);
+	}
+
 	if (obj->Type() == REPULSION_AREA) {
 		RepulsionArea* repulsion = dynamic_cast<RepulsionArea*>(obj);
 
@@ -95,6 +100,7 @@ void Enemy::OnCollision(Object* obj) {
 			speed->Add(repulsionVector);
 		}
 	}
+
 }
 
 // -------------------------------------------------------------------------------
