@@ -63,7 +63,7 @@ void MinutesTillDawn::Init()
 	Character* charac = new Character();
 	scene->Add(charac, MOVING);
     
-    weapon = new Weapon(charac, "Resources/Revolver.png", "Resources/Projectile.png");
+    weapon = new Weapon(charac, "Resources/Revolver.png", "Resources/ProjectileFX.png");
     scene->Add(weapon, MOVING);
 
     // ----------------------

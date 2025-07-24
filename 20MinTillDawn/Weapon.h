@@ -18,9 +18,9 @@ private:
 	float x, y, rotation;
 	float aimX, aimY;
 
-	float shotDelay;	// delay between shots
-	float ammo;			// current ammo count
-	float maxAmmo;		// maximum ammo count
+	float shotDelay = 0.2;	// delay between shots
+	float maxAmmo = 6;		// maximum ammo count
+	float ammo = maxAmmo;	// current ammo count
 
 public:
 	Weapon(Character* newCharacter, string newSprite, string newProjectileSprite);
@@ -35,6 +35,7 @@ public:
 	void Draw() {
 		anim->Draw(x, y, Layer::FRONT, 1.0f, rotation); 
 	};
+	void Reloading();
 
 	float ShotDelay() { return shotDelay; }
 	void ShotDelay(float newShotDelay) { shotDelay = newShotDelay; }

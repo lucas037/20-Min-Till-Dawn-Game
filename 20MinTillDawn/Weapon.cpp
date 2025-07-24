@@ -4,10 +4,13 @@
 #include "MinutesTillDawn.h"
 
 bool flipped = false;
+bool reloading = false;
 
 Character* character = nullptr;
 
 Timer* shotTimer = new Timer();
+uint spriteSizeX = 32;
+uint spriteSizeY = 32;
 
 Weapon::Weapon(Character* newCharacter, string newSprite, string newProjectileSprite) {
 	TileSet* tileSet = new TileSet(newSprite, 32, 32, 5, 10);
@@ -92,10 +95,29 @@ void Weapon::Update() {
 	//          Disparo
 	//-------------------------------
 
-	if (window->KeyDown(VK_LBUTTON) && shotTimer->Elapsed() > shotDelay)
+	// TODO Fazer recarga
+	if (ammo < maxAmmo)
 	{
-		Projectile* tiro = new Projectile(x, y, angle, rotation, projectileSprite);
+		reloading = true;
+		shotTimer->Reset();
+		if (shotTimer->Elapsed() > 1.0f)
+		{
+			ammo = maxAmmo;
+			reloading = false;
+			anim->Frame(0);
+		}
+		Reloading();
+	}
+
+	// Lógica não funcionando
+	if (window->KeyDown(VK_LBUTTON) && shotTimer->Elapsed() > shotDelay && ammo > 0)
+	{
+		Projectile* tiro = new Projectile(x + (spriteSizeX/2) * cos(angle), y + (spriteSizeY/2) * sin(angle), angle, rotation, projectileSprite);
 		MinutesTillDawn::scene->Add(tiro, MOVING);
 		shotTimer->Reset();
+		ammo--;
 	}
+}
+
+void Weapon::Reloading() {
 }
