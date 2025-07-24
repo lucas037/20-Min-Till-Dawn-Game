@@ -52,6 +52,7 @@ private:
     Timer* enemiesSpawnTimer = new Timer();
     Timer* shotTimer = new Timer();
     int numShots = 0;
+    bool elderSpawned = false;
 
 public:
     static Player * player;         // nave controlada pela jogador

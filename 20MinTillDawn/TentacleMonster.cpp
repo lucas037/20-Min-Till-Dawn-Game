@@ -12,7 +12,8 @@ TentacleMonster::TentacleMonster(): Enemy(){
 	anim->Add(0, walk, 4);
 	anim->Select(0);
 
-	UpdateSprite(spriteL);
+	UpdateSprite(spriteR);
+	lookRight = true;
 
 	BBox(new Rect(-24, -24, 24, 24));
 

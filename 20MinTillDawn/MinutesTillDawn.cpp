@@ -12,6 +12,7 @@
 #include "Resources.h"
 #include "MinutesTillDawn.h"
 #include "Engine.h"    
+#include "Elder.h"  
 #include "TentacleMonster.h"    
 #include "Character.h"
 #include "CharShana.h"  
@@ -95,7 +96,10 @@ void MinutesTillDawn::Init()
     aim = new Aim(game->CenterX(), game->CenterY());
     scene->Add(aim, STATIC);
 
+    enemiesSpawnTimer->Reset();
+    shotTimer->Reset();
     numShots = Config::numMaxShots;
+    elderSpawned = false;
 }
 
 // ------------------------------------------------------------------------------
@@ -108,6 +112,7 @@ void MinutesTillDawn::Update()
         return;
     }
 
+    // ATIRA
     if (window->KeyDown(VK_LBUTTON) && shotTimer->Elapsed() > Config::shotCountdown && numShots > 0) {
         shotTimer->Reset();
 
@@ -219,6 +224,15 @@ void MinutesTillDawn::Update()
             scene->Add(enemy, MOVING);
         }
     }
+
+    // Elder spawna uma vez com 25% do jogo completo
+    if (MinutesTillDawn::stageTimer.Elapsed() > (Config::stageTotalTime * 0.25) && !elderSpawned) {
+        Elder* elder = new Elder();
+        enemies.push_back(elder);
+        scene->Add(elder, MOVING);
+
+        elderSpawned = true;
+    }
 } 
 
 // ------------------------------------------------------------------------------
@@ -243,8 +257,9 @@ void MinutesTillDawn::Finalize()
     delete audio;
     delete scene;
     delete backg;
-  
-  
+
+    delete enemiesSpawnTimer;
+    delete shotTimer;
 }
 
 
