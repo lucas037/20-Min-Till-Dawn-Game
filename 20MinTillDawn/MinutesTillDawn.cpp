@@ -211,7 +211,7 @@ void MinutesTillDawn::Update()
     // ENEMIES
     Enemy* enemy;
 
-    if (enemiesSpawnTimer->Elapsed() > 3) {
+    if (enemiesSpawnTimer->Elapsed() > 3 && enemies.size() < 30) {
         enemiesSpawnTimer->Reset();
 
         for (int i = 0; i < 3; i++) {
