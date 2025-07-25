@@ -98,6 +98,8 @@ void Enemy::OnCollision(Object* obj) {
 			Vector repulsionVector(repulsionAngle, intensity * gameTime);
 
 			speed->Add(repulsionVector);
+
+			inRepulsion = true;
 		}
 	}
 
@@ -115,10 +117,9 @@ void Enemy::Update()
 	float dx = xPlayer - xEnemy;
 	float dy = yPlayer - yEnemy;
 
-	// TODO: Lucas adicionei esse trecho, dê uma olhada se está correto
 	UpdateMovement(dx, dy);
 	float maxSpeed = 100.0f;
-	if (speed->Magnitude() > maxSpeed) {
+	if (speed->Magnitude() > maxSpeed && !inRepulsion) {
 		speed->ScaleTo(maxSpeed);
 	}
 
@@ -149,6 +150,8 @@ void Enemy::Update()
 
 	if (anim != nullptr)
 		anim->NextFrame();
+
+	inRepulsion = false;
 }
 
 // -------------------------------------------------------------------------------

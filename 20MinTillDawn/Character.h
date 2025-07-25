@@ -21,9 +21,12 @@ protected:
     Particles* particles;   
 	bool right;           
     float timeCounter = 0.0f;
-    float invincibilityTime = 1.5f;
+    float invincibilityTime = 0.2f;
     float maxSpeed = 0.0f;
     bool isInvincible = false;
+    bool isStunned = false;
+    float stunTimer = 0.0f;
+    const float stunDuration = 0.3f;
 
 public:
     Vector* speed;    
