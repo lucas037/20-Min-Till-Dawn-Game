@@ -237,6 +237,7 @@
     <ClCompile Include="Background.cpp" />
     <ClCompile Include="BloodParticles.cpp" />
     <ClCompile Include="Character.cpp" />
+    <ClCompile Include="CharDiamond.cpp" />
     <ClCompile Include="CharShana.cpp" />
     <ClCompile Include="Config.cpp" />
     <ClCompile Include="Controller.cpp" />
@@ -277,6 +278,7 @@
     <ClInclude Include="Background.h" />
     <ClInclude Include="BloodParticles.h" />
     <ClInclude Include="Character.h" />
+    <ClInclude Include="CharDiamond.h" />
     <ClInclude Include="CharShana.h" />
     <ClInclude Include="Config.h" />
     <ClInclude Include="Controller.h" />

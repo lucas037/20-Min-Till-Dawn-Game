@@ -16,6 +16,7 @@
 #include "TentacleMonster.h"    
 #include "Character.h"
 #include "CharShana.h"  
+#include "CharDiamond.h"
 #include "Heart.h"
 #include "Audio.h"
 #include "Controller.h"
@@ -25,6 +26,7 @@
 // ------------------------------------------------------------------------------
 
 Player * MinutesTillDawn::player  = nullptr;
+Character* MinutesTillDawn::character = nullptr;
 Audio  * MinutesTillDawn::audio   = nullptr;
 Scene  * MinutesTillDawn::scene   = nullptr;
 Controller* MinutesTillDawn::controller = nullptr;
@@ -69,10 +71,10 @@ void MinutesTillDawn::Init()
     player  = new Player();
     scene   = new Scene();
 
-	Character* charac = new CharShana();
-	scene->Add(charac, MOVING);
+    character = new CharDiamond();
+	scene->Add(character, MOVING);
     
-    weapon = new Weapon(charac, "Resources/Revolver.png");
+    weapon = new Weapon(character, "Resources/Revolver.png");
     scene->Add(weapon, MOVING);
 
     // ----------------------
@@ -122,7 +124,9 @@ void MinutesTillDawn::Update()
         scene->Add(proj, MOVING);
 
         weapon->numShots--;
-    } else if (!weapon->Reloading() && ((weapon->numShots < Config::numMaxShots && !window->KeyDown(VK_LBUTTON)) || (weapon->numShots == 0 && window->KeyDown(VK_LBUTTON)))) {
+
+        character->shoot(true);
+    } else if (!weapon->Reloading() && (weapon->numShots == 0 && window->KeyDown(VK_LBUTTON))) {
         weapon->Reload();
     }
 

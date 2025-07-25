@@ -1,8 +1,8 @@
-#include "CharShana.h"
+#include "CharDiamond.h"
 
-CharShana::CharShana()
+CharDiamond::CharDiamond()
 {
-	tileset = new TileSet("Resources/Player_Shana.png", 64, 58, 8, 24);
+	tileset = new TileSet("Resources/Player_Diamond.png", 64, 58, 8, 24);
 	anim = new Animation(tileset, 0.120f, true);
 
 	uint stop[6] = { 0, 1, 2, 3, 4, 5 };
@@ -17,13 +17,18 @@ CharShana::CharShana()
 
 	BBox(new Rect(-18, -18, 16, 26));
 
-	lifePoints = 4;
-	maxLifePoints = 4;
+	lifePoints = 8;
+	maxLifePoints = 8;
 
 	StartHearts();
+
+	shootingSpeed = 10.0f;
+	normalSpeed = 15.0f;
+
+	maxSpeed = normalSpeed;
 }
 
-CharShana::~CharShana() 
+CharDiamond::~CharDiamond()
 {
 	if (particles != nullptr) {
 		delete particles;
@@ -42,12 +47,12 @@ CharShana::~CharShana()
 	}
 }
 
-void CharShana::OnCollision(Object* obj)
+void CharDiamond::OnCollision(Object* obj)
 {
 	Character::OnCollision(obj);
 }
 
-void CharShana::Update()
+void CharDiamond::Update()
 {
 	Character::Update();
 

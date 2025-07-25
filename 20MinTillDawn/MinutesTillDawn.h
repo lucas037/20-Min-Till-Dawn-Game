@@ -28,6 +28,7 @@
 #include "Aim.h"
 #include "Weapon.h"
 #include "Font.h"
+#include "Character.h"
 
 using namespace std;
 

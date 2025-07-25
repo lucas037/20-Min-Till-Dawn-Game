@@ -28,6 +28,14 @@ protected:
     float stunTimer = 0.0f;
     const float stunDuration = 0.3f;
 
+    float shootTimer = 0.0f;
+    const float shootDuration = 0.4f;
+
+	bool isShooting = false;
+    
+    float shootingSpeed = 0.0f;
+	float normalSpeed = 0.0f;
+
 public:
     Vector* speed;    
     uint lifePoints;
@@ -50,4 +58,6 @@ public:
     void StartHearts();
 
     void OnCollision(Object* obj);
+
+    void shoot(bool shooting);
 };
