@@ -69,12 +69,10 @@ void MinutesTillDawn::Init()
     player  = new Player();
     scene   = new Scene();
 
-    
-
 	Character* charac = new CharShana();
 	scene->Add(charac, MOVING);
     
-    weapon = new Weapon(charac, "Resources/Revolver.png", "");
+    weapon = new Weapon(charac, "Resources/Revolver.png");
     scene->Add(weapon, MOVING);
 
     // ----------------------
@@ -98,7 +96,7 @@ void MinutesTillDawn::Init()
 
     enemiesSpawnTimer->Reset();
     shotTimer->Reset();
-    numShots = Config::numMaxShots;
+    weapon->numShots = Config::numMaxShots;
     elderSpawned = false;
 }
 
@@ -113,21 +111,19 @@ void MinutesTillDawn::Update()
     }
 
     // ATIRA
-    if (window->KeyDown(VK_LBUTTON) && shotTimer->Elapsed() > Config::shotCountdown && numShots > 0) {
+    if (window->KeyDown(VK_LBUTTON) && shotTimer->Elapsed() > Config::shotCountdown && weapon->numShots > 0 && !weapon->Reloading()) {
         shotTimer->Reset();
 
         float dx = aim->X() - weapon->X();
         float dy = aim->Y() - weapon->Y();
         float angle = atan2(dy, dx);
 
-        Projectile* proj = new Projectile(weapon->X(), weapon->Y(), 400.0, angle);
+        Projectile* proj = new Projectile(weapon->X() + 16 * cos(angle), weapon->Y() + 16 * sin(angle), 400.0, angle);
         scene->Add(proj, MOVING);
 
-        numShots--;
-    }
-
-    if (window->KeyPress('R')) {
-        numShots = Config::numMaxShots;
+        weapon->numShots--;
+    } else if (!weapon->Reloading() && ((weapon->numShots < Config::numMaxShots && !window->KeyDown(VK_LBUTTON)) || (weapon->numShots == 0 && window->KeyDown(VK_LBUTTON)))) {
+        weapon->Reload();
     }
 
     xboxOn = controller->XboxInitialize(0);
@@ -261,7 +257,6 @@ void MinutesTillDawn::Finalize()
     delete enemiesSpawnTimer;
     delete shotTimer;
 }
-
 
 // ------------------------------------------------------------------------------
 //                                  WinMain                                      

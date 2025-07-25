@@ -7,6 +7,7 @@ public:
 	static float stageTotalTime;
 
 	static float shotCountdown;
+	static float ReloadTime;
 	static float shotDamage;
 	static int numMaxShots;
 };

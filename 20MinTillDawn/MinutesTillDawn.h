@@ -43,62 +43,60 @@ enum ScreensIds { GOHOME, GOLEVEL, GOSELECTCHAR };
 
 // ------------------------------------------------------------------------------
 
-class MinutesTillDawn : public Game
-{
-private:
-    Background * backg = nullptr;   // pano de fundo
-    bool viewBBox = false;          // visualização das bouding boxes
+class MinutesTillDawn : public Game  
+{  
+private:  
+    Background * backg = nullptr;   // pano de fundo  
+    bool viewBBox = false;          // visualização das bouding boxes  
 
-    Timer* enemiesSpawnTimer = new Timer();
-    Timer* shotTimer = new Timer();
-    int numShots = 0;
-    bool elderSpawned = false;
+    Timer* enemiesSpawnTimer = new Timer();  
+    Timer* shotTimer = new Timer();  
+    bool elderSpawned = false;  
 
-public:
-    static Player * player;         // nave controlada pela jogador
-	static Character* character;    // personagem do jogador
-    static Audio * audio;           // sitema de áudio
-    static Scene * scene;           // cena do jogo
-    static bool viewHUD;            // visualização do painel
-    static Controller * controller;
-	static bool xboxOn;             // gamepad xbox conectado
-    static bool controllerOn;       // gamepad conectado
-    static int newEnemyId;
-    static Timer stageTimer;
-    static std::vector<Enemy*> enemies;
-    bool aimMouseMode = true;
-    static Font* font16;
+public:  
+    static Player * player;         // nave controlada pela jogador  
+    static Character* character;    // personagem do jogador  
+    static Audio * audio;           // sitema de áudio  
+    static Scene * scene;           // cena do jogo  
+    static bool viewHUD;            // visualização do painel  
+    static Controller * controller;  
+    static bool xboxOn;             // gamepad xbox conectado  
+    static bool controllerOn;       // gamepad conectado  
+    static int newEnemyId;  
+    static Timer stageTimer;  
+    static std::vector<Enemy*> enemies;  
+    bool aimMouseMode = true;  
+    static Font* font16;  
 
-    Weapon* weapon;
-    Aim* aim;
+    Weapon* weapon;  
+    Aim* aim;  
 
+    void Init();                    // inicialização  
+    void Update();                  // atualização  
+    void Draw();                    // desenho  
+    void Finalize();                // finalização  
 
-    void Init();                    // inicialização
-    void Update();                  // atualização
-    void Draw();                    // desenho
-    void Finalize();                // finalização
+    static void NextLevel(int screen)  
+    {  
+        game->Finalize();  
 
-    static void NextLevel(int screen)
-    {
-        game->Finalize();
+        switch (screen) {  
+        case GOLEVEL:  
+            game = new MinutesTillDawn();  
+            game->Size(3840, 2160);  
+            break;  
+        case GOHOME:  
+            game = new HomeScreen();  
+            game->Size(1024, 720);  
+            break;  
+        case GOSELECTCHAR:  
+            game = new SelectChar();  
+            game->Size(1024, 720);  
+            break;  
+        }  
 
-        switch (screen) {
-        case GOLEVEL:
-            game = new MinutesTillDawn();
-            game->Size(3840, 2160);
-            break;
-        case GOHOME:
-            game = new HomeScreen();
-            game->Size(1024, 720);
-            break;
-        case GOSELECTCHAR:
-            game = new SelectChar();
-            game->Size(1024, 720);
-            break;
-        }
-
-        game->Init();
-    };
+        game->Init();  
+    };  
 };
 
 // ---------------------------------------------------------------------------------
