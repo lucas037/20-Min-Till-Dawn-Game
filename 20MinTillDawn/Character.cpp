@@ -1,6 +1,7 @@
 #include "Character.h"
 #include "MinutesTillDawn.h"
 #include "RepulsionArea.h"
+#include "BloodParticles.h"
 
 Character::Character()
 {
@@ -18,6 +19,9 @@ Character::Character()
 	right = true;
 	lifePoints = 0;
 	maxLifePoints = 0;
+
+	isStunned = false;
+	stunTimer = 0.0f;
 }
 
 void Character::OnCollision(Object* obj)
@@ -29,6 +33,13 @@ void Character::OnCollision(Object* obj)
 
 void Character::Update()
 {
+	if (isStunned) {
+		stunTimer += gameTime;
+		if (stunTimer >= stunDuration) {
+			isStunned = false;
+		}
+	}
+
 	Move();
 
 	if (isInvincible) {
@@ -54,6 +65,11 @@ Character::~Character() {}
 // METODOS AUXILIARES
 // ---------------------------------------------------------------------------------
 void Character::Move() {
+	if (isStunned) {
+		speed->ScaleTo(0.0f);
+		return;
+	}
+
 	float dx = 0.0f;
 	float dy = 0.0f;
 	float delta = maxSpeed * gameTime;
@@ -176,6 +192,8 @@ void Character::Damage()
 
 	//lifePoints--;
 
+	MinutesTillDawn::scene->Add(new BloodParticles(x, y), STATIC);
+
 	MinutesTillDawn::scene->Add(new RepulsionArea(this), MOVING);
 
 	if (lifePoints < maxLifePoints) {
@@ -189,4 +207,7 @@ void Character::Damage()
 
 	isInvincible = true;
 	timeCounter = 0.0f;
+
+	isStunned = true;
+	stunTimer = 0.0f;
 }
