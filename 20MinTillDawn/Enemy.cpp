@@ -149,6 +149,10 @@ void Enemy::Update()
 
 	if (anim != nullptr)
 		anim->NextFrame();
+
+	if (dead && anim->Frame() == 3) {
+		MinutesTillDawn::scene->Delete(this, MOVING);
+	}
 }
 
 // -------------------------------------------------------------------------------
@@ -185,7 +189,11 @@ void Enemy::TakeDamage(float damage) {
 	life -= damage;
 
 	if (life < 0.0) {
-		MinutesTillDawn::scene->Delete(this, MOVING);
+		//MinutesTillDawn::scene->Delete(this, MOVING);
+
+		tileset = new TileSet("Resources/EnemyDeathFX.png", 80, 80, 4, 4);
+		anim = new Animation(tileset, 0.05f, true);
+		dead = true;
 		
 		for (int i = 0; i < MinutesTillDawn::enemies.size(); ++i) {
 			if (MinutesTillDawn::enemies[i]->id == id) {

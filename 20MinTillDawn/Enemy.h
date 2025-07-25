@@ -28,6 +28,7 @@ public:
 	Animation* anim;
 	bool lookRight = true;
 	Sprite* sprite;
+	bool dead = false;
 
 	Enemy();
 	~Enemy();
