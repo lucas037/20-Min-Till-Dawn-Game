@@ -183,7 +183,7 @@ void MinutesTillDawn::Update()
         aim->MoveTo(game->viewport.left + window->MouseX(), game->viewport.top + window->MouseY());
         weapon->Move(game->viewport.left + window->MouseX(), game->viewport.top + window->MouseY());
     }
-    else {
+    else if (enemies.size() > 0) {
         int indexClosest = 0;
         Enemy* enemyTest = enemies.at(0);
         float distanceClosest = -1.0;
@@ -206,6 +206,9 @@ void MinutesTillDawn::Update()
         enemyTest = enemies.at(indexClosest);
         aim->MoveTo(enemyTest->X(), enemyTest->Y());
         weapon->Move(enemyTest->X(), enemyTest->Y());
+    }
+    else {
+        aim->MoveTo(0.0, 0.0);
     }
 
     // ENEMIES
