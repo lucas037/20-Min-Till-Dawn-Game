@@ -40,6 +40,14 @@ void Character::Update()
 		}
 	}
 
+	if (isShooting) {
+		shootTimer += gameTime;
+		if (shootTimer >= shootDuration) {
+			shoot(false);
+			shootTimer = 0.0f;
+		}
+	}
+
 	Move();
 
 	if (isInvincible) {
@@ -186,11 +194,22 @@ void Character::StartHearts()
 	}
 }
 
+void Character::shoot(bool shooting)
+{
+	isShooting = shooting;
+
+	if (isShooting) {
+		shootTimer = 0.0f;
+	}
+
+	maxSpeed = shooting ? shootingSpeed : normalSpeed;
+}
+
 void Character::Damage()
 {
 	if (isInvincible || lifePoints <= 0) return;
 
-	//lifePoints--;
+	lifePoints--;
 
 	MinutesTillDawn::scene->Add(new BloodParticles(x, y), STATIC);
 
