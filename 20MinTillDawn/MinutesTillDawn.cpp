@@ -187,6 +187,9 @@ void MinutesTillDawn::Update()
         aim->MoveTo(game->viewport.left + window->MouseX(), game->viewport.top + window->MouseY());
         weapon->Move(game->viewport.left + window->MouseX(), game->viewport.top + window->MouseY());
     }
+    else if (enemies.size() <= 0) {
+        aim->MoveTo(0.0, 0.0);
+    }
     else {
         int indexClosest = 0;
         Enemy* enemyTest = enemies.at(0);
