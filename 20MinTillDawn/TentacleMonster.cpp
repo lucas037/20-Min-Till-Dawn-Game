@@ -24,6 +24,15 @@ TentacleMonster::TentacleMonster(): Enemy(){
 	}
 	else if (timeElapsed < (2.0 / 4) * (Config::stageTotalTime)) { // 50% do tempo
 		life = Aleatory::randrange(60, 80);
+
+		tileset = new TileSet("Resources/Enemy_Lamprey.png", 128, 128, 5, 5);
+		anim = new Animation(tileset, 0.180f, true);
+		uint walkv2[5] = { 0, 1, 2, 3, 4 };
+
+		anim->Add(1, walkv2, 4);
+		anim->Select(1);
+
+		BBox(new Rect(-48, -48, 48, 48));
 	}
 	else {
 		life = Aleatory::randrange(80, 250);

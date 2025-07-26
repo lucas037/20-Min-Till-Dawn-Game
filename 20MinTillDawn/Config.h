@@ -6,6 +6,8 @@ private:
 public:
 	static float stageTotalTime;
 
+	static int numMaxEnemies;
+
 	static float shotCountdown;
 	static float ReloadTime;
 	static float shotDamage;
