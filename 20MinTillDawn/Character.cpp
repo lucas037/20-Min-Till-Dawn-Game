@@ -48,7 +48,13 @@ void Character::Update()
 		}
 	}
 
-	Move();
+	if (walkingSongActive) {
+		walkTimer += gameTime;
+
+		if (walkTimer >= walkDuration ) {
+			walkingSongActive = false;
+		}
+	}
 
 	if (isInvincible) {
 		timeCounter += gameTime;
@@ -58,6 +64,18 @@ void Character::Update()
 			timeCounter = 0.0f;
 		}
 	}
+
+	if (lifePoints == 1 && !lowHp) {
+		MinutesTillDawn::audio->Play(LOW_HP, true);
+
+		lowHp = true;
+	}
+	else if (lifePoints != 1) {
+		MinutesTillDawn::audio->Stop(LOW_HP);
+		lowHp = false;
+	}
+
+	Move();
 
 	MinutesTillDawn::player->MoveTo(X(), Y());
 }
@@ -89,6 +107,13 @@ void Character::Move() {
 	if (dx == 0.0f && dy == 0.0f) {
 		speed->ScaleTo(0.0f);
 		return;
+	}
+
+	if ((dx != 0 || dy != 0) && !walkingSongActive) {
+		MinutesTillDawn::audio->Play(WALK, false);
+
+		walkingSongActive = true;
+		walkTimer = 0;
 	}
 
 	UpdateAnimationDirection(dx);
@@ -214,6 +239,8 @@ void Character::Damage()
 	MinutesTillDawn::scene->Add(new BloodParticles(x, y), STATIC);
 
 	MinutesTillDawn::scene->Add(new RepulsionArea(this), MOVING);
+
+	MinutesTillDawn::audio->Play(DAMAGE);
 
 	if (lifePoints < maxLifePoints) {
 		for (uint i = lifePoints; i < maxLifePoints; i++) {

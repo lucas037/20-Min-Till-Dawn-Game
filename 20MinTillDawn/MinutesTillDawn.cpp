@@ -51,16 +51,17 @@ void MinutesTillDawn::Init()
 
     // cria sistema de �udio
     audio = new Audio();
-    audio->Add(THEME, "OldResources/Theme.wav");
-    audio->Add(FIRE, "OldResources/Fire.wav");
-    audio->Add(HITWALL, "OldResources/Hitwall.wav");
-    audio->Add(EXPLODE, "OldResources/Explode.wav");
-    audio->Add(START, "OldResources/Start.wav");
+    audio->Add(DAMAGE, "Resources/DanoRecebido.wav");
+    audio->Add(SHOOT, "Resources/Tiro.wav");
+    audio->Add(MUSIC_1, "Resources/MusicaDeBatalha.wav");
+	audio->Add(WALK, "Resources/Passos.wav");
+    audio->Add(LOW_HP, "Resources/Poucavida.wav");
 
     // ajusta volumes
-    audio->Volume(FIRE, 0.2f);
-    audio->Volume(START, 0.8f);
-    audio->Volume(THEME, 0.6f);
+    audio->Volume(DAMAGE, 1.0f);
+	audio->Volume(MUSIC_1, 0.4f);
+    audio->Volume(WALK, 0.3f);
+    audio->Volume(LOW_HP, 0.08f);
 
 	// fonte de texto
     font16 = new Font("Resources/font16.png");
@@ -100,6 +101,8 @@ void MinutesTillDawn::Init()
     shotTimer->Reset();
     weapon->numShots = Config::numMaxShots;
     elderSpawned = false;
+
+    audio->Play(MUSIC_1, true);
 }
 
 // ------------------------------------------------------------------------------
@@ -122,6 +125,8 @@ void MinutesTillDawn::Update()
 
         Projectile* proj = new Projectile(weapon->X() + 16 * cos(angle), weapon->Y() + 16 * sin(angle), 400.0, angle);
         scene->Add(proj, MOVING);
+
+		audio->Play(SHOOT);
 
         weapon->numShots--;
 

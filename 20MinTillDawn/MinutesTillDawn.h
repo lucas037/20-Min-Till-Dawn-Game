@@ -38,7 +38,7 @@ enum ObjectIds { PLAYER, MISSILE, BLUE, GREEN, MAGENTA, ORANGE, WALLHIT, ENEMY, 
 
 // ------------------------------------------------------------------------------
 
-enum SoundIds { THEME, START, FIRE, EXPLODE, HITWALL };
+enum SoundIds { DAMAGE, SHOOT, MUSIC_1, WALK, LOW_HP };
 
 enum ScreensIds { GOHOME, GOLEVEL, GOSELECTCHAR };
 
