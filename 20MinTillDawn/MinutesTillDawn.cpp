@@ -192,6 +192,9 @@ void MinutesTillDawn::Update()
         aim->MoveTo(game->viewport.left + window->MouseX(), game->viewport.top + window->MouseY());
         weapon->Move(game->viewport.left + window->MouseX(), game->viewport.top + window->MouseY());
     }
+    else if (enemies.size() <= 0) {
+        aim->MoveTo(0.0, 0.0);
+    }
     else {
         int indexClosest = 0;
         Enemy* enemyTest = enemies.at(0);
@@ -220,7 +223,7 @@ void MinutesTillDawn::Update()
     // ENEMIES
     Enemy* enemy;
 
-    if (enemiesSpawnTimer->Elapsed() > 3) {
+    if (enemiesSpawnTimer->Elapsed() > 3 && enemies.size() < Config::numMaxEnemies) {
         enemiesSpawnTimer->Reset();
 
         for (int i = 0; i < 3; i++) {
