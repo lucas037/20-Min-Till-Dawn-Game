@@ -17,7 +17,7 @@ CharDiamond::CharDiamond()
 
 	BBox(new Rect(-18, -18, 16, 26));
 
-	lifePoints = 8;
+	lifePoints = 2;
 	maxLifePoints = 8;
 
 	StartHearts();

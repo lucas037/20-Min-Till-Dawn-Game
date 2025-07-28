@@ -31,6 +31,13 @@ protected:
     float shootTimer = 0.0f;
     const float shootDuration = 0.4f;
 
+    // walk timer
+    bool walkingSongActive = false;
+	float walkTimer = 0.0f;
+	const float walkDuration = 0.35f;
+
+    bool lowHp = false;
+
 	bool isShooting = false;
     
     float shootingSpeed = 0.0f;

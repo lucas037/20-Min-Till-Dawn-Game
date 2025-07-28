@@ -241,6 +241,7 @@
     <ClCompile Include="CharShana.cpp" />
     <ClCompile Include="Config.cpp" />
     <ClCompile Include="Controller.cpp" />
+    <ClCompile Include="DeathParticles.cpp" />
     <ClCompile Include="Elder.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Engine.cpp" />
@@ -282,6 +283,7 @@
     <ClInclude Include="CharShana.h" />
     <ClInclude Include="Config.h" />
     <ClInclude Include="Controller.h" />
+    <ClInclude Include="DeathParticles.h" />
     <ClInclude Include="Elder.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Engine.h" />
