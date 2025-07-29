@@ -29,18 +29,22 @@
 #include "Weapon.h"
 #include "Font.h"
 #include "Character.h"
+#include "UpgradeIcon.h"
+#include "UpgradeDescription.h"
+#include "VICTORY.h"
+#include "GAMEOVER.h"
 
 using namespace std;
 
 // ------------------------------------------------------------------------------
 
-enum ObjectIds { PLAYER, MISSILE, BLUE, GREEN, MAGENTA, ORANGE, WALLHIT, ENEMY, TENTACLE, REPULSION_AREA, PROJECTILE};
+enum ObjectIds { PLAYER, MISSILE, BLUE, GREEN, MAGENTA, ORANGE, WALLHIT, ENEMY, TENTACLE, REPULSION_AREA, PROJECTILE, AIM };
 
 // ------------------------------------------------------------------------------
 
 enum SoundIds { DAMAGE, SHOOT, MUSIC_1, WALK, LOW_HP };
 
-enum ScreensIds { GOHOME, GOLEVEL, GOSELECTCHAR };
+enum ScreensIds { GOHOME, GOLEVEL, GOSELECTCHAR, GOVICTORY, GOGAMEOVER };
 
 // ------------------------------------------------------------------------------
 
@@ -50,9 +54,13 @@ private:
     Background * backg = nullptr;   // pano de fundo  
     bool viewBBox = false;          // visualização das bouding boxes  
 
-    Timer* enemiesSpawnTimer = new Timer();  
-    Timer* shotTimer = new Timer();  
-    bool elderSpawned = false;  
+    Timer* enemiesSpawnTimer = new Timer();
+    Timer* shotTimer = new Timer();
+    Timer* upgradeTimer = new Timer();
+    bool elderSpawned = false;
+
+    // boosts timers
+    Timer* recoverHpTimer = new Timer();
 
 public:  
     static Player * player;         // nave controlada pela jogador  
@@ -67,7 +75,14 @@ public:
     static Timer stageTimer;  
     static std::vector<Enemy*> enemies;  
     bool aimMouseMode = true;  
-    static Font* font16;  
+    static Font* font16;
+
+    UpgradeDescription* upDesc;
+    static UpgradeIcon* upIcons[5];
+    static bool upgrading;
+    static int upgradeClick;
+    static std::vector<int> upgradesIndexes;
+    static bool upgradeFinishing;
 
     Weapon* weapon;  
     Aim* aim;  
@@ -75,7 +90,8 @@ public:
     void Init();                    // inicialização  
     void Update();                  // atualização  
     void Draw();                    // desenho  
-    void Finalize();                // finalização  
+    void Finalize();                // finalização
+    void UseUpgrade(int index);
 
     static void NextLevel(int screen)  
     {  
@@ -89,12 +105,20 @@ public:
         case GOHOME:  
             game = new HomeScreen();  
             game->Size(1024, 720);  
-            break;  
-        case GOSELECTCHAR:  
-            game = new SelectChar();  
-            game->Size(1024, 720);  
-            break;  
-        }  
+            break;
+        case GOSELECTCHAR:
+            game = new SelectChar();
+            game->Size(1024, 720);
+            break;
+        case GOVICTORY:
+            game = new Victory();
+            game->Size(1024, 720);
+            break;
+        case GOGAMEOVER:
+            game = new GameOver();
+            game->Size(1024, 720);
+            break;
+        }
 
         game->Init();  
     };  

@@ -22,6 +22,8 @@
 #include "Controller.h"
 #include "Projectile.h"
 #include "Config.h"
+#include "Aleatory.h"
+#include "Upgrade.h"
 
 // ------------------------------------------------------------------------------
 
@@ -33,10 +35,16 @@ Controller* MinutesTillDawn::controller = nullptr;
 bool     MinutesTillDawn::xboxOn = false;
 bool     MinutesTillDawn::controllerOn = false;
 bool     MinutesTillDawn::viewHUD = true;
+bool     MinutesTillDawn::upgrading = false;
 Timer MinutesTillDawn::stageTimer;
 std::vector<Enemy*> MinutesTillDawn::enemies;
 int MinutesTillDawn::newEnemyId = 0;
+bool     MinutesTillDawn::upgradeFinishing = false;
+
 Font* MinutesTillDawn::font16 = nullptr;
+UpgradeIcon* MinutesTillDawn::upIcons[5] = { nullptr };
+int MinutesTillDawn::upgradeClick = 0;
+std::vector<int> MinutesTillDawn::upgradesIndexes;
 
 // ------------------------------------------------------------------------------
 
@@ -95,14 +103,25 @@ void MinutesTillDawn::Init()
     stageTimer.Reset();
 
     aim = new Aim(game->CenterX(), game->CenterY());
-    scene->Add(aim, STATIC);
+    scene->Add(aim, MOVING);
 
     enemiesSpawnTimer->Reset();
     shotTimer->Reset();
+    upgradeTimer->Reset();
     weapon->numShots = Config::numMaxShots;
     elderSpawned = false;
+    enemies.clear();
+
+    recoverHpTimer->Reset();
 
     audio->Play(MUSIC_1, true);
+
+    upgrading = false;
+    upgradeFinishing = false;
+
+    Config::minTimeToRecoverHp = Config::stageTotalTime + 1;
+    Config::dodgeChance = 0.0f;
+    Config::shotDamage = 40.0;
 }
 
 // ------------------------------------------------------------------------------
@@ -115,24 +134,14 @@ void MinutesTillDawn::Update()
         return;
     }
 
-    // ATIRA
-    if (window->KeyDown(VK_LBUTTON) && shotTimer->Elapsed() > Config::shotCountdown && weapon->numShots > 0 && !weapon->Reloading()) {
-        shotTimer->Reset();
+    if (character->lifePoints <= 0) {
+        NextLevel(GOGAMEOVER);
+        return;
+    }
 
-        float dx = aim->X() - weapon->X();
-        float dy = aim->Y() - weapon->Y();
-        float angle = atan2(dy, dx);
-
-        Projectile* proj = new Projectile(weapon->X() + 16 * cos(angle), weapon->Y() + 16 * sin(angle), 400.0, angle);
-        scene->Add(proj, MOVING);
-
-		audio->Play(SHOOT);
-
-        weapon->numShots--;
-
-        character->shoot(true);
-    } else if (!weapon->Reloading() && (weapon->numShots == 0 && window->KeyDown(VK_LBUTTON))) {
-        weapon->Reload();
+    if (stageTimer.Elapsed() > Config::stageTotalTime) {
+        NextLevel(GOVICTORY);
+        return;
     }
 
     xboxOn = controller->XboxInitialize(0);
@@ -143,6 +152,31 @@ void MinutesTillDawn::Update()
     // atualiza cena e calcula colis�es
     scene->Update();
     scene->CollisionDetection();
+
+    if (upgradeFinishing) {
+        int indexUp = upgradesIndexes.at(upgradeClick);
+        UseUpgrade(indexUp);
+
+        upgradeFinishing = false;
+        upgrading = false;
+        upgradeTimer->Reset();
+
+        for (int i = 0; i < 5; i++) {
+            scene->Remove(upIcons[i], STATIC);
+            upIcons[i] = nullptr;
+        }
+
+        scene->Remove(upDesc, STATIC);
+
+    }
+    else if (upgrading) {
+        aim->MoveTo(game->viewport.left + window->MouseX(), game->viewport.top + window->MouseY());
+
+        Color corTexto = { 0.992f, 0.317f, 0.380f, 1.0f };
+        font16->Draw(window->CenterX() - 100, window->CenterY() - 250, "Escolha um Upgrade", corTexto, 0.0f, 1.0f);
+
+        return;
+    }
 
     // ativa ou desativa a bounding box
     if (window->KeyPress('B'))
@@ -155,6 +189,7 @@ void MinutesTillDawn::Update()
     if (window->KeyPress(VK_SPACE)) {
         aimMouseMode = !aimMouseMode;
     }
+
 
     // --------------------
     // atualiza a viewport
@@ -220,6 +255,52 @@ void MinutesTillDawn::Update()
         weapon->Move(enemyTest->X(), enemyTest->Y());
     }
 
+    // ATIRA
+    if (window->KeyDown(VK_LBUTTON) && shotTimer->Elapsed() > Config::shotCountdown && weapon->numShots > 0 && !weapon->Reloading()) {
+        shotTimer->Reset();
+
+        float dx = aim->X() - weapon->X();
+        float dy = aim->Y() - weapon->Y();
+        float angle = atan2(dy, dx);
+
+        Projectile* proj = new Projectile(weapon->X() + 16 * cos(angle), weapon->Y() + 16 * sin(angle), 400.0, angle);
+        scene->Add(proj, MOVING);
+
+        audio->Play(SHOOT);
+
+        weapon->numShots--;
+
+        character->shoot(true);
+    }
+    else if (!weapon->Reloading() && (weapon->numShots == 0 && window->KeyDown(VK_LBUTTON))) {
+        weapon->Reload();
+    }
+
+    // INICIA UPGRADE
+
+    if (upgradeTimer->Elapsed() > Config::timeToUpgrade && !upgrading) {
+        upgradeTimer->Reset();
+        upgrading = true;
+        upgradeClick = 0;
+
+        float posX = game->viewport.left + window->Width() / 2 - 125.0f * 2;
+        float posY = game->viewport.top + window->Height() / 2 - 150.0f;
+
+        upgradesIndexes = Aleatory::GenerateNumbersList(5, 0, Upgrade::GetUpgradeCount(), false);
+
+        for (int i = 0; i < 5; i++) {
+            int iconId = Upgrade::GetUpgrade(upgradesIndexes.at(i)).iconId;
+
+            upIcons[i] = new UpgradeIcon(posX + i * 125.0f, posY, iconId);
+            scene->Add(upIcons[i], STATIC);
+        }
+
+        upDesc = new UpgradeDescription("Title", "Description");
+        scene->Add(upDesc, STATIC);
+
+
+    }
+
     // ENEMIES
     Enemy* enemy;
 
@@ -240,6 +321,12 @@ void MinutesTillDawn::Update()
         scene->Add(elder, MOVING);
 
         elderSpawned = true;
+    }
+
+    // UPGRADES
+    if (recoverHpTimer->Elapsed() > Config::minTimeToRecoverHp) {
+        character->AddHeart();
+        recoverHpTimer->Reset();
     }
 } 
 
@@ -306,3 +393,35 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 }
 
 // ----------------------------------------------------------------------------
+
+void MinutesTillDawn::UseUpgrade(int index) {
+    int upType = Upgrade::GetUpgrade(index).type;
+
+    if (upType == SK_HEALTH) {
+        character->AddMaxHeart();
+    }
+    else if (upType == SK_GIANT) {
+        character->AddMaxHeart();
+        character->AddMaxHeart();
+
+        if (character->Scale() < 2.00)
+            character->Scale(1.25f);
+    }
+    else if (upType == SK_REGENERATION) {
+        recoverHpTimer->Reset();
+        Config::minTimeToRecoverHp = 60.0f;
+    }
+    else if (upType == SK_EVASIVE) {
+        Config::dodgeChance += 0.25;
+    }
+    else if (upType == SK_TINY && character->Scale() > 0.25) {
+        Config::dodgeChance += 0.05;
+        character->Scale(0.75f);
+    }
+    else if (upType == SK_FASTUPGRADE && Config::timeToUpgrade > 10.0f) {
+        Config::timeToUpgrade -= 10.0f;
+    }
+    else if (upType == SK_BULLETDAMAGE) {
+        Config::shotDamage *= 1.4;
+    }
+}

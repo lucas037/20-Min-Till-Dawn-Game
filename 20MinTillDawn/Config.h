@@ -5,6 +5,7 @@ class Config {
 private:
 public:
 	static float stageTotalTime;
+	static float timeToUpgrade;
 
 	static int numMaxEnemies;
 
@@ -12,6 +13,10 @@ public:
 	static float ReloadTime;
 	static float shotDamage;
 	static int numMaxShots;
+
+	static float minTimeToRecoverHp;
+	static float dodgeChance;
+	static float projectileDamage;
 };
 
 #endif

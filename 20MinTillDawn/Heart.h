@@ -24,4 +24,5 @@ public:
 	void Update();
 	void ChangeState();
 	void SetInactive();
+	void SetActive();
 };

@@ -17,8 +17,8 @@ CharDiamond::CharDiamond()
 
 	BBox(new Rect(-18, -18, 16, 26));
 
-	lifePoints = 2;
-	maxLifePoints = 8;
+	lifePoints = 7;
+	maxLifePoints = 7;
 
 	StartHearts();
 
@@ -54,6 +54,9 @@ void CharDiamond::OnCollision(Object* obj)
 
 void CharDiamond::Update()
 {
+	if (MinutesTillDawn::upgrading)
+		return;
+
 	Character::Update();
 
 	if (speed->Magnitude() > 0.0f && speed->Magnitude() < 15.0f) {

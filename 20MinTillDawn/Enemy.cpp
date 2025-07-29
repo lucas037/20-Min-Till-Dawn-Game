@@ -1,6 +1,6 @@
 #include "Enemy.h"
 #include "Aleatory.h"
-#include "MinutesTillDawn.h"-
+#include "MinutesTillDawn.h"
 #include "RepulsionArea.h"
 #include "Config.h"
 
@@ -109,6 +109,10 @@ void Enemy::OnCollision(Object* obj) {
 
 void Enemy::Update()
 {
+	if (MinutesTillDawn::upgrading) {
+		return;
+	}
+
 	float xPlayer = MinutesTillDawn::player->X();
 	float yPlayer = MinutesTillDawn::player->Y();
 	float xEnemy = X();
