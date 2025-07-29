@@ -20,10 +20,9 @@ Shoggoth::Shoggoth() : Enemy() {
 
 	lookRight = true;
 
-	BBox(new Circle(96));
+	BBox(new Circle(64));
 
 	life = 2500.f;
-	shooting = true;
 }
 
 Shoggoth::~Shoggoth() {
@@ -31,27 +30,25 @@ Shoggoth::~Shoggoth() {
 }
 
 void Shoggoth::Update() {
-	//if (timer->Elapsed() > 20.0) {
-	Laser();
-		//shooting = true;
-	//}
+	if (MinutesTillDawn::upgrading) {
+		return;
+	}
+
+	if (timer->Elapsed() > 3.0f) {
+		FireLaser();
+		timer->Reset();
+	}
 
 	if (anim != nullptr)
 		anim->NextFrame();
 }
 
-void Shoggoth::Laser() {
-
-
-
-	timer->Reset();
+void Shoggoth::FireLaser() {
+	Laser* laser = new Laser(X(), Y());
+	MinutesTillDawn::scene->Add(laser, STATIC);
 }
 
 void Shoggoth::Draw() {
 
 	anim->Draw(X(), Y(), Layer::MIDDLE);
-
-	if (shooting) {
-		anim_laser->Draw(laserX , laserY, Layer::MIDDLE, 1.0f, rotation);
-	}
 }

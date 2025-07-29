@@ -125,6 +125,10 @@ void MinutesTillDawn::Init()
     Config::minTimeToRecoverHp = Config::stageTotalTime + 1;
     Config::dodgeChance = 0.0f;
     Config::shotDamage = 40.0;
+
+    Shoggoth* shoggoth = new Shoggoth();
+    enemies.push_back(shoggoth);
+    scene->Add(shoggoth, STATIC);
 }
 
 // ------------------------------------------------------------------------------
@@ -198,25 +202,25 @@ void MinutesTillDawn::Update()
     // atualiza a viewport
     // --------------------
 
-    viewport.left   = player->X() - window->CenterX();
-    viewport.right  = player->X() + window->CenterX();
-    viewport.top    = player->Y() - window->CenterY();
+    viewport.left = player->X() - window->CenterX();
+    viewport.right = player->X() + window->CenterX();
+    viewport.top = player->Y() - window->CenterY();
     viewport.bottom = player->Y() + window->CenterY();
-            
+
     if (viewport.left < 0)
     {
-        viewport.left  = 0;
+        viewport.left = 0;
         viewport.right = window->Width();
     }
     else if (viewport.right > game->Width())
-    {  
-        viewport.left  = game->Width() - window->Width();
+    {
+        viewport.left = game->Width() - window->Width();
         viewport.right = game->Width();
     }
-                  
+
     if (viewport.top < 0)
     {
-        viewport.top  = 0;
+        viewport.top = 0;
         viewport.bottom = window->Height();
     }
     else if (viewport.bottom > game->Height())
@@ -237,7 +241,7 @@ void MinutesTillDawn::Update()
         int indexClosest = 0;
         Enemy* enemyTest = enemies.at(0);
         float distanceClosest = -1.0;
-        
+
         for (int i = 0; i < enemies.size(); i++) {
             Enemy* enemyTest = enemies.at(i);
 
@@ -281,66 +285,63 @@ void MinutesTillDawn::Update()
 
     // INICIA UPGRADE
 
-    if (upgradeTimer->Elapsed() > Config::timeToUpgrade && !upgrading) {
-        upgradeTimer->Reset();
-        upgrading = true;
-        upgradeClick = 0;
+    //if (upgradeTimer->Elapsed() > Config::timeToUpgrade && !upgrading) {
+    //    upgradeTimer->Reset();
+    //    upgrading = true;
+    //    upgradeClick = 0;
 
-        float posX = game->viewport.left + window->Width() / 2 - 125.0f * 2;
-        float posY = game->viewport.top + window->Height() / 2 - 150.0f;
+    //    float posX = game->viewport.left + window->Width() / 2 - 125.0f * 2;
+    //    float posY = game->viewport.top + window->Height() / 2 - 150.0f;
 
-        upgradesIndexes = Aleatory::GenerateNumbersList(5, 0, Upgrade::GetUpgradeCount(), false);
+    //    upgradesIndexes = Aleatory::GenerateNumbersList(5, 0, Upgrade::GetUpgradeCount(), false);
 
-        for (int i = 0; i < 5; i++) {
-            int iconId = Upgrade::GetUpgrade(upgradesIndexes.at(i)).iconId;
+    //    for (int i = 0; i < 5; i++) {
+    //        int iconId = Upgrade::GetUpgrade(upgradesIndexes.at(i)).iconId;
 
-            upIcons[i] = new UpgradeIcon(posX + i * 125.0f, posY, iconId);
-            scene->Add(upIcons[i], STATIC);
-        }
+    //        upIcons[i] = new UpgradeIcon(posX + i * 125.0f, posY, iconId);
+    //        scene->Add(upIcons[i], STATIC);
+    //    }
 
-        upDesc = new UpgradeDescription("Title", "Description");
-        scene->Add(upDesc, STATIC);
-
-
-    }
+    //    upDesc = new UpgradeDescription("Title", "Description");
+    //    scene->Add(upDesc, STATIC);
+    //}
 
     // ENEMIES
     Enemy* enemy;
 
     if (enemiesSpawnTimer->Elapsed() > 3 && enemies.size() < Config::numMaxEnemies) {
         enemiesSpawnTimer->Reset();
-    if (enemiesSpawnTimer->Elapsed() > 3 && enemies.size() < Config::numMaxEnemies) {
-       enemiesSpawnTimer->Reset();
-       for (int i = 0; i < 3; i++) {
-           enemy = new TentacleMonster();
-           enemies.push_back(enemy);
-           scene->Add(enemy, MOVING);
-       }
+        if (enemiesSpawnTimer->Elapsed() > 3 && enemies.size() < Config::numMaxEnemies) {
+            enemiesSpawnTimer->Reset();
+            for (int i = 0; i < 3; i++) {
+                enemy = new TentacleMonster();
+                enemies.push_back(enemy);
+                scene->Add(enemy, MOVING);
+            }
+        }
+
+        // Elder spawna uma vez com 25% do jogo completo
+        if (MinutesTillDawn::stageTimer.Elapsed() > (Config::stageTotalTime * 0.25) && !elderSpawned) {
+            Elder* elder = new Elder();
+            enemies.push_back(elder);
+            scene->Add(elder, MOVING);
+
+            elderSpawned = true;
+        }
+
+        if (!shoggothSpawned) {
+
+
+            shoggothSpawned = true;
+        }
+
+        // UPGRADES
+        if (recoverHpTimer->Elapsed() > Config::minTimeToRecoverHp) {
+            character->AddHeart();
+            recoverHpTimer->Reset();
+        }
     }
-
-    // Elder spawna uma vez com 25% do jogo completo
-    if (MinutesTillDawn::stageTimer.Elapsed() > (Config::stageTotalTime * 0.25) && !elderSpawned) {
-        Elder* elder = new Elder();
-        enemies.push_back(elder);
-        scene->Add(elder, MOVING);
-
-        elderSpawned = true;
-    }
-
-    if (!shoggothSpawned) {
-		Shoggoth* shoggoth = new Shoggoth();
-		enemies.push_back(shoggoth);
-		scene->Add(shoggoth, STATIC);
-
-		shoggothSpawned = true;
-    }
-
-    // UPGRADES
-    if (recoverHpTimer->Elapsed() > Config::minTimeToRecoverHp) {
-        character->AddHeart();
-        recoverHpTimer->Reset();
-    }
-} 
+}
 
 // ------------------------------------------------------------------------------
 
