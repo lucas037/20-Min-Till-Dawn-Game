@@ -54,6 +54,9 @@ void CharDiamond::OnCollision(Object* obj)
 
 void CharDiamond::Update()
 {
+	if (MinutesTillDawn::upgrading)
+		return;
+
 	Character::Update();
 
 	if (speed->Magnitude() > 0.0f && speed->Magnitude() < 15.0f) {

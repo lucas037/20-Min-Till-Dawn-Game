@@ -33,6 +33,7 @@ Controller* MinutesTillDawn::controller = nullptr;
 bool     MinutesTillDawn::xboxOn = false;
 bool     MinutesTillDawn::controllerOn = false;
 bool     MinutesTillDawn::viewHUD = true;
+bool     MinutesTillDawn::upgrading = false;
 Timer MinutesTillDawn::stageTimer;
 std::vector<Enemy*> MinutesTillDawn::enemies;
 int MinutesTillDawn::newEnemyId = 0;
@@ -95,15 +96,18 @@ void MinutesTillDawn::Init()
     stageTimer.Reset();
 
     aim = new Aim(game->CenterX(), game->CenterY());
-    scene->Add(aim, STATIC);
+    scene->Add(aim, MOVING);
 
     enemiesSpawnTimer->Reset();
     shotTimer->Reset();
+    upgradeTimer->Reset();
     weapon->numShots = Config::numMaxShots;
     elderSpawned = false;
     enemies.clear();
 
     audio->Play(MUSIC_1, true);
+
+    upgrading = false;
 }
 
 // ------------------------------------------------------------------------------
@@ -116,26 +120,6 @@ void MinutesTillDawn::Update()
         return;
     }
 
-    // ATIRA
-    if (window->KeyDown(VK_LBUTTON) && shotTimer->Elapsed() > Config::shotCountdown && weapon->numShots > 0 && !weapon->Reloading()) {
-        shotTimer->Reset();
-
-        float dx = aim->X() - weapon->X();
-        float dy = aim->Y() - weapon->Y();
-        float angle = atan2(dy, dx);
-
-        Projectile* proj = new Projectile(weapon->X() + 16 * cos(angle), weapon->Y() + 16 * sin(angle), 400.0, angle);
-        scene->Add(proj, MOVING);
-
-		audio->Play(SHOOT);
-
-        weapon->numShots--;
-
-        character->shoot(true);
-    } else if (!weapon->Reloading() && (weapon->numShots == 0 && window->KeyDown(VK_LBUTTON))) {
-        weapon->Reload();
-    }
-
     xboxOn = controller->XboxInitialize(0);
 
     if (!xboxOn)
@@ -144,6 +128,11 @@ void MinutesTillDawn::Update()
     // atualiza cena e calcula colis�es
     scene->Update();
     scene->CollisionDetection();
+
+    if (upgrading) {
+        aim->MoveTo(game->viewport.left + window->MouseX(), game->viewport.top + window->MouseY());
+        return;
+    }
 
     // ativa ou desativa a bounding box
     if (window->KeyPress('B'))
@@ -156,6 +145,7 @@ void MinutesTillDawn::Update()
     if (window->KeyPress(VK_SPACE)) {
         aimMouseMode = !aimMouseMode;
     }
+
 
     // --------------------
     // atualiza a viewport
@@ -219,6 +209,43 @@ void MinutesTillDawn::Update()
         enemyTest = enemies.at(indexClosest);
         aim->MoveTo(enemyTest->X(), enemyTest->Y());
         weapon->Move(enemyTest->X(), enemyTest->Y());
+    }
+
+    // ATIRA
+    if (window->KeyDown(VK_LBUTTON) && shotTimer->Elapsed() > Config::shotCountdown && weapon->numShots > 0 && !weapon->Reloading()) {
+        shotTimer->Reset();
+
+        float dx = aim->X() - weapon->X();
+        float dy = aim->Y() - weapon->Y();
+        float angle = atan2(dy, dx);
+
+        Projectile* proj = new Projectile(weapon->X() + 16 * cos(angle), weapon->Y() + 16 * sin(angle), 400.0, angle);
+        scene->Add(proj, MOVING);
+
+        audio->Play(SHOOT);
+
+        weapon->numShots--;
+
+        character->shoot(true);
+    }
+    else if (!weapon->Reloading() && (weapon->numShots == 0 && window->KeyDown(VK_LBUTTON))) {
+        weapon->Reload();
+    }
+
+    // INICIA UPGRADE
+
+    if (upgradeTimer->Elapsed() > Config::timeToUpgrade && !upgrading) {
+        upgradeTimer->Reset();
+        upgrading = true;
+
+        float posX = game->viewport.left + window->Width() / 2 - 125.0f * 2;
+        float posY = game->viewport.top + window->Height() / 2 - 150.0f;
+
+        for (int i = 0; i < 5; i++) {
+            upIcons[i] = new UpgradeIcon(new Sprite("Resources/Upgrades/mira.jpg"), posX + i * 125.0f, posY);
+            scene->Add(upIcons[i], STATIC);
+        }
+
     }
 
     // ENEMIES

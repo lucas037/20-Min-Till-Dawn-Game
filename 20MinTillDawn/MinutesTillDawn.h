@@ -29,12 +29,13 @@
 #include "Weapon.h"
 #include "Font.h"
 #include "Character.h"
+#include "UpgradeIcon.h"
 
 using namespace std;
 
 // ------------------------------------------------------------------------------
 
-enum ObjectIds { PLAYER, MISSILE, BLUE, GREEN, MAGENTA, ORANGE, WALLHIT, ENEMY, TENTACLE, REPULSION_AREA, PROJECTILE};
+enum ObjectIds { PLAYER, MISSILE, BLUE, GREEN, MAGENTA, ORANGE, WALLHIT, ENEMY, TENTACLE, REPULSION_AREA, PROJECTILE, AIM };
 
 // ------------------------------------------------------------------------------
 
@@ -50,9 +51,11 @@ private:
     Background * backg = nullptr;   // pano de fundo  
     bool viewBBox = false;          // visualização das bouding boxes  
 
-    Timer* enemiesSpawnTimer = new Timer();  
-    Timer* shotTimer = new Timer();  
-    bool elderSpawned = false;  
+    Timer* enemiesSpawnTimer = new Timer();
+    Timer* shotTimer = new Timer();
+    Timer* upgradeTimer = new Timer();
+    bool elderSpawned = false;
+    UpgradeIcon* upIcons[5];
 
 public:  
     static Player * player;         // nave controlada pela jogador  
@@ -68,6 +71,7 @@ public:
     static std::vector<Enemy*> enemies;  
     bool aimMouseMode = true;  
     static Font* font16;  
+    static bool upgrading;
 
     Weapon* weapon;  
     Aim* aim;  

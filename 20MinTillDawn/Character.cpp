@@ -33,6 +33,9 @@ void Character::OnCollision(Object* obj)
 
 void Character::Update()
 {
+	if (MinutesTillDawn::upgrading)
+		return;
+
 	if (isStunned) {
 		stunTimer += gameTime;
 		if (stunTimer >= stunDuration) {

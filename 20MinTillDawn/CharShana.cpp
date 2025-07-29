@@ -49,6 +49,9 @@ void CharShana::OnCollision(Object* obj)
 
 void CharShana::Update()
 {
+	if (MinutesTillDawn::upgrading)
+		return;
+
 	Character::Update();
 
 	if (speed->Magnitude() > 0.0f && speed->Magnitude() < 15.0f) {

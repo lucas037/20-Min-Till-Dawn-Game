@@ -40,6 +40,9 @@ void Projectile::OnCollision(Object* obj) {
 }
 
 void Projectile::Update() {
+    if (MinutesTillDawn::upgrading)
+        return;
+
     Translate(speed->XComponent() * gameTime, speed->YComponent() * gameTime);
     
     if (anim->Inactive() && firing) {
