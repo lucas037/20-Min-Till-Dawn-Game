@@ -2,7 +2,7 @@
 
 Shadow::Shadow(Character* character)
 {
-	tile = new TileSet("Resources/Shadow.png", 1024, 720, 1, 1);
+	tile = new TileSet("Resources/Shadow.png", 3072, 2160, 1, 1);
 	anim = new Animation(tile, 0.120f, true);
 
 	uint active[1] = { 0 };
@@ -21,7 +21,7 @@ void Shadow::Update()
 
 void Shadow::Draw()
 {
-	anim->Draw(x, y, z, 1.05f, 0, {1, 1, 1, 0.7});
+	anim->Draw(x, y, z, 1.05f, 0, {1, 1, 1, 0.5});
 }
 
 Shadow::~Shadow()
