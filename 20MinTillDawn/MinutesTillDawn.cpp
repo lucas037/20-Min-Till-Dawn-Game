@@ -223,20 +223,16 @@ void MinutesTillDawn::Update()
     // ENEMIES
     Enemy* enemy;
 
-<<<<<<< Updated upstream
     if (enemiesSpawnTimer->Elapsed() > 3) {
         enemiesSpawnTimer->Reset();
-=======
-    //if (enemiesSpawnTimer->Elapsed() > 3 && enemies.size() < Config::numMaxEnemies) {
-    //    enemiesSpawnTimer->Reset();
->>>>>>> Stashed changes
-
-    //    for (int i = 0; i < 3; i++) {
-    //        enemy = new TentacleMonster();
-    //        enemies.push_back(enemy);
-    //        scene->Add(enemy, MOVING);
-    //    }
-    //}
+    if (enemiesSpawnTimer->Elapsed() > 3 && enemies.size() < Config::numMaxEnemies) {
+       enemiesSpawnTimer->Reset();
+       for (int i = 0; i < 3; i++) {
+           enemy = new TentacleMonster();
+           enemies.push_back(enemy);
+           scene->Add(enemy, MOVING);
+       }
+    }
 
     // Elder spawna uma vez com 25% do jogo completo
     if (MinutesTillDawn::stageTimer.Elapsed() > (Config::stageTotalTime * 0.25) && !elderSpawned) {
