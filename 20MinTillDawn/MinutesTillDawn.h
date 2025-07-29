@@ -85,7 +85,8 @@ public:
     void Init();                    // inicialização  
     void Update();                  // atualização  
     void Draw();                    // desenho  
-    void Finalize();                // finalização  
+    void Finalize();                // finalização
+    void UseUpgrade(int index);
 
     static void NextLevel(int screen)  
     {  

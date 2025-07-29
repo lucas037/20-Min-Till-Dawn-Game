@@ -260,3 +260,20 @@ void Character::Damage()
 	isStunned = true;
 	stunTimer = 0.0f;
 }
+
+void Character::AddHeart() {
+
+	Heart* heart = new Heart(50 * maxLifePoints, 40);
+
+	if (lifePoints < maxLifePoints) {
+		hearts[lifePoints]->SetActive();
+		heart->SetInactive();
+	}
+
+	hearts.push_back(heart);
+	MinutesTillDawn::scene->Add(heart, STATIC);
+
+	maxLifePoints++;
+	lifePoints++;
+
+}

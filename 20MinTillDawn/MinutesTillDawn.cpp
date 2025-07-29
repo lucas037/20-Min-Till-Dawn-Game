@@ -138,6 +138,9 @@ void MinutesTillDawn::Update()
     scene->CollisionDetection();
 
     if (upgradeFinishing) {
+        int indexUp = upgradesIndexes.at(upgradeClick);
+        UseUpgrade(indexUp);
+
         upgradeFinishing = false;
         upgrading = false;
         upgradeTimer->Reset();
@@ -368,3 +371,8 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 }
 
 // ----------------------------------------------------------------------------
+
+void MinutesTillDawn::UseUpgrade(int index) {
+    int upType = Upgrade::GetUpgrade(index).type;
+    character->AddHeart();
+}
