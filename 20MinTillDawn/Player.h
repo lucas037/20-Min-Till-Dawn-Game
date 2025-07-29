@@ -1,11 +1,11 @@
 /**********************************************************************************
-// Player (Arquivo de CabeÁalho)
+// Player (Arquivo de Cabe√ßalho)
 // 
-// CriaÁ„o:     10 Out 2012
-// AtualizaÁ„o: 01 Nov 2021
+// Cria√ß√£o:     10 Out 2012
+// Atualiza√ß√£o: 01 Nov 2021
 // Compilador:  Visual C++ 2022
 //
-// DescriÁ„o:   Define a classe jogador
+// Descri√ß√£o:   Define a classe jogador
 //
 **********************************************************************************/
 
@@ -16,8 +16,8 @@
 
 #include "Object.h"                        // objetos do jogo
 #include "Sprite.h"                        // desenho de sprites
-#include "Vector.h"                        // representaÁ„o de vetores
-#include "Particles.h"                    // sistema de partÌculas
+#include "Vector.h"                        // representa√ß√£o de vetores
+#include "Particles.h"                    // sistema de part√≠culas
 #include "Character.h"                    // personagem do jogador
 
 // ---------------------------------------------------------------------------------
@@ -29,14 +29,35 @@ private:
     Particles * tail;                   // calda do jogador
 
 public:
-    Vector * speed;                     // velocidade e direÁ„o
+    Vector * speed;                     // velocidade e dire√ß√£o
+    
+    // Struct para as estat√≠sticas da run
+    struct RunStats {
+        int enemiesKilled = 0;
+        int upgradesObtained = 0;
+        float survivalTime = 0.0f;
+        
+        void Reset() {
+            enemiesKilled = 0;
+            upgradesObtained = 0;
+            survivalTime = 0.0f;
+        }
+    };
+    
+    RunStats stats;  // Inst√¢ncia do struct de estat√≠sticas
 
     Player();                           // construtor
     ~Player();                          // destrutor
     
     void Move(Vector && v);             // movimenta jogador
-    void Update();                      // atualizaÁ„o
+    void Update();                      // atualiza√ß√£o
     void Draw();                        // desenho
+    
+    // M√©todos para gerenciar estat√≠sticas
+    void ResetStats();                  
+    void AddEnemyKilled();             
+    void AddUpgradeObtained();         
+    void UpdateSurvivalTime(float time); 
 }; 
 // ---------------------------------------------------------------------------------
 

@@ -91,6 +91,8 @@ void MinutesTillDawn::Init()
 	Experience* xp = new Experience(game->CenterX(), game->CenterY());
 	scene->Add(xp, MOVING);
 
+    player->ResetStats();
+
     // ----------------------
     // inicializa a viewport
     // ----------------------
@@ -145,6 +147,7 @@ void MinutesTillDawn::Update()
     }
 
     if (stageTimer.Elapsed() > Config::stageTotalTime) {
+        player->UpdateSurvivalTime(stageTimer.Elapsed());
         NextLevel(GOVICTORY);
         return;
     }
@@ -186,6 +189,13 @@ void MinutesTillDawn::Update()
     // ativa ou desativa a bounding box
     if (window->KeyPress('B'))
         viewBBox = !viewBBox;
+
+    if (window->KeyPress('N')) {
+        player->UpdateSurvivalTime(stageTimer.Elapsed());
+        NextLevel(GOVICTORY);
+        return;
+    }
+        
 
     // ativa ou desativa o heads up display
     if (window->KeyPress('H'))
@@ -430,4 +440,6 @@ void MinutesTillDawn::UseUpgrade(int index) {
     else if (upType == SK_BULLETDAMAGE) {
         Config::shotDamage *= 1.4;
     }
+
+    player->AddUpgradeObtained();
 }
