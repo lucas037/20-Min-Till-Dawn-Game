@@ -138,6 +138,11 @@ void Character::Move() {
 	speed->ScaleTo(maxSpeed);
 
 	Translate(speed->XComponent() * delta, -speed->YComponent() * delta);
+
+	if (X() < 0 || X() > game->Width() || Y() < 0 || Y() > game->Height()) {
+		MoveTo(game->CenterX(), game->CenterY());
+		Damage();
+	}
 }
 
 void Character::HandleXboxInput(float& dx, float& dy) {

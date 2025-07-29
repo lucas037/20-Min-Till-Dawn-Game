@@ -19,7 +19,7 @@ Experience::Experience(uint posX, uint posY)
 
 	character = nullptr;
 
-	BBox(new Rect(-8, -8, 8, 8));
+	BBox(new Circle(125.0f));
 
 	speedV = new Vector(0, 0);
 	speed = 20.0f;

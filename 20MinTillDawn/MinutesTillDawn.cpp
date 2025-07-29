@@ -423,6 +423,7 @@ void MinutesTillDawn::UseUpgrade(int index) {
     else if (upType == SK_GIANT) {
         character->AddMaxHeart();
         character->AddMaxHeart();
+        character->AddMaxHeart();
 
         if (character->Scale() < 2.00)
             character->Scale(1.25f);

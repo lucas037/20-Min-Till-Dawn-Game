@@ -13,7 +13,8 @@ void SelectChar::Init()
     float difx = (game->Width() - window->Width()) / 2.0f;
     float dify = (game->Height() - window->Height()) / 2.0f;
 
-
+    selected = SHANA;
+    MinutesTillDawn::selectedChar = SHANA;
 }
 
 void SelectChar::Finalize()

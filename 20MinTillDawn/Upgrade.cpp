@@ -6,7 +6,6 @@ const UpgradeData Upgrade::upgrades[] = {
     { "Regeneracao", "Recupere 1 de vida a cada 60 segundos", SK_REGENERATION, 2 * 12 + 7 },
     { "Evasiva", "Desvio mais 25%", SK_EVASIVE, 4 * 12 + 4 },
     { "Pequena", "Desvio mais 5% e tamanho menos 25%", SK_TINY, 8 * 12 + 6 },
-    { "Magnetismo", "Tempo para obter upgrades reduzido em 10 segundos", SK_FASTUPGRADE, 7 * 12 + 0 },
     { "Power Shot", "Dano da bala aumenta em 40%", SK_BULLETDAMAGE, 1 * 12 + 0 }
 };
 

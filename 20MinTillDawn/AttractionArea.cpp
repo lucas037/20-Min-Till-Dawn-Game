@@ -5,7 +5,6 @@ AttractionArea::AttractionArea(Character* character)
 {
 	this->character = character;
 	width = 50.0f; 
-	height = 50.0f; 
 	attractionForce = 100.0f;
 	BBox(new Circle(width));
 
