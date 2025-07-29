@@ -24,6 +24,7 @@
 #include "Config.h"
 #include "Aleatory.h"
 #include "Upgrade.h"
+#include "Experience.h"
 
 // ------------------------------------------------------------------------------
 
@@ -36,6 +37,7 @@ bool     MinutesTillDawn::xboxOn = false;
 bool     MinutesTillDawn::controllerOn = false;
 bool     MinutesTillDawn::viewHUD = true;
 bool     MinutesTillDawn::upgrading = false;
+bool     MinutesTillDawn::startUpgrade = false;
 Timer MinutesTillDawn::stageTimer;
 std::vector<Enemy*> MinutesTillDawn::enemies;
 int MinutesTillDawn::newEnemyId = 0;
@@ -85,6 +87,9 @@ void MinutesTillDawn::Init()
     
     weapon = new Weapon(character, "Resources/Revolver.png");
     scene->Add(weapon, MOVING);
+
+	Experience* xp = new Experience(game->CenterX(), game->CenterY());
+	scene->Add(xp, MOVING);
 
     // ----------------------
     // inicializa a viewport
@@ -276,29 +281,8 @@ void MinutesTillDawn::Update()
         weapon->Reload();
     }
 
-    // INICIA UPGRADE
-
-    if (upgradeTimer->Elapsed() > Config::timeToUpgrade && !upgrading) {
-        upgradeTimer->Reset();
-        upgrading = true;
-        upgradeClick = 0;
-
-        float posX = game->viewport.left + window->Width() / 2 - 125.0f * 2;
-        float posY = game->viewport.top + window->Height() / 2 - 150.0f;
-
-        upgradesIndexes = Aleatory::GenerateNumbersList(5, 0, Upgrade::GetUpgradeCount(), false);
-
-        for (int i = 0; i < 5; i++) {
-            int iconId = Upgrade::GetUpgrade(upgradesIndexes.at(i)).iconId;
-
-            upIcons[i] = new UpgradeIcon(posX + i * 125.0f, posY, iconId);
-            scene->Add(upIcons[i], STATIC);
-        }
-
-        upDesc = new UpgradeDescription("Title", "Description");
-        scene->Add(upDesc, STATIC);
-
-
+    if (startUpgrade) {
+        StartUpgrade();
     }
 
     // ENEMIES
@@ -393,6 +377,28 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 }
 
 // ----------------------------------------------------------------------------
+
+void MinutesTillDawn::StartUpgrade() {
+    upgrading = true;
+    upgradeClick = 0;
+
+    float posX = game->viewport.left + window->Width() / 2 - 125.0f * 2;
+    float posY = game->viewport.top + window->Height() / 2 - 150.0f;
+
+    upgradesIndexes = Aleatory::GenerateNumbersList(5, 0, Upgrade::GetUpgradeCount(), false);
+
+    for (int i = 0; i < 5; i++) {
+        int iconId = Upgrade::GetUpgrade(upgradesIndexes.at(i)).iconId;
+
+        upIcons[i] = new UpgradeIcon(posX + i * 125.0f, posY, iconId);
+        scene->Add(upIcons[i], STATIC);
+    }
+
+    upDesc = new UpgradeDescription("Title", "Description");
+    scene->Add(upDesc, STATIC);
+
+	this->startUpgrade = false;
+}
 
 void MinutesTillDawn::UseUpgrade(int index) {
     int upType = Upgrade::GetUpgrade(index).type;

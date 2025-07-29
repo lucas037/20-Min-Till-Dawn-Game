@@ -1,4 +1,6 @@
 #include "CharShana.h"
+#include "AtractionArea.h"
+#include "Shadow.h"
 
 CharShana::CharShana()
 {
@@ -21,6 +23,12 @@ CharShana::CharShana()
 	maxLifePoints = 4;
 
 	StartHearts();
+
+	AttractionArea* attractionArea = new AttractionArea(this);
+	MinutesTillDawn::scene->Add(attractionArea, MOVING);
+
+	Shadow* shadow = new Shadow(this);
+	MinutesTillDawn::scene->Add(shadow, STATIC);
 }
 
 CharShana::~CharShana() 
