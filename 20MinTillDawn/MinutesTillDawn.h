@@ -33,6 +33,7 @@
 #include "UpgradeDescription.h"
 #include "VICTORY.h"
 #include "GAMEOVER.h"
+#include "Sprite.h"
 
 using namespace std;
 
@@ -80,6 +81,7 @@ public:
     static std::vector<Enemy*> enemies;  
     bool aimMouseMode = true;  
     static Font* font16;
+    Sprite* ammo = nullptr;
 
     UpgradeDescription* upDesc;
     static UpgradeIcon* upIcons[5];

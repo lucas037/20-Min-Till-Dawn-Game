@@ -80,6 +80,7 @@ void MinutesTillDawn::Init()
 
     // carrega/incializa objetos
     backg   = new Background("OldResources/Space.jpg");
+	ammo = new Sprite("Resources/bullet2.png");
     player  = new Player();
     scene   = new Scene();
 
@@ -341,6 +342,46 @@ void MinutesTillDawn::Draw()
     // desenha bounding box
     if (viewBBox)
         scene->DrawBBox();
+
+
+    // munição
+    if (viewHUD && font16 && weapon && ammo) {
+        Color corTexto = { 1.0f, 1.0f, 1.0f, 1.0f };
+
+        float screenX = 50.0f;
+        float screenY = 100.0f;
+
+        float worldX = viewport.left + screenX;
+        float worldY = viewport.top + screenY;
+
+        float spriteScale = 0.6f;
+        ammo->Draw(worldX, worldY, Layer::FRONT, spriteScale);
+
+        string bulletsText = to_string(weapon->numShots) + "/" + to_string(Config::numMaxShots);
+        font16->Draw(screenX + 50, screenY + 5, bulletsText.c_str(), corTexto, 0.0f, 1.0f);
+
+        if (weapon->Reloading()) {
+            Color corRecarga = { 1.0f, 0.5f, 0.0f, 1.0f };
+            font16->Draw(screenX + 18.0f, screenY + 30.0f, "Recarregando...", corRecarga, 0.0f, 0.8f);
+        }
+    }
+    
+    // timer
+    if (viewHUD && font16) {
+        Color corTimer = { 0.992f, 0.317f, 0.380f, 1.0f };
+
+        float timerX = window->Width() - 150.0f; 
+        float timerY = 30.0f;                   
+
+        float elapsedTime = stageTimer.Elapsed();
+        int minutes = (int)(elapsedTime / 60.0f);
+        int seconds = (int)(elapsedTime) % 60;
+
+        string timeText = (minutes < 10 ? "0" : "") + to_string(minutes) + ":" +
+            (seconds < 10 ? "0" : "") + to_string(seconds);
+
+        font16->Draw(timerX, timerY, timeText.c_str(), corTimer, 0.0f, 1.2f);
+    }
 }
 
 // ------------------------------------------------------------------------------
@@ -350,6 +391,7 @@ void MinutesTillDawn::Finalize()
     delete audio;
     delete scene;
     delete backg;
+    delete ammo;    
 
     delete enemiesSpawnTimer;
     delete shotTimer;
