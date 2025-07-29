@@ -31,6 +31,8 @@
 #include "Character.h"
 #include "UpgradeIcon.h"
 #include "UpgradeDescription.h"
+#include "VICTORY.h"
+#include "GAMEOVER.h"
 
 using namespace std;
 
@@ -42,7 +44,7 @@ enum ObjectIds { PLAYER, MISSILE, BLUE, GREEN, MAGENTA, ORANGE, WALLHIT, ENEMY, 
 
 enum SoundIds { DAMAGE, SHOOT, MUSIC_1, WALK, LOW_HP };
 
-enum ScreensIds { GOHOME, GOLEVEL, GOSELECTCHAR };
+enum ScreensIds { GOHOME, GOLEVEL, GOSELECTCHAR, GOVICTORY, GOGAMEOVER };
 
 // ------------------------------------------------------------------------------
 
@@ -103,12 +105,20 @@ public:
         case GOHOME:  
             game = new HomeScreen();  
             game->Size(1024, 720);  
-            break;  
-        case GOSELECTCHAR:  
-            game = new SelectChar();  
-            game->Size(1024, 720);  
-            break;  
-        }  
+            break;
+        case GOSELECTCHAR:
+            game = new SelectChar();
+            game->Size(1024, 720);
+            break;
+        case GOVICTORY:
+            game = new Victory();
+            game->Size(1024, 720);
+            break;
+        case GOGAMEOVER:
+            game = new GameOver();
+            game->Size(1024, 720);
+            break;
+        }
 
         game->Init();  
     };  

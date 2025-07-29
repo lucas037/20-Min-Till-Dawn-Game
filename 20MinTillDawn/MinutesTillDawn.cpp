@@ -118,6 +118,10 @@ void MinutesTillDawn::Init()
 
     upgrading = false;
     upgradeFinishing = false;
+
+    Config::minTimeToRecoverHp = Config::stageTotalTime + 1;
+    Config::dodgeChance = 0.0f;
+    Config::shotDamage = 40.0;
 }
 
 // ------------------------------------------------------------------------------
@@ -127,6 +131,16 @@ void MinutesTillDawn::Update()
     // sai com o pressionamento da tecla ESC
     if (window->KeyPress(VK_ESCAPE)) {
         NextLevel(GOHOME);
+        return;
+    }
+
+    if (character->lifePoints <= 0) {
+        NextLevel(GOGAMEOVER);
+        return;
+    }
+
+    if (stageTimer.Elapsed() > Config::stageTotalTime) {
+        NextLevel(GOVICTORY);
         return;
     }
 
