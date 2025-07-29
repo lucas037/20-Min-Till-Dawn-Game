@@ -20,8 +20,10 @@ UpgradeDescription::~UpgradeDescription() {
 void UpgradeDescription::Update() {
     if (!MinutesTillDawn::upgrading) {
         MinutesTillDawn::scene->Remove(this, STATIC);
+        return;
     }
-    else if (upgradeId != MinutesTillDawn::upgradeClick) {
+    
+    if (upgradeId != MinutesTillDawn::upgradeClick) {
         upgradeId = MinutesTillDawn::upgradeClick;
 
         int upgradeIdConv = MinutesTillDawn::upgradesIndexes.at(upgradeId);

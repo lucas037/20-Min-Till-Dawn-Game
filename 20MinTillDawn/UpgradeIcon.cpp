@@ -28,6 +28,11 @@ UpgradeIcon::~UpgradeIcon() {
 }
 
 void UpgradeIcon::Update() {
+    if (!MinutesTillDawn::upgrading) {
+        MinutesTillDawn::scene->Remove(this, STATIC);
+        return;
+    }
+
     if (!reductSize && activeTimer->Elapsed() > 0.05f) {
         Scale(0.8);
         reductSize = true;
@@ -35,13 +40,29 @@ void UpgradeIcon::Update() {
 }
 
 void UpgradeIcon::OnCollision(Object* obj) {
-    if (obj->Type() == AIM && window->KeyPress(VK_LBUTTON)) {
+    bool lButton = window->KeyPress(VK_LBUTTON);
+    bool rButton = window->KeyPress(VK_RBUTTON);
+
+    if (obj->Type() == AIM && (lButton || rButton)) {
+        for (int i = 0; i < 5; i++) {
+            if (X() == MinutesTillDawn::upIcons[i]->X()) {
+                MinutesTillDawn::upgradeClick = i;
+
+                if (rButton) {
+                    MinutesTillDawn::upgradeFinishing = true;
+                }
+            }
+        }
+    }
+
+    else if (obj->Type() == AIM && window->KeyPress(VK_RBUTTON)) {
         for (int i = 0; i < 5; i++) {
             if (X() == MinutesTillDawn::upIcons[i]->X()) {
                 MinutesTillDawn::upgradeClick = i;
             }
         }
     }
+
     else if (obj->Type() == AIM) {
         if (reductSize) {
             Scale(1.25);

@@ -30,6 +30,7 @@
 #include "Font.h"
 #include "Character.h"
 #include "UpgradeIcon.h"
+#include "UpgradeDescription.h"
 
 using namespace std;
 
@@ -71,10 +72,12 @@ public:
     bool aimMouseMode = true;  
     static Font* font16;
 
+    UpgradeDescription* upDesc;
     static UpgradeIcon* upIcons[5];
     static bool upgrading;
     static int upgradeClick;
     static std::vector<int> upgradesIndexes;
+    static bool upgradeFinishing;
 
     Weapon* weapon;  
     Aim* aim;  

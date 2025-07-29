@@ -24,7 +24,6 @@
 #include "Config.h"
 #include "Aleatory.h"
 #include "Upgrade.h"
-#include "UpgradeDescription.h"
 
 // ------------------------------------------------------------------------------
 
@@ -40,6 +39,7 @@ bool     MinutesTillDawn::upgrading = false;
 Timer MinutesTillDawn::stageTimer;
 std::vector<Enemy*> MinutesTillDawn::enemies;
 int MinutesTillDawn::newEnemyId = 0;
+bool     MinutesTillDawn::upgradeFinishing = false;
 
 Font* MinutesTillDawn::font16 = nullptr;
 UpgradeIcon* MinutesTillDawn::upIcons[5] = { nullptr };
@@ -115,6 +115,7 @@ void MinutesTillDawn::Init()
     audio->Play(MUSIC_1, true);
 
     upgrading = false;
+    upgradeFinishing = false;
 }
 
 // ------------------------------------------------------------------------------
@@ -136,7 +137,20 @@ void MinutesTillDawn::Update()
     scene->Update();
     scene->CollisionDetection();
 
-    if (upgrading) {
+    if (upgradeFinishing) {
+        upgradeFinishing = false;
+        upgrading = false;
+        upgradeTimer->Reset();
+
+        for (int i = 0; i < 5; i++) {
+            scene->Remove(upIcons[i], STATIC);
+            upIcons[i] = nullptr;
+        }
+
+        scene->Remove(upDesc, STATIC);
+
+    }
+    else if (upgrading) {
         aim->MoveTo(game->viewport.left + window->MouseX(), game->viewport.top + window->MouseY());
 
         Color corTexto = { 0.992f, 0.317f, 0.380f, 1.0f };
@@ -262,7 +276,7 @@ void MinutesTillDawn::Update()
             scene->Add(upIcons[i], STATIC);
         }
 
-        UpgradeDescription* upDesc = new UpgradeDescription("Title", "Description");
+        upDesc = new UpgradeDescription("Title", "Description");
         scene->Add(upDesc, STATIC);
 
 
