@@ -101,6 +101,7 @@ void MinutesTillDawn::Init()
     shotTimer->Reset();
     weapon->numShots = Config::numMaxShots;
     elderSpawned = false;
+    enemies.clear();
 
     audio->Play(MUSIC_1, true);
 }
