@@ -28,6 +28,7 @@
 
 // ------------------------------------------------------------------------------
 
+uint MinutesTillDawn::selectedChar;
 Player * MinutesTillDawn::player  = nullptr;
 Character* MinutesTillDawn::character = nullptr;
 Audio  * MinutesTillDawn::audio   = nullptr;
@@ -82,14 +83,17 @@ void MinutesTillDawn::Init()
     player  = new Player();
     scene   = new Scene();
 
-    character = new CharDiamond();
+	if (selectedChar == SHANA) {
+		character = new CharShana();
+	}
+	else if (selectedChar == DIAMOND) {
+        character = new CharDiamond();
+	}
+
 	scene->Add(character, MOVING);
     
     weapon = new Weapon(character, "Resources/Revolver.png");
     scene->Add(weapon, MOVING);
-
-	Experience* xp = new Experience(game->CenterX(), game->CenterY());
-	scene->Add(xp, MOVING);
 
     player->ResetStats();
 

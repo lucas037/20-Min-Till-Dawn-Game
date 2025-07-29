@@ -46,6 +46,8 @@ enum SoundIds { DAMAGE, SHOOT, MUSIC_1, WALK, LOW_HP };
 
 enum ScreensIds { GOHOME, GOLEVEL, GOSELECTCHAR, GOVICTORY, GOGAMEOVER };
 
+enum Characters { SHANA, DIAMOND };
+
 // ------------------------------------------------------------------------------
 
 class MinutesTillDawn : public Game  
@@ -64,6 +66,7 @@ private:
 
 public:  
     static Player * player;         // nave controlada pela jogador  
+	static uint selectedChar;         // personagem selecionado pelo jogador
     static Character* character;    // personagem do jogador  
     static Audio * audio;           // sitema de áudio  
     static Scene * scene;           // cena do jogo  

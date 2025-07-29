@@ -29,17 +29,15 @@ void SelectChar::Update()
     }
 
     // Seleciona a Diamond
-    if ((window->KeyPress(VK_RIGHT) || window->KeyPress('D')) && selected == 0) {
-        selected = 1;
-    }
+    if ((window->KeyPress(VK_RIGHT) || window->KeyPress('D')) && selected == SHANA) {
+		selected = DIAMOND;
+	    MinutesTillDawn::selectedChar = DIAMOND;
+    }   
 
     // Seleciona a Shana
-    if ((window->KeyPress(VK_LEFT) || window->KeyPress('A')) && selected == 1) {
-        selected = 0;
-    }
-
-    if (window->KeyPress(VK_RETURN)) {
-        MinutesTillDawn::NextLevel(GOLEVEL);
+    if ((window->KeyPress(VK_LEFT) || window->KeyPress('A')) && selected == DIAMOND) {
+		selected = SHANA;
+		MinutesTillDawn::selectedChar = SHANA;
     }
 
     if (window->KeyPress(VK_RETURN)) {
