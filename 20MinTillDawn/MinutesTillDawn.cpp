@@ -141,10 +141,6 @@ void MinutesTillDawn::Init()
 void MinutesTillDawn::Update()
 {
     // sai com o pressionamento da tecla ESC
-    if (window->KeyPress(VK_ESCAPE)) {
-        NextLevel(GOHOME);
-        return;
-    }
 
     if (character->lifePoints <= 0) {
         NextLevel(GOGAMEOVER);
@@ -157,10 +153,23 @@ void MinutesTillDawn::Update()
         return;
     }
 
+    bool scape = false;
+
     xboxOn = controller->XboxInitialize(0);
 
-    if (!xboxOn)
+    if (!xboxOn) {
         controllerOn = controller->Initialize();
+    }
+    else {
+        controller->XboxUpdateState(0);
+
+        scape = controller->XboxButton(ButtonBack);
+    }
+
+    if (window->KeyPress(VK_ESCAPE) || scape) {
+        NextLevel(GOHOME);
+        return;
+    }
 
     // atualiza cena e calcula colis�es
     scene->Update();
@@ -183,7 +192,15 @@ void MinutesTillDawn::Update()
 
     }
     else if (upgrading) {
-        aim->MoveTo(game->viewport.left + window->MouseX(), game->viewport.top + window->MouseY());
+        if (xboxOn) {
+            float x = MinutesTillDawn::controller->XboxAnalog(ThumbLX);
+            float y = MinutesTillDawn::controller->XboxAnalog(ThumbLY);
+
+            aim->Translate((x / 100) * gameTime, (-y / 100) * gameTime);
+        }
+        else {
+            aim->MoveTo(game->viewport.left + window->MouseX(), game->viewport.top + window->MouseY());
+        }
 
         Color corTexto = { 0.992f, 0.317f, 0.380f, 1.0f };
         font16->Draw(window->CenterX() - 100, window->CenterY() - 250, "Escolha um Upgrade", corTexto, 0.0f, 1.0f);
@@ -206,10 +223,9 @@ void MinutesTillDawn::Update()
     if (window->KeyPress('H'))
         viewHUD = !viewHUD;
 
-    if (window->KeyPress(VK_SPACE)) {
+    if (window->KeyPress(VK_SPACE) || ((xboxOn || controllerOn) && aimMouseMode)) {
         aimMouseMode = !aimMouseMode;
     }
-
 
     // --------------------
     // atualiza a viewport
@@ -244,6 +260,7 @@ void MinutesTillDawn::Update()
 
     if (aimMouseMode) {
         float centerX = window->CenterX();
+
         aim->MoveTo(game->viewport.left + window->MouseX(), game->viewport.top + window->MouseY());
         weapon->Move(game->viewport.left + window->MouseX(), game->viewport.top + window->MouseY());
     }
@@ -275,8 +292,24 @@ void MinutesTillDawn::Update()
         weapon->Move(enemyTest->X(), enemyTest->Y());
     }
 
+    bool shootPressed = false;
+
+    if (xboxOn) {
+        if (controller->XboxTrigger(RightTrigger)) {
+            shootPressed = true;
+        }
+    }
+    else if (controllerOn) {
+        if (controller->ButtonPress(VK_LBUTTON)) {
+            shootPressed = true;
+        }
+    }
+    else if (window->KeyDown(VK_LBUTTON)) {
+        shootPressed = true;
+    }
+
     // ATIRA
-    if (window->KeyDown(VK_LBUTTON) && shotTimer->Elapsed() > Config::shotCountdown && weapon->numShots > 0 && !weapon->Reloading()) {
+    if (shootPressed && shotTimer->Elapsed() > Config::shotCountdown && weapon->numShots > 0 && !weapon->Reloading()) {
         shotTimer->Reset();
 
         float dx = aim->X() - weapon->X();
@@ -292,7 +325,7 @@ void MinutesTillDawn::Update()
 
         character->shoot(true);
     }
-    else if (!weapon->Reloading() && (weapon->numShots == 0 && window->KeyDown(VK_LBUTTON))) {
+    else if (!weapon->Reloading() && (weapon->numShots == 0 && shootPressed)) {
         weapon->Reload();
     }
 
@@ -435,6 +468,8 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 // ----------------------------------------------------------------------------
 
 void MinutesTillDawn::StartUpgrade() {
+    aim->MoveTo(game->viewport.left + 512, game->viewport.top + 360);
+
     upgrading = true;
     upgradeClick = 0;
 
