@@ -37,7 +37,10 @@ bool     MinutesTillDawn::upgrading = false;
 Timer MinutesTillDawn::stageTimer;
 std::vector<Enemy*> MinutesTillDawn::enemies;
 int MinutesTillDawn::newEnemyId = 0;
+
 Font* MinutesTillDawn::font16 = nullptr;
+UpgradeIcon* MinutesTillDawn::upIcons[5] = { nullptr };
+int MinutesTillDawn::upgradeClick = 0;
 
 // ------------------------------------------------------------------------------
 
@@ -237,12 +240,13 @@ void MinutesTillDawn::Update()
     if (upgradeTimer->Elapsed() > Config::timeToUpgrade && !upgrading) {
         upgradeTimer->Reset();
         upgrading = true;
+        upgradeClick = 0;
 
         float posX = game->viewport.left + window->Width() / 2 - 125.0f * 2;
         float posY = game->viewport.top + window->Height() / 2 - 150.0f;
 
         for (int i = 0; i < 5; i++) {
-            upIcons[i] = new UpgradeIcon(new Sprite("Resources/Upgrades/mira.jpg"), posX + i * 125.0f, posY);
+            upIcons[i] = new UpgradeIcon(posX + i * 125.0f, posY, 0, 2);
             scene->Add(upIcons[i], STATIC);
         }
 

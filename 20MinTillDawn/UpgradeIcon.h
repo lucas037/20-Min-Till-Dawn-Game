@@ -5,6 +5,7 @@
 #include "Vector.h"
 #include "Sprite.h"
 #include "Timer.h"
+#include "Animation.h"
 
 class UpgradeIcon : public Object {
 private:
@@ -12,8 +13,11 @@ private:
     Timer* activeTimer = new Timer();
     bool reductSize;
 
+    TileSet* tileset;
+    Animation* anim;
+
 public:
-    UpgradeIcon(Sprite* sprite, float x, float y);
+    UpgradeIcon(float x, float y, int line, int column);
     ~UpgradeIcon();
 
     void OnCollision(Object* obj);

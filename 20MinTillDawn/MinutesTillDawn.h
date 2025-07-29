@@ -55,7 +55,6 @@ private:
     Timer* shotTimer = new Timer();
     Timer* upgradeTimer = new Timer();
     bool elderSpawned = false;
-    UpgradeIcon* upIcons[5];
 
 public:  
     static Player * player;         // nave controlada pela jogador  
@@ -70,8 +69,11 @@ public:
     static Timer stageTimer;  
     static std::vector<Enemy*> enemies;  
     bool aimMouseMode = true;  
-    static Font* font16;  
+    static Font* font16;
+
+    static UpgradeIcon* upIcons[5];
     static bool upgrading;
+    static int upgradeClick;
 
     Weapon* weapon;  
     Aim* aim;  
