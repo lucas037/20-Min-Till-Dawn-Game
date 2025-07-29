@@ -15,6 +15,8 @@ public:
 	static int numMaxShots;
 
 	static float minTimeToRecoverHp;
+	static float dodgeChance;
+	static float projectileDamage;
 };
 
 #endif

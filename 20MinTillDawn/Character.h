@@ -65,7 +65,6 @@ public:
     void StartHearts();
     void AddHeart();
     void AddMaxHeart();
-    void AddSize(float a);
 
     void OnCollision(Object* obj);
 

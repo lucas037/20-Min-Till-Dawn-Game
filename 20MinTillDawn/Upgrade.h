@@ -10,6 +10,11 @@ enum UpgradeType {
     SK_HEALTH,
     SK_GIANT,
     SK_REGENERATION,
+    SK_EVASIVE,
+    SK_TINY,
+    SK_REFLEX,
+    SK_FASTUPGRADE,
+    SK_BULLETDAMAGE,
 };
 
 struct UpgradeData {

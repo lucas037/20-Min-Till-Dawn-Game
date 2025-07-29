@@ -389,10 +389,25 @@ void MinutesTillDawn::UseUpgrade(int index) {
     else if (upType == SK_GIANT) {
         character->AddMaxHeart();
         character->AddMaxHeart();
-        character->AddSize(1.25f);
+
+        if (character->Scale() < 2.00)
+            character->Scale(1.25f);
     }
     else if (upType == SK_REGENERATION) {
         recoverHpTimer->Reset();
         Config::minTimeToRecoverHp = 60.0f;
+    }
+    else if (upType == SK_EVASIVE) {
+        Config::dodgeChance += 0.25;
+    }
+    else if (upType == SK_TINY && character->Scale() > 0.25) {
+        Config::dodgeChance += 0.05;
+        character->Scale(0.75f);
+    }
+    else if (upType == SK_FASTUPGRADE && Config::timeToUpgrade > 10.0f) {
+        Config::timeToUpgrade -= 10.0f;
+    }
+    else if (upType == SK_BULLETDAMAGE) {
+        Config::shotDamage *= 1.4;
     }
 }

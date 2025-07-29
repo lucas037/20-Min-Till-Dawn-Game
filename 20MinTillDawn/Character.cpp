@@ -2,6 +2,8 @@
 #include "MinutesTillDawn.h"
 #include "RepulsionArea.h"
 #include "BloodParticles.h"
+#include "Aleatory.h"
+#include "Config.h"
 
 Character::Character()
 {
@@ -237,6 +239,12 @@ void Character::Damage()
 {
 	if (isInvincible || lifePoints <= 0) return;
 
+	float lucky = Aleatory::randrange(0, 1000) / 1000.0f;
+	if (lucky < Config::dodgeChance) {
+		MinutesTillDawn::scene->Add(new RepulsionArea(this), MOVING);
+		return;
+	}
+
 	lifePoints--;
 
 	MinutesTillDawn::scene->Add(new BloodParticles(x, y), STATIC);
@@ -284,10 +292,4 @@ void Character::AddMaxHeart() {
 	maxLifePoints++;
 	lifePoints++;
 
-}
-
-void Character::AddSize(float a) {
-	if (a > 0 && a < 2 && Scale() < 2.0) {
-		Scale(a);
-	}
 }
