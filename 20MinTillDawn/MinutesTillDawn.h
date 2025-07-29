@@ -52,7 +52,8 @@ private:
 
     Timer* enemiesSpawnTimer = new Timer();  
     Timer* shotTimer = new Timer();  
-    bool elderSpawned = false;  
+    bool elderSpawned = false; 
+	bool shoggothSpawned = false;
 
 public:  
     static Player * player;         // nave controlada pela jogador  

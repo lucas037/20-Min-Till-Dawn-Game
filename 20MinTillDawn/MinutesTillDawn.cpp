@@ -22,6 +22,7 @@
 #include "Controller.h"
 #include "Projectile.h"
 #include "Config.h"
+#include "Shoggoth.h"
 
 // ------------------------------------------------------------------------------
 
@@ -101,6 +102,8 @@ void MinutesTillDawn::Init()
     shotTimer->Reset();
     weapon->numShots = Config::numMaxShots;
     elderSpawned = false;
+	shoggothSpawned = false;
+
 
     audio->Play(MUSIC_1, true);
 }
@@ -220,15 +223,20 @@ void MinutesTillDawn::Update()
     // ENEMIES
     Enemy* enemy;
 
+<<<<<<< Updated upstream
     if (enemiesSpawnTimer->Elapsed() > 3) {
         enemiesSpawnTimer->Reset();
+=======
+    //if (enemiesSpawnTimer->Elapsed() > 3 && enemies.size() < Config::numMaxEnemies) {
+    //    enemiesSpawnTimer->Reset();
+>>>>>>> Stashed changes
 
-        for (int i = 0; i < 3; i++) {
-            enemy = new TentacleMonster();
-            enemies.push_back(enemy);
-            scene->Add(enemy, MOVING);
-        }
-    }
+    //    for (int i = 0; i < 3; i++) {
+    //        enemy = new TentacleMonster();
+    //        enemies.push_back(enemy);
+    //        scene->Add(enemy, MOVING);
+    //    }
+    //}
 
     // Elder spawna uma vez com 25% do jogo completo
     if (MinutesTillDawn::stageTimer.Elapsed() > (Config::stageTotalTime * 0.25) && !elderSpawned) {
@@ -237,6 +245,14 @@ void MinutesTillDawn::Update()
         scene->Add(elder, MOVING);
 
         elderSpawned = true;
+    }
+
+    if (!shoggothSpawned) {
+		Shoggoth* shoggoth = new Shoggoth();
+		enemies.push_back(shoggoth);
+		scene->Add(shoggoth, STATIC);
+
+		shoggothSpawned = true;
     }
 } 
 
