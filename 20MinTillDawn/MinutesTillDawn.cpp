@@ -407,8 +407,9 @@ void MinutesTillDawn::Draw()
         float timerY = 30.0f;                   
 
         float elapsedTime = stageTimer.Elapsed();
-        int minutes = (int)(elapsedTime / 60.0f);
-        int seconds = (int)(elapsedTime) % 60;
+        float timeToEnd = Config::stageTotalTime - elapsedTime;
+        int minutes = (int)(timeToEnd / 60.0f);
+        int seconds = (int)(timeToEnd) % 60;
 
         string timeText = (minutes < 10 ? "0" : "") + to_string(minutes) + ":" +
             (seconds < 10 ? "0" : "") + to_string(seconds);
