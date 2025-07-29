@@ -1,14 +1,13 @@
 #include "UpgradeIcon.h"
 #include "MinutesTillDawn.h"
 
-UpgradeIcon::UpgradeIcon(float x, float y, int line, int column) {
+UpgradeIcon::UpgradeIcon(float x, float y, int pos) {
     sprite = new Sprite("Resources/Upgrade_Border.png");
     MoveTo(x, y);
 
     tileset = new TileSet("Resources/Upgrade_Icons.png", 100, 100, 12, 108);
     anim = new Animation(tileset, 0.120f, true);
 
-    int pos = line * 12 + column;
     uint only[1] = { pos };
 
     anim->Add(1, only, 1);

@@ -22,6 +22,8 @@
 #include "Controller.h"
 #include "Projectile.h"
 #include "Config.h"
+#include "Aleatory.h"
+#include "Upgrade.h"
 
 // ------------------------------------------------------------------------------
 
@@ -134,6 +136,10 @@ void MinutesTillDawn::Update()
 
     if (upgrading) {
         aim->MoveTo(game->viewport.left + window->MouseX(), game->viewport.top + window->MouseY());
+
+        Color corTexto = { 0.992f, 0.317f, 0.380f, 1.0f };
+        MinutesTillDawn::font16->Draw(window->CenterX() - 100, window->CenterY() - 250, "Escolha um Upgrade", corTexto, 0.0f, 1.0f);
+
         return;
     }
 
@@ -245,8 +251,10 @@ void MinutesTillDawn::Update()
         float posX = game->viewport.left + window->Width() / 2 - 125.0f * 2;
         float posY = game->viewport.top + window->Height() / 2 - 150.0f;
 
+        vector<int> indexes = Aleatory::GenerateNumbersList(5, 0, Upgrade::GetUpgradeCount(), false);
+
         for (int i = 0; i < 5; i++) {
-            upIcons[i] = new UpgradeIcon(posX + i * 125.0f, posY, 0, 2);
+            upIcons[i] = new UpgradeIcon(posX + i * 125.0f, posY, indexes.at(i));
             scene->Add(upIcons[i], STATIC);
         }
 

@@ -17,7 +17,7 @@ private:
     Animation* anim;
 
 public:
-    UpgradeIcon(float x, float y, int line, int column);
+    UpgradeIcon(float x, float y, int pos);
     ~UpgradeIcon();
 
     void OnCollision(Object* obj);

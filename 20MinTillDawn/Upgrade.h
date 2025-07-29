@@ -5,11 +5,11 @@
 using namespace std;
 
 enum UpgradeType {
-    DAMAGE,
-    SPEED,
-    HEALTH,
-    ATTACK_SPEED,
-    AREA_DAMAGE
+    SK_DAMAGE,
+    SK_SPEED,
+    SK_HEALTH,
+    SK_ATTACK_SPEED,
+    SK_AREA_DAMAGE
 };
 
 struct UpgradeData {
