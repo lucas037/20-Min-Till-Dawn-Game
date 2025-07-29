@@ -268,6 +268,7 @@
     <ClCompile Include="TileSet.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Upgrade.cpp" />
+    <ClCompile Include="UpgradeDescription.cpp" />
     <ClCompile Include="UpgradeIcon.cpp" />
     <ClCompile Include="Vector.cpp" />
     <ClCompile Include="Weapon.cpp" />
@@ -315,6 +316,7 @@
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Types.h" />
     <ClInclude Include="Upgrade.h" />
+    <ClInclude Include="UpgradeDescription.h" />
     <ClInclude Include="UpgradeIcon.h" />
     <ClInclude Include="Vector.h" />
     <ClInclude Include="Weapon.h" />

@@ -24,6 +24,7 @@
 #include "Config.h"
 #include "Aleatory.h"
 #include "Upgrade.h"
+#include "UpgradeDescription.h"
 
 // ------------------------------------------------------------------------------
 
@@ -138,7 +139,7 @@ void MinutesTillDawn::Update()
         aim->MoveTo(game->viewport.left + window->MouseX(), game->viewport.top + window->MouseY());
 
         Color corTexto = { 0.992f, 0.317f, 0.380f, 1.0f };
-        MinutesTillDawn::font16->Draw(window->CenterX() - 100, window->CenterY() - 250, "Escolha um Upgrade", corTexto, 0.0f, 1.0f);
+        font16->Draw(window->CenterX() - 100, window->CenterY() - 250, "Escolha um Upgrade", corTexto, 0.0f, 1.0f);
 
         return;
     }
@@ -257,6 +258,10 @@ void MinutesTillDawn::Update()
             upIcons[i] = new UpgradeIcon(posX + i * 125.0f, posY, indexes.at(i));
             scene->Add(upIcons[i], STATIC);
         }
+
+        UpgradeDescription* upDesc = new UpgradeDescription("Title", "Description");
+        scene->Add(upDesc, STATIC);
+
 
     }
 
