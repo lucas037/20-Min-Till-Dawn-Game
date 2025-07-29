@@ -3,6 +3,7 @@
 #include "MinutesTillDawn.h"
 #include "RepulsionArea.h"
 #include "Config.h"
+#include "Experience.h"
 
 Enemy::Enemy() {
 	id = MinutesTillDawn::newEnemyId;
@@ -193,6 +194,8 @@ void Enemy::TakeDamage(float damage) {
 
 	if (life < 0.0) {
 		MinutesTillDawn::scene->Delete(this, MOVING);
+
+		MinutesTillDawn::scene->Add(new Experience(x, y), MOVING);
 		
 		for (int i = 0; i < MinutesTillDawn::enemies.size(); ++i) {
 			if (MinutesTillDawn::enemies[i]->id == id) {

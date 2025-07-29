@@ -38,7 +38,7 @@ using namespace std;
 
 // ------------------------------------------------------------------------------
 
-enum ObjectIds { PLAYER, MISSILE, BLUE, GREEN, MAGENTA, ORANGE, WALLHIT, ENEMY, TENTACLE, REPULSION_AREA, PROJECTILE, AIM };
+enum ObjectIds { PLAYER, MISSILE, BLUE, GREEN, MAGENTA, ORANGE, WALLHIT, ENEMY, TENTACLE, REPULSION_AREA, PROJECTILE, AIM, ATTRACTION_AREA, EXPERIENCE};
 
 // ------------------------------------------------------------------------------
 
@@ -71,6 +71,7 @@ public:
     static Controller * controller;  
     static bool xboxOn;             // gamepad xbox conectado  
     static bool controllerOn;       // gamepad conectado  
+    static bool startUpgrade;
     static int newEnemyId;  
     static Timer stageTimer;  
     static std::vector<Enemy*> enemies;  
@@ -92,6 +93,8 @@ public:
     void Draw();                    // desenho  
     void Finalize();                // finalização
     void UseUpgrade(int index);
+
+    void StartUpgrade();
 
     static void NextLevel(int screen)  
     {  

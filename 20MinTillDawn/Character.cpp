@@ -4,6 +4,7 @@
 #include "BloodParticles.h"
 #include "Aleatory.h"
 #include "Config.h"
+#include "Shadow.h"
 
 Character::Character()
 {
@@ -24,12 +25,22 @@ Character::Character()
 
 	isStunned = false;
 	stunTimer = 0.0f;
+
+	xpPoints = 0;
+	pointsToNextLevel = 10;
+	level = 1;
 }
 
 void Character::OnCollision(Object* obj)
 {
 	if (obj->Type() == ENEMY) {
 		Damage();
+	}
+
+	if (obj->Type() == EXPERIENCE) {
+		MinutesTillDawn::scene->Delete(obj, MOVING);
+
+		AddExperience();
 	}
 }
 
@@ -267,6 +278,18 @@ void Character::Damage()
 
 	isStunned = true;
 	stunTimer = 0.0f;
+}
+
+void Character::AddExperience()
+{
+	xpPoints++;
+	if (xpPoints >= pointsToNextLevel) {
+		xpPoints = 0;
+		pointsToNextLevel += 10;
+		level++;
+
+		MinutesTillDawn::startUpgrade = true;
+	}
 }
 
 void Character::AddHeart() {

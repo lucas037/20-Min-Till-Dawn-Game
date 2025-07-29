@@ -1,4 +1,6 @@
 #include "CharDiamond.h"
+#include "AtractionArea.h"
+#include "Shadow.h"
 
 CharDiamond::CharDiamond()
 {
@@ -26,6 +28,12 @@ CharDiamond::CharDiamond()
 	normalSpeed = 15.0f;
 
 	maxSpeed = normalSpeed;
+
+	AttractionArea* attractionArea = new AttractionArea(this);
+	MinutesTillDawn::scene->Add(attractionArea, MOVING);
+
+	Shadow* shadow = new Shadow(this);
+	MinutesTillDawn::scene->Add(shadow, STATIC);
 }
 
 CharDiamond::~CharDiamond()
