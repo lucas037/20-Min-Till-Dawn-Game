@@ -12,8 +12,7 @@ class Victory : public Game
 private:
     Background* backg = nullptr;
     bool viewBBox = false;
-    Sprite* border = nullptr;
-    int selected = 0; // 0 = Shana, 1 = Diamond
+    
 
 public:
     void Init();

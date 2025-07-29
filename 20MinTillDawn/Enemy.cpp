@@ -167,7 +167,7 @@ void Enemy::Draw() {
 		sprite->Draw(x, y, Layer::MIDDLE);
 }
 
-// Métodos auxiliares
+// Mï¿½todos auxiliares
 void Enemy::UpdateMovement(float dx, float dy) {
 	float magnitude = sqrtf(dx * dx + dy * dy);
 	if (magnitude > 1.0f) {
@@ -192,6 +192,7 @@ void Enemy::TakeDamage(float damage) {
 	life -= damage;
 
 	if (life < 0.0) {
+		MinutesTillDawn::player->AddEnemyKilled();
 		MinutesTillDawn::scene->Delete(this, MOVING);
 		
 		for (int i = 0; i < MinutesTillDawn::enemies.size(); ++i) {
