@@ -12,3 +12,20 @@ int Aleatory::randrange(int a, int b) {
 
     return std::rand() % (b - a) + a;
 }
+
+static std::vector<int> GenerateNumbersList(int count, int min, int max, bool allowRepeat) {
+    std::vector<int> result;
+
+    if (!allowRepeat && count > (max - min)) {
+        return result;
+    }
+
+    while (result.size() < count) {
+        int num = Aleatory::randrange(min, max);
+        if (allowRepeat || std::find(result.begin(), result.end(), num) == result.end()) {
+            result.push_back(num);
+        }
+    }
+
+    return result;
+}
