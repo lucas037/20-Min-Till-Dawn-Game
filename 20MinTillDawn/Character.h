@@ -63,6 +63,8 @@ public:
     void UpdateAnimationDirection(float dx);
     void UpdateMovement(float dx, float dy);
     void StartHearts();
+    void AddHeart();
+    void AddMaxHeart();
 
     void OnCollision(Object* obj);
 

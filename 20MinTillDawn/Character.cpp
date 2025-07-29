@@ -2,6 +2,8 @@
 #include "MinutesTillDawn.h"
 #include "RepulsionArea.h"
 #include "BloodParticles.h"
+#include "Aleatory.h"
+#include "Config.h"
 
 Character::Character()
 {
@@ -33,6 +35,9 @@ void Character::OnCollision(Object* obj)
 
 void Character::Update()
 {
+	if (MinutesTillDawn::upgrading)
+		return;
+
 	if (isStunned) {
 		stunTimer += gameTime;
 		if (stunTimer >= stunDuration) {
@@ -82,7 +87,7 @@ void Character::Update()
 
 void Character::Draw()
 {
-	anim->Draw(x, y, Layer::FRONT);
+	anim->Draw(x, y, Layer::FRONT, Scale());
 }
 
 Character::~Character() {}
@@ -234,6 +239,12 @@ void Character::Damage()
 {
 	if (isInvincible || lifePoints <= 0) return;
 
+	float lucky = Aleatory::randrange(0, 1000) / 1000.0f;
+	if (lucky < Config::dodgeChance) {
+		MinutesTillDawn::scene->Add(new RepulsionArea(this), MOVING);
+		return;
+	}
+
 	lifePoints--;
 
 	MinutesTillDawn::scene->Add(new BloodParticles(x, y), STATIC);
@@ -256,4 +267,29 @@ void Character::Damage()
 
 	isStunned = true;
 	stunTimer = 0.0f;
+}
+
+void Character::AddHeart() {
+	if (lifePoints < maxLifePoints) {
+		hearts[lifePoints]->SetActive();
+		lifePoints++;
+	}
+
+}
+
+void Character::AddMaxHeart() {
+
+	Heart* heart = new Heart(50 * maxLifePoints, 40);
+
+	if (lifePoints < maxLifePoints) {
+		hearts[lifePoints]->SetActive();
+		heart->SetInactive();
+	}
+
+	hearts.push_back(heart);
+	MinutesTillDawn::scene->Add(heart, STATIC);
+
+	maxLifePoints++;
+	lifePoints++;
+
 }

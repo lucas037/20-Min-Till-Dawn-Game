@@ -1,11 +1,11 @@
 /**********************************************************************************
-// GeoWars (Arquivo de Cabeçalho)
+// GeoWars (Arquivo de Cabeï¿½alho)
 // 
-// Criação:     23 Out 2012
-// Atualização: 01 Nov 2021
+// Criaï¿½ï¿½o:     23 Out 2012
+// Atualizaï¿½ï¿½o: 01 Nov 2021
 // Compilador:  Visual C++ 2022
 //
-// Descrição:   Demonstração da versão final do motor
+// Descriï¿½ï¿½o:   Demonstraï¿½ï¿½o da versï¿½o final do motor
 //
 **********************************************************************************/
 
@@ -29,18 +29,22 @@
 #include "Weapon.h"
 #include "Font.h"
 #include "Character.h"
+#include "UpgradeIcon.h"
+#include "UpgradeDescription.h"
+#include "VICTORY.h"
+#include "GAMEOVER.h"
 
 using namespace std;
 
 // ------------------------------------------------------------------------------
 
-enum ObjectIds { PLAYER, MISSILE, BLUE, GREEN, MAGENTA, ORANGE, WALLHIT, ENEMY, TENTACLE, REPULSION_AREA, PROJECTILE};
+enum ObjectIds { PLAYER, MISSILE, BLUE, GREEN, MAGENTA, ORANGE, WALLHIT, ENEMY, TENTACLE, REPULSION_AREA, PROJECTILE, AIM };
 
 // ------------------------------------------------------------------------------
 
 enum SoundIds { DAMAGE, SHOOT, MUSIC_1, WALK, LOW_HP };
 
-enum ScreensIds { GOHOME, GOLEVEL, GOSELECTCHAR };
+enum ScreensIds { GOHOME, GOLEVEL, GOSELECTCHAR, GOVICTORY, GOGAMEOVER };
 
 // ------------------------------------------------------------------------------
 
@@ -48,19 +52,23 @@ class MinutesTillDawn : public Game
 {  
 private:  
     Background * backg = nullptr;   // pano de fundo  
-    bool viewBBox = false;          // visualização das bouding boxes  
+    bool viewBBox = false;          // visualizaï¿½ï¿½o das bouding boxes  
 
-    Timer* enemiesSpawnTimer = new Timer();  
-    Timer* shotTimer = new Timer();  
-    bool elderSpawned = false; 
-	bool shoggothSpawned = false;
+    Timer* enemiesSpawnTimer = new Timer();
+    Timer* shotTimer = new Timer();
+    Timer* upgradeTimer = new Timer();
+    bool elderSpawned = false;
+    bool shoggothSpawned = false;
+
+    // boosts timers
+    Timer* recoverHpTimer = new Timer();
 
 public:  
     static Player * player;         // nave controlada pela jogador  
     static Character* character;    // personagem do jogador  
-    static Audio * audio;           // sitema de áudio  
+    static Audio * audio;           // sitema de ï¿½udio  
     static Scene * scene;           // cena do jogo  
-    static bool viewHUD;            // visualização do painel  
+    static bool viewHUD;            // visualizaï¿½ï¿½o do painel  
     static Controller * controller;  
     static bool xboxOn;             // gamepad xbox conectado  
     static bool controllerOn;       // gamepad conectado  
@@ -68,15 +76,23 @@ public:
     static Timer stageTimer;  
     static std::vector<Enemy*> enemies;  
     bool aimMouseMode = true;  
-    static Font* font16;  
+    static Font* font16;
+
+    UpgradeDescription* upDesc;
+    static UpgradeIcon* upIcons[5];
+    static bool upgrading;
+    static int upgradeClick;
+    static std::vector<int> upgradesIndexes;
+    static bool upgradeFinishing;
 
     Weapon* weapon;  
     Aim* aim;  
 
-    void Init();                    // inicialização  
-    void Update();                  // atualização  
+    void Init();                    // inicializaï¿½ï¿½o  
+    void Update();                  // atualizaï¿½ï¿½o  
     void Draw();                    // desenho  
-    void Finalize();                // finalização  
+    void Finalize();                // finalizaï¿½ï¿½o
+    void UseUpgrade(int index);
 
     static void NextLevel(int screen)  
     {  
@@ -90,12 +106,20 @@ public:
         case GOHOME:  
             game = new HomeScreen();  
             game->Size(1024, 720);  
-            break;  
-        case GOSELECTCHAR:  
-            game = new SelectChar();  
-            game->Size(1024, 720);  
-            break;  
-        }  
+            break;
+        case GOSELECTCHAR:
+            game = new SelectChar();
+            game->Size(1024, 720);
+            break;
+        case GOVICTORY:
+            game = new Victory();
+            game->Size(1024, 720);
+            break;
+        case GOGAMEOVER:
+            game = new GameOver();
+            game->Size(1024, 720);
+            break;
+        }
 
         game->Init();  
     };  
