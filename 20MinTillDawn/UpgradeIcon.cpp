@@ -8,7 +8,8 @@ UpgradeIcon::UpgradeIcon(float x, float y, int pos) {
     tileset = new TileSet("Resources/Upgrade_Icons.png", 100, 100, 12, 108);
     anim = new Animation(tileset, 0.120f, true);
 
-    uint only[1] = { pos };
+    int newPos = pos;
+    uint only[1] = { newPos };
 
     anim->Add(1, only, 1);
     anim->Select(1);

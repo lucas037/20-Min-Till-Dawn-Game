@@ -23,7 +23,10 @@ void UpgradeDescription::Update() {
     }
     else if (upgradeId != MinutesTillDawn::upgradeClick) {
         upgradeId = MinutesTillDawn::upgradeClick;
-        upgrade = Upgrade::GetUpgrade(upgradeId);
+
+        int upgradeIdConv = MinutesTillDawn::upgradesIndexes.at(upgradeId);
+
+        upgrade = Upgrade::GetUpgrade(upgradeIdConv);
         title = upgrade.name;
         description = upgrade.description;
     }

@@ -74,6 +74,7 @@ public:
     static UpgradeIcon* upIcons[5];
     static bool upgrading;
     static int upgradeClick;
+    static std::vector<int> upgradesIndexes;
 
     Weapon* weapon;  
     Aim* aim;  

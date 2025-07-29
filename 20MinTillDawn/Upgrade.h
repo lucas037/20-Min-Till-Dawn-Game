@@ -2,9 +2,11 @@
 #define UPGRADE_H
 
 #include <string>
+#include "Vector.h"
 using namespace std;
 
 enum UpgradeType {
+    SK_NONE,
     SK_DAMAGE,
     SK_SPEED,
     SK_HEALTH,

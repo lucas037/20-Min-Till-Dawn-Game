@@ -44,6 +44,7 @@ int MinutesTillDawn::newEnemyId = 0;
 Font* MinutesTillDawn::font16 = nullptr;
 UpgradeIcon* MinutesTillDawn::upIcons[5] = { nullptr };
 int MinutesTillDawn::upgradeClick = 0;
+std::vector<int> MinutesTillDawn::upgradesIndexes;
 
 // ------------------------------------------------------------------------------
 
@@ -252,10 +253,12 @@ void MinutesTillDawn::Update()
         float posX = game->viewport.left + window->Width() / 2 - 125.0f * 2;
         float posY = game->viewport.top + window->Height() / 2 - 150.0f;
 
-        vector<int> indexes = Aleatory::GenerateNumbersList(5, 0, Upgrade::GetUpgradeCount(), false);
+        upgradesIndexes = Aleatory::GenerateNumbersList(5, 0, Upgrade::GetUpgradeCount(), false);
 
         for (int i = 0; i < 5; i++) {
-            upIcons[i] = new UpgradeIcon(posX + i * 125.0f, posY, indexes.at(i));
+            int iconId = Upgrade::GetUpgrade(upgradesIndexes.at(i)).iconId;
+
+            upIcons[i] = new UpgradeIcon(posX + i * 125.0f, posY, iconId);
             scene->Add(upIcons[i], STATIC);
         }
 
