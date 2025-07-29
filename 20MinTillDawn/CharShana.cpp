@@ -24,6 +24,9 @@ CharShana::CharShana()
 
 	StartHearts();
 
+	shootingSpeed = 12.0f;
+	normalSpeed = 15.0f;
+
 	AttractionArea* attractionArea = new AttractionArea(this);
 	MinutesTillDawn::scene->Add(attractionArea, MOVING);
 
