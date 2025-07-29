@@ -190,6 +190,8 @@ void MinutesTillDawn::Update()
 
         scene->Remove(upDesc, STATIC);
 
+        stageTimer.Start();
+
     }
     else if (upgrading) {
         if (xboxOn) {
@@ -472,6 +474,9 @@ void MinutesTillDawn::StartUpgrade() {
     aim->MoveTo(game->viewport.left + 512, game->viewport.top + 360);
 
     upgrading = true;
+
+    stageTimer.Stop();
+
     upgradeClick = 0;
 
     float posX = game->viewport.left + window->Width() / 2 - 125.0f * 2;
@@ -496,6 +501,7 @@ void MinutesTillDawn::UseUpgrade(int index) {
     int upType = Upgrade::GetUpgrade(index).type;
 
     if (upType == SK_HEALTH) {
+        character->AddMaxHeart();
         character->AddMaxHeart();
     }
     else if (upType == SK_GIANT) {
