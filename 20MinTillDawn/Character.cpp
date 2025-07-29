@@ -85,7 +85,7 @@ void Character::Update()
 
 void Character::Draw()
 {
-	anim->Draw(x, y, Layer::FRONT);
+	anim->Draw(x, y, Layer::FRONT, Scale());
 }
 
 Character::~Character() {}
@@ -262,6 +262,14 @@ void Character::Damage()
 }
 
 void Character::AddHeart() {
+	if (lifePoints < maxLifePoints) {
+		hearts[lifePoints]->SetActive();
+		lifePoints++;
+	}
+
+}
+
+void Character::AddMaxHeart() {
 
 	Heart* heart = new Heart(50 * maxLifePoints, 40);
 
@@ -276,4 +284,10 @@ void Character::AddHeart() {
 	maxLifePoints++;
 	lifePoints++;
 
+}
+
+void Character::AddSize(float a) {
+	if (a > 0 && a < 2 && Scale() < 2.0) {
+		Scale(a);
+	}
 }

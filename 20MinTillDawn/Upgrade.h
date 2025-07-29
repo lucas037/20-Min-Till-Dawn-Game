@@ -7,11 +7,9 @@ using namespace std;
 
 enum UpgradeType {
     SK_NONE,
-    SK_DAMAGE,
-    SK_SPEED,
     SK_HEALTH,
-    SK_ATTACK_SPEED,
-    SK_AREA_DAMAGE
+    SK_GIANT,
+    SK_REGENERATION,
 };
 
 struct UpgradeData {

@@ -112,6 +112,8 @@ void MinutesTillDawn::Init()
     elderSpawned = false;
     enemies.clear();
 
+    recoverHpTimer->Reset();
+
     audio->Play(MUSIC_1, true);
 
     upgrading = false;
@@ -306,6 +308,12 @@ void MinutesTillDawn::Update()
 
         elderSpawned = true;
     }
+
+    // UPGRADES
+    if (recoverHpTimer->Elapsed() > Config::minTimeToRecoverHp) {
+        character->AddHeart();
+        recoverHpTimer->Reset();
+    }
 } 
 
 // ------------------------------------------------------------------------------
@@ -374,5 +382,17 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 
 void MinutesTillDawn::UseUpgrade(int index) {
     int upType = Upgrade::GetUpgrade(index).type;
-    character->AddHeart();
+
+    if (upType == SK_HEALTH) {
+        character->AddMaxHeart();
+    }
+    else if (upType == SK_GIANT) {
+        character->AddMaxHeart();
+        character->AddMaxHeart();
+        character->AddSize(1.25f);
+    }
+    else if (upType == SK_REGENERATION) {
+        recoverHpTimer->Reset();
+        Config::minTimeToRecoverHp = 60.0f;
+    }
 }

@@ -57,6 +57,9 @@ private:
     Timer* upgradeTimer = new Timer();
     bool elderSpawned = false;
 
+    // boosts timers
+    Timer* recoverHpTimer = new Timer();
+
 public:  
     static Player * player;         // nave controlada pela jogador  
     static Character* character;    // personagem do jogador  

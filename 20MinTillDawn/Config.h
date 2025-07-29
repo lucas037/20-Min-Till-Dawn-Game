@@ -13,6 +13,8 @@ public:
 	static float ReloadTime;
 	static float shotDamage;
 	static int numMaxShots;
+
+	static float minTimeToRecoverHp;
 };
 
 #endif
