@@ -94,6 +94,9 @@ void Projectile::Update() {
 }
 
 void Projectile::Draw() {
+    if (MinutesTillDawn::upgrading)
+        return;
+
     trailEmitter->Draw(Layer::UPPER + 0.01);
     anim->Draw(x, y, Layer::UPPER, 1.0f, rotation);
 }
