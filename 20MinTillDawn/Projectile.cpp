@@ -16,8 +16,26 @@ Projectile::Projectile(float x, float y, float speedMag, float angle) {
 	anim->Select(FIRING);
 	this->firing = true;
     this->hitting = false;
+
+    rotation = XMConvertToDegrees(angle);
+
+    Generator trailConfig;
+
+    trailConfig.imgFile = "Resources/Projectile.png";
+    trailConfig.lifetime = 0.2f;
+    trailConfig.frequency = 0.005f;
+    trailConfig.percentToDim = 0.3f;
+    trailConfig.minSpeed = 0.0f;
+    trailConfig.maxSpeed = 0.0f;
+    trailConfig.angle = rotation; // Angulo
+    trailConfig.spread = 0.0f;
+    trailConfig.color.r = 1.0f;
+    trailConfig.color.g = 1.0f;
+    trailConfig.color.b = 1.0f;
+    trailConfig.color.a = 1.0f;
+
+    trailEmitter = new Particles(trailConfig);
     
-	rotation = XMConvertToDegrees(angle);
     MoveTo(x, y);
 
     speed = new Vector(XMConvertToDegrees(angle), speedMag);
@@ -29,6 +47,7 @@ Projectile::Projectile(float x, float y, float speedMag, float angle) {
 Projectile::~Projectile() {
     delete anim;
 	delete speed;
+    delete trailEmitter;
 }
 
 void Projectile::OnCollision(Object* obj) {
@@ -44,11 +63,23 @@ void Projectile::Update() {
         return;
 
     Translate(speed->XComponent() * gameTime, speed->YComponent() * gameTime);
+    trailEmitter->Generate(X(), Y());
+
+    trailEmitter->Update(gameTime);
+
+    // Scale down each particle based on its percentage of lifespan passed
+    for (uint i = 0; i < trailEmitter->Size(); ++i) {
+        Particle* particle = trailEmitter->Get(i); // Assumes GetParticle returns a reference to a particle
+		float percent = particle->timestamp / 0.08f; // Percentage of lifetime passed
+        float scale = 1.0f - percent; // Shrink from 1.0 to 0.0
+        if (scale < 0.0f) scale = 0.0f;
+        
+    }
     
     if (anim->Inactive() && firing) {
         anim->Frame(0);
-		anim->Select(BULLET);
-		firing = false;
+        anim->Select(BULLET);
+        firing = false;
     }
     else if (firing) {
         anim->NextFrame();
@@ -63,5 +94,6 @@ void Projectile::Update() {
 }
 
 void Projectile::Draw() {
+    trailEmitter->Draw(Layer::UPPER + 0.01);
     anim->Draw(x, y, Layer::UPPER, 1.0f, rotation);
 }

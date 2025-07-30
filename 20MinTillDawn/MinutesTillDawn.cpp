@@ -328,7 +328,8 @@ void MinutesTillDawn::Update()
 
         character->shoot(true);
     }
-    else if (!weapon->Reloading() && (weapon->numShots == 0 && shootPressed)) {
+    //else if (!weapon->Reloading() && ((weapon->numShots == 0) || weapon->numShots < Config::numMaxShots && !shootPressed)) {
+    else if (!weapon->Reloading() && (weapon->numShots == 0 && shootPressed) {
         weapon->Reload();
     }
 
