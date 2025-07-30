@@ -7,7 +7,8 @@
 
 void HomeScreen::Init()
 {
-    backg = new Background("Resources/homescreen.jpg");
+    //backg = new Background("Resources/homescreen.jpg");
+    backg = new Background("Resources/homescreen5.jpg");
 
     if (!MinutesTillDawn::font16) {
         MinutesTillDawn::font16 = new Font("Resources/font16.png");
