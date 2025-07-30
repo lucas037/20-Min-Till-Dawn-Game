@@ -329,8 +329,8 @@ void MinutesTillDawn::Update()
             elderSpawned = true;
         }
 
-        if (!shoggothSpawned) {
-
+		// Shoggoth spawna uma vez com 50% do jogo completo
+        if (MinutesTillDawn::stageTimer.Elapsed() > (Config::stageTotalTime * 0.5) && !shoggothSpawned) {
 
             shoggothSpawned = true;
         }

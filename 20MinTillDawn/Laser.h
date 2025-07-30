@@ -9,7 +9,8 @@ private:
 	Animation* anim;
 	Timer* timer;
 
-	float x, y, sX, sY, rotation; // rotação do laser
+	float x, y, sX, sY; // rotação do laser
+	//float rotation; // rotação do laser
 	bool firing; // indica se o laser está disparando
 
 public:

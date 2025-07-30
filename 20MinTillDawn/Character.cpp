@@ -28,7 +28,7 @@ Character::Character()
 
 void Character::OnCollision(Object* obj)
 {
-	if (obj->Type() == ENEMY) {
+	if (obj->Type() == ENEMY || obj->Type() == LASER) {
 		Damage();
 	}
 }

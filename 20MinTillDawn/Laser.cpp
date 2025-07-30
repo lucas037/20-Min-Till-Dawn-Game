@@ -19,6 +19,7 @@ Laser::Laser(float Sx, float Sy) {
 
 	anim->Select(0);
 	Laser::firing = false;
+	type = LASER;
 }
 
 Laser::~Laser() {
@@ -32,17 +33,27 @@ void Laser::Update() {
 		return;
 	}
 	
-	if (timer->Elapsed() < 0.8f && !Laser::firing) {
+	if (timer->Elapsed() < 0.6f && !Laser::firing) {
 		FollowPlayer();
 	}
 	else if (timer->Elapsed() >= 1.0f && !Laser::firing) {
 
 		firing = true;
 		anim->Select(1);
+
+		BBox(new Poly(
+			new Point[4]{
+				Point(-608, -16),
+				Point(608, -16),
+				Point(608, 16),
+				Point(-608, 16)
+			}, 4
+		));
+
 		timer->Reset();
 	} else if (timer->Elapsed() >= 0.84f  && Laser::firing && anim->Inactive()) {
 
-		MinutesTillDawn::scene->Delete(this, STATIC);
+		MinutesTillDawn::scene->Delete(this, MOVING);
 	}
 
 	if (anim != nullptr) {
@@ -68,6 +79,7 @@ void Laser::FollowPlayer() {
 	y = centerY + radius * sinf(angle);
 
 	MoveTo(x, y);
+	
 
-	rotation = XMConvertToDegrees(angle);
+	RotateTo(XMConvertToDegrees(angle));
 }

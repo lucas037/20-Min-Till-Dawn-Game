@@ -16,6 +16,7 @@ public:
 	Shoggoth();
 	~Shoggoth();
 
+	void OnCollision(Object* obj);
 	void Update();
 	void Draw();
 
