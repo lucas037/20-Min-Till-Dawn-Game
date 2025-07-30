@@ -1,6 +1,6 @@
 /**********************************************************************************
 // GeoWars (C�digo Fonte)
-// 
+//
 // Cria��o:     23 Out 2012
 // Atualiza��o: 01 Nov 2021
 // Compilador:  Visual C++ 2022
@@ -22,18 +22,18 @@
 #include "Controller.h"
 #include "Projectile.h"
 #include "Config.h"
-#include "Shoggoth.h"
 #include "Aleatory.h"
 #include "Upgrade.h"
 #include "Experience.h"
+#include "Shoggoth.h"
 
 // ------------------------------------------------------------------------------
 
 uint MinutesTillDawn::selectedChar;
-Player * MinutesTillDawn::player  = nullptr;
+Player* MinutesTillDawn::player = nullptr;
 Character* MinutesTillDawn::character = nullptr;
-Audio  * MinutesTillDawn::audio   = nullptr;
-Scene  * MinutesTillDawn::scene   = nullptr;
+Audio* MinutesTillDawn::audio = nullptr;
+Scene* MinutesTillDawn::scene = nullptr;
 Controller* MinutesTillDawn::controller = nullptr;
 bool     MinutesTillDawn::xboxOn = false;
 bool     MinutesTillDawn::controllerOn = false;
@@ -54,7 +54,7 @@ std::vector<int> MinutesTillDawn::upgradesIndexes;
 
 void MinutesTillDawn::Init()
 {
-	controller = new Controller();
+    controller = new Controller();
 
     xboxOn = controller->XboxInitialize(0);
 
@@ -66,34 +66,34 @@ void MinutesTillDawn::Init()
     audio->Add(DAMAGE, "Resources/DanoRecebido.wav");
     audio->Add(SHOOT, "Resources/Tiro.wav");
     audio->Add(MUSIC_1, "Resources/MusicaDeBatalha.wav");
-	audio->Add(WALK, "Resources/Passos.wav");
+    audio->Add(WALK, "Resources/Passos.wav");
     audio->Add(LOW_HP, "Resources/Poucavida.wav");
 
     // ajusta volumes
     audio->Volume(DAMAGE, 1.0f);
-	audio->Volume(MUSIC_1, 0.4f);
+    audio->Volume(MUSIC_1, 0.4f);
     audio->Volume(WALK, 0.3f);
     audio->Volume(LOW_HP, 0.08f);
 
-	// fonte de texto
+    // fonte de texto
     font16 = new Font("Resources/font16.png");
     font16->Spacing("Resources/Font16.dat");
 
     // carrega/incializa objetos
-    backg   = new Background("Resources/Background.png");
-	ammo = new Sprite("Resources/bullet2.png");
-    player  = new Player();
-    scene   = new Scene();
+    backg = new Background("Resources/Background.png");
+    ammo = new Sprite("Resources/bullet2.png");
+    player = new Player();
+    scene = new Scene();
 
-	if (selectedChar == SHANA) {
-		character = new CharShana();
-	}
-	else if (selectedChar == DIAMOND) {
+    if (selectedChar == SHANA) {
+        character = new CharShana();
+    }
+    else if (selectedChar == DIAMOND) {
         character = new CharDiamond();
-	}
+    }
 
-	scene->Add(character, MOVING);
-    
+    scene->Add(character, MOVING);
+
     weapon = new Weapon(character, "Resources/Revolver.png");
     scene->Add(weapon, MOVING);
 
@@ -123,8 +123,6 @@ void MinutesTillDawn::Init()
     upgradeTimer->Reset();
     weapon->numShots = Config::numMaxShots;
     elderSpawned = false;
-	shoggothSpawned = false;
-
     enemies.clear();
 
     recoverHpTimer->Reset();
@@ -137,10 +135,6 @@ void MinutesTillDawn::Init()
     Config::minTimeToRecoverHp = Config::stageTotalTime + 1;
     Config::dodgeChance = 0.0f;
     Config::shotDamage = 40.0;
-
-    Shoggoth* shoggoth = new Shoggoth();
-    enemies.push_back(shoggoth);
-    scene->Add(shoggoth, STATIC);
 }
 
 // ------------------------------------------------------------------------------
@@ -226,7 +220,7 @@ void MinutesTillDawn::Update()
         NextLevel(GOVICTORY);
         return;
     }
-        
+
 
     // ativa ou desativa o heads up display
     if (window->KeyPress('H'))
@@ -347,35 +341,35 @@ void MinutesTillDawn::Update()
 
     if (enemiesSpawnTimer->Elapsed() > 3 && enemies.size() < Config::numMaxEnemies) {
         enemiesSpawnTimer->Reset();
-        if (enemiesSpawnTimer->Elapsed() > 3 && enemies.size() < Config::numMaxEnemies) {
-            enemiesSpawnTimer->Reset();
-            for (int i = 0; i < 3; i++) {
-                enemy = new TentacleMonster();
-                enemies.push_back(enemy);
-                scene->Add(enemy, MOVING);
-            }
+
+        for (int i = 0; i < 3; i++) {
+            enemy = new TentacleMonster();
+            enemies.push_back(enemy);
+            scene->Add(enemy, MOVING);
         }
+    }
 
-        // Elder spawna uma vez com 25% do jogo completo
-        if (MinutesTillDawn::stageTimer.Elapsed() > (Config::stageTotalTime * 0.25) && !elderSpawned) {
-            Elder* elder = new Elder();
-            enemies.push_back(elder);
-            scene->Add(elder, MOVING);
+    // Elder spawna uma vez com 25% do jogo completo
+    if (MinutesTillDawn::stageTimer.Elapsed() > (Config::stageTotalTime * 0.25) && !elderSpawned) {
+        Elder* elder = new Elder();
+        enemies.push_back(elder);
+        scene->Add(elder, MOVING);
 
-            elderSpawned = true;
-        }
+        elderSpawned = true;
+    }
 
-		// Shoggoth spawna uma vez com 50% do jogo completo
-        if (MinutesTillDawn::stageTimer.Elapsed() > (Config::stageTotalTime * 0.5) && !shoggothSpawned) {
+    if (MinutesTillDawn::stageTimer.Elapsed() > (Config::stageTotalTime * 0.6) && !shoggothSpawned) {
+		Shoggoth* shoggoth = new Shoggoth();
+		enemies.push_back(shoggoth);
+        scene->Add(shoggoth, STATIC);
 
-            shoggothSpawned = true;
-        }
+		shoggothSpawned = true;
+    }
 
-        // UPGRADES
-        if (recoverHpTimer->Elapsed() > Config::minTimeToRecoverHp) {
-            character->AddHeart();
-            recoverHpTimer->Reset();
-        }
+    // UPGRADES
+    if (recoverHpTimer->Elapsed() > Config::minTimeToRecoverHp) {
+        character->AddHeart();
+        recoverHpTimer->Reset();
     }
 }
 
@@ -415,13 +409,13 @@ void MinutesTillDawn::Draw()
             font16->Draw(screenX + 18.0f, screenY + 30.0f, "Recarregando...", corRecarga, 0.0f, 0.8f);
         }
     }
-    
+
     // timer
     if (viewHUD && font16) {
         Color corTimer = { 0.992f, 0.317f, 0.380f, 1.0f };
 
-        float timerX = window->Width() - 150.0f; 
-        float timerY = 30.0f;                   
+        float timerX = window->Width() - 150.0f;
+        float timerY = 30.0f;
 
         float elapsedTime = stageTimer.Elapsed();
         float timeToEnd = Config::stageTotalTime - elapsedTime;
@@ -442,7 +436,7 @@ void MinutesTillDawn::Finalize()
     delete audio;
     delete scene;
     delete backg;
-    delete ammo;    
+    delete ammo;
 
     delete enemiesSpawnTimer;
     delete shotTimer;
@@ -452,11 +446,11 @@ void MinutesTillDawn::Finalize()
 //                                  WinMain                                      
 // ------------------------------------------------------------------------------
 
-int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
-                     _In_ LPSTR lpCmdLine, _In_ int nCmdShow)
+int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
+    _In_ LPSTR lpCmdLine, _In_ int nCmdShow)
 {
     // cria motor do jogo
-    Engine * engine = new Engine();
+    Engine* engine = new Engine();
 
     // configura motor
     //engine->window->Mode(WINDOWED);
@@ -470,11 +464,11 @@ int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
     //engine->graphics->VSync(true);
 
     // cria o jogo
-    Game * game = new HomeScreen();
+    Game* game = new HomeScreen();
 
     // configura o jogo
     game->Size(1024, 720);
-    
+
     // inicia execu��o
     engine->Start(game);
 
@@ -509,7 +503,7 @@ void MinutesTillDawn::StartUpgrade() {
     upDesc = new UpgradeDescription("Title", "Description");
     scene->Add(upDesc, STATIC);
 
-	this->startUpgrade = false;
+    this->startUpgrade = false;
 }
 
 void MinutesTillDawn::UseUpgrade(int index) {

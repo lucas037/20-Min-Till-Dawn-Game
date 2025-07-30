@@ -3,8 +3,6 @@
 #include "Aleatory.h"
 #include "Config.h"
 
-int i = 0;
-
 Shoggoth::Shoggoth() : Enemy() {
 	timer = new Timer();
 	timer->Start();
