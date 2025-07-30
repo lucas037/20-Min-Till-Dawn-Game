@@ -79,7 +79,7 @@ void MinutesTillDawn::Init()
     font16->Spacing("Resources/Font16.dat");
 
     // carrega/incializa objetos
-    backg   = new Background("OldResources/Space.jpg");
+    backg   = new Background("Resources/Background.png");
 	ammo = new Sprite("Resources/bullet2.png");
     player  = new Player();
     scene   = new Scene();
