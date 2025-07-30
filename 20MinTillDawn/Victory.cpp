@@ -60,7 +60,7 @@ void Victory::Draw()
         Color corStats = { 1.0f, 1.0f, 1.0f, 1.0f };
 
         float statsY = window->CenterY() ;
-        float statsX = window->CenterX() - 200;
+        float statsX = window->CenterX() - 110;
 
         MinutesTillDawn::font16->Draw(statsX, statsY, "ESTATISTICAS DA RUN:", corTexto, 0.0f, 1.0f);
 
@@ -73,15 +73,11 @@ void Victory::Draw()
             string upgradesText = "Upgrades obtidos: " + to_string(MinutesTillDawn::player->stats.upgradesObtained);
             MinutesTillDawn::font16->Draw(statsX, statsY + 70, upgradesText.c_str(), corStats, 0.0f, 1.0f);
 
-            // Tempo de sobrevivência
-            int minutes = (int)(MinutesTillDawn::player->stats.survivalTime / 60.0f);
-            int seconds = (int)(MinutesTillDawn::player->stats.survivalTime) % 60;
-            string timeText = "Tempo sobrevivido: " + to_string(minutes) + ":" + (seconds < 10 ? "0" : "") + to_string(seconds);
-            MinutesTillDawn::font16->Draw(statsX, statsY + 100, timeText.c_str(), corStats, 0.0f, 1.0f);
+
         }
 
 
 
-        MinutesTillDawn::font16->Draw(window->CenterX() - 250 , window->CenterY() + 300, "Pressione ENTER ou ESC para continuar", corStats, 0.0f, 0.8f);
+        MinutesTillDawn::font16->Draw(window->CenterX() - 190 , window->CenterY() + 300, "Pressione ENTER ou ESC para continuar", corStats, 0.0f, 0.8f);
     }
 }
