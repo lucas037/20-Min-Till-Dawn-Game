@@ -40,15 +40,25 @@ void UpgradeIcon::Update() {
 }
 
 void UpgradeIcon::OnCollision(Object* obj) {
+    bool confirmPress = false;
+
+    if (MinutesTillDawn::xboxOn) {
+        if (MinutesTillDawn::controller->XboxButton(ButtonA)) {
+            confirmPress = true;
+        }
+    }
+
     bool lButton = window->KeyPress(VK_LBUTTON);
     bool rButton = window->KeyPress(VK_RBUTTON);
 
-    if (obj->Type() == AIM && (lButton || rButton)) {
+    confirmPress = rButton || confirmPress;
+
+    if (obj->Type() == AIM) {
         for (int i = 0; i < 5; i++) {
             if (X() == MinutesTillDawn::upIcons[i]->X()) {
                 MinutesTillDawn::upgradeClick = i;
 
-                if (rButton) {
+                if (confirmPress) {
                     MinutesTillDawn::upgradeFinishing = true;
                 }
             }

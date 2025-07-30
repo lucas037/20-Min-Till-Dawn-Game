@@ -27,7 +27,7 @@ Character::Character()
 	stunTimer = 0.0f;
 
 	xpPoints = 0;
-	pointsToNextLevel = 10;
+	pointsToNextLevel = 1;
 	level = 1;
 }
 

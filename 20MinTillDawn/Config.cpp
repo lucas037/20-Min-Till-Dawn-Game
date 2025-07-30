@@ -1,6 +1,6 @@
 #include "Config.h"
 
-float Config::stageTotalTime = 5.0f * 60; // 5 min
+float Config::stageTotalTime = 5.0f * 60 + 1.0f; // 5 min
 float Config::timeToUpgrade = 5.0f;
 
 int Config::numMaxEnemies = 250;
