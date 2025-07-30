@@ -29,10 +29,10 @@ void GameOver::Update()
     if (xboxOn) {
         MinutesTillDawn::controller->XboxUpdateState();
 
-        confirmButton = MinutesTillDawn::controller->XboxButton(ButtonStart);
+        confirmButton = MinutesTillDawn::controller->XboxButton(ButtonA);
     }
 
-    if (window->KeyPress(VK_RETURN)) {
+    if (window->KeyPress(VK_RETURN) || confirmButton) {
         MinutesTillDawn::NextLevel(GOHOME);
     }
 }

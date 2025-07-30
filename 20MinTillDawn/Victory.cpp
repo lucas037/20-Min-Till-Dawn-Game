@@ -18,6 +18,8 @@ void Victory::Init()
     // calcula posi��o para manter viewport centralizada
     float difx = (game->Width() - window->Width()) / 2.0f;
     float dify = (game->Height() - window->Height()) / 2.0f;
+
+    MinutesTillDawn::controller = new Controller();
 }
 
 void Victory::Finalize()
@@ -31,7 +33,16 @@ void Victory::Update()
         MinutesTillDawn::NextLevel(GOHOME);
     }
 
-    if (window->KeyPress(VK_RETURN)) {
+    bool xboxOn = MinutesTillDawn::controller->XboxInitialize(0);
+    bool confirmButton = false;
+
+    if (xboxOn) {
+        MinutesTillDawn::controller->XboxUpdateState();
+
+        confirmButton = MinutesTillDawn::controller->XboxButton(ButtonA);
+    }
+
+    if (window->KeyPress(VK_RETURN) || confirmButton) {
         MinutesTillDawn::NextLevel(GOHOME);
     }
 
