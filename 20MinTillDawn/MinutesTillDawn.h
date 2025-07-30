@@ -33,18 +33,21 @@
 #include "UpgradeDescription.h"
 #include "VICTORY.h"
 #include "GAMEOVER.h"
+#include "Sprite.h"
 
 using namespace std;
 
 // ------------------------------------------------------------------------------
 
-enum ObjectIds { PLAYER, MISSILE, BLUE, GREEN, MAGENTA, ORANGE, WALLHIT, ENEMY, TENTACLE, REPULSION_AREA, PROJECTILE, AIM, LASER };
+enum ObjectIds { PLAYER, MISSILE, BLUE, GREEN, MAGENTA, ORANGE, WALLHIT, ENEMY, TENTACLE, REPULSION_AREA, PROJECTILE, AIM, ATTRACTION_AREA, EXPERIENCE, LASER };
 
 // ------------------------------------------------------------------------------
 
 enum SoundIds { DAMAGE, SHOOT, MUSIC_1, WALK, LOW_HP };
 
 enum ScreensIds { GOHOME, GOLEVEL, GOSELECTCHAR, GOVICTORY, GOGAMEOVER };
+
+enum Characters { SHANA, DIAMOND };
 
 // ------------------------------------------------------------------------------
 
@@ -65,6 +68,7 @@ private:
 
 public:  
     static Player * player;         // nave controlada pela jogador  
+	static uint selectedChar;         // personagem selecionado pelo jogador
     static Character* character;    // personagem do jogador  
     static Audio * audio;           // sitema de �udio  
     static Scene * scene;           // cena do jogo  
@@ -72,11 +76,13 @@ public:
     static Controller * controller;  
     static bool xboxOn;             // gamepad xbox conectado  
     static bool controllerOn;       // gamepad conectado  
+    static bool startUpgrade;
     static int newEnemyId;  
     static Timer stageTimer;  
     static std::vector<Enemy*> enemies;  
     bool aimMouseMode = true;  
     static Font* font16;
+    Sprite* ammo = nullptr;
 
     UpgradeDescription* upDesc;
     static UpgradeIcon* upIcons[5];
@@ -93,6 +99,8 @@ public:
     void Draw();                    // desenho  
     void Finalize();                // finaliza��o
     void UseUpgrade(int index);
+
+    void StartUpgrade();
 
     static void NextLevel(int screen)  
     {  

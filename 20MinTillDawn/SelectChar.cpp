@@ -13,7 +13,9 @@ void SelectChar::Init()
     float difx = (game->Width() - window->Width()) / 2.0f;
     float dify = (game->Height() - window->Height()) / 2.0f;
 
-
+    MinutesTillDawn::controller = new Controller();
+    selected = SHANA;
+    MinutesTillDawn::selectedChar = SHANA;
 }
 
 void SelectChar::Finalize()
@@ -28,21 +30,32 @@ void SelectChar::Update()
         MinutesTillDawn::NextLevel(GOHOME);
     }
 
-    // Seleciona a Diamond
-    if ((window->KeyPress(VK_RIGHT) || window->KeyPress('D')) && selected == 0) {
-        selected = 1;
+    bool xboxOn = MinutesTillDawn::controller->XboxInitialize(0);
+    bool confirmButton = false;
+    bool left = false;
+    bool rigth = false;
+
+    if (xboxOn) {
+        MinutesTillDawn::controller->XboxUpdateState();
+
+        confirmButton = MinutesTillDawn::controller->XboxButton(ButtonA);
+		left = MinutesTillDawn::controller->XboxButton(DpadLeft);
+		rigth = MinutesTillDawn::controller->XboxButton(DpadRight);
     }
+
+    // Seleciona a Diamond
+    if ((window->KeyPress(VK_RIGHT) || window->KeyPress('D') || rigth) && selected == SHANA) {
+		selected = DIAMOND;
+	    MinutesTillDawn::selectedChar = DIAMOND;
+    }   
 
     // Seleciona a Shana
-    if ((window->KeyPress(VK_LEFT) || window->KeyPress('A')) && selected == 1) {
-        selected = 0;
+    if ((window->KeyPress(VK_LEFT) || window->KeyPress('A') || left) && selected == DIAMOND) {
+		selected = SHANA;
+		MinutesTillDawn::selectedChar = SHANA;
     }
 
-    if (window->KeyPress(VK_RETURN)) {
-        MinutesTillDawn::NextLevel(GOLEVEL);
-    }
-
-    if (window->KeyPress(VK_RETURN)) {
+    if (window->KeyPress(VK_RETURN) || confirmButton) {
         MinutesTillDawn::NextLevel(GOLEVEL);
     }
 }

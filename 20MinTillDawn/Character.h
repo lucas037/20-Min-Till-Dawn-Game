@@ -20,6 +20,11 @@ protected:
     Animation* anim;  
     Particles* particles;   
 	bool right;           
+    
+	uint xpPoints = 0;
+    uint pointsToNextLevel = 0;
+	uint level = 1;
+    
     float timeCounter = 0.0f;
     float invincibilityTime = 0.5f;
     float maxSpeed = 0.0f;
@@ -37,7 +42,6 @@ protected:
 	const float walkDuration = 0.35f;
 
     bool lowHp = false;
-
 	bool isShooting = false;
     
     float shootingSpeed = 0.0f;
@@ -67,6 +71,8 @@ public:
     void AddMaxHeart();
 
     void OnCollision(Object* obj);
+
+	void AddExperience();
 
     void shoot(bool shooting);
 };
