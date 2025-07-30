@@ -26,7 +26,7 @@ protected:
 	uint level = 1;
     
     float timeCounter = 0.0f;
-    float invincibilityTime = 0.2f;
+    float invincibilityTime = 0.5f;
     float maxSpeed = 0.0f;
     bool isInvincible = false;
     bool isStunned = false;

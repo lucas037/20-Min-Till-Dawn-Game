@@ -40,7 +40,7 @@ public:
     }
     void Update();
     void Draw() {
-        anim->Draw(x, y, Layer::FRONT, 1.0f, rotation);
+        anim->Draw(x, y, Layer::ABOVEPFRONT, 1.0f, rotation);
     };
 
     void Reload();

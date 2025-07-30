@@ -139,7 +139,7 @@ void Particles::Draw(float z, float factor)
         lifePercent = timeElapsed/config.lifetime;
 
         // escala cresce quadraticamente com o tempo de vida
-        float scale = 1.0f + pow(lifePercent, 2.0f) * factor;
+        float scale = 1.0f - pow(lifePercent, 1.5f);
 
         // desenha partícula
         sprite->Draw(p->x, p->y, z, scale, -p->speed.Angle(), config.color);

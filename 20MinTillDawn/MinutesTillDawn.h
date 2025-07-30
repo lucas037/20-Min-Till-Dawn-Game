@@ -1,11 +1,11 @@
 /**********************************************************************************
-// GeoWars (Arquivo de Cabeçalho)
+// GeoWars (Arquivo de Cabeï¿½alho)
 // 
-// Criação:     23 Out 2012
-// Atualização: 01 Nov 2021
+// Criaï¿½ï¿½o:     23 Out 2012
+// Atualizaï¿½ï¿½o: 01 Nov 2021
 // Compilador:  Visual C++ 2022
 //
-// Descrição:   Demonstração da versão final do motor
+// Descriï¿½ï¿½o:   Demonstraï¿½ï¿½o da versï¿½o final do motor
 //
 **********************************************************************************/
 
@@ -39,7 +39,7 @@ using namespace std;
 
 // ------------------------------------------------------------------------------
 
-enum ObjectIds { PLAYER, MISSILE, BLUE, GREEN, MAGENTA, ORANGE, WALLHIT, ENEMY, TENTACLE, REPULSION_AREA, PROJECTILE, AIM, ATTRACTION_AREA, EXPERIENCE};
+enum ObjectIds { PLAYER, MISSILE, BLUE, GREEN, MAGENTA, ORANGE, WALLHIT, ENEMY, TENTACLE, REPULSION_AREA, PROJECTILE, AIM, ATTRACTION_AREA, EXPERIENCE, LASER };
 
 // ------------------------------------------------------------------------------
 
@@ -55,12 +55,13 @@ class MinutesTillDawn : public Game
 {  
 private:  
     Background * backg = nullptr;   // pano de fundo  
-    bool viewBBox = false;          // visualização das bouding boxes  
+    bool viewBBox = false;          // visualizaï¿½ï¿½o das bouding boxes  
 
     Timer* enemiesSpawnTimer = new Timer();
     Timer* shotTimer = new Timer();
     Timer* upgradeTimer = new Timer();
     bool elderSpawned = false;
+    bool shoggothSpawned = false;
 
     // boosts timers
     Timer* recoverHpTimer = new Timer();
@@ -69,9 +70,9 @@ public:
     static Player * player;         // nave controlada pela jogador  
 	static uint selectedChar;         // personagem selecionado pelo jogador
     static Character* character;    // personagem do jogador  
-    static Audio * audio;           // sitema de áudio  
+    static Audio * audio;           // sitema de ï¿½udio  
     static Scene * scene;           // cena do jogo  
-    static bool viewHUD;            // visualização do painel  
+    static bool viewHUD;            // visualizaï¿½ï¿½o do painel  
     static Controller * controller;  
     static bool xboxOn;             // gamepad xbox conectado  
     static bool controllerOn;       // gamepad conectado  
@@ -93,10 +94,10 @@ public:
     Weapon* weapon;  
     Aim* aim;  
 
-    void Init();                    // inicialização  
-    void Update();                  // atualização  
+    void Init();                    // inicializaï¿½ï¿½o  
+    void Update();                  // atualizaï¿½ï¿½o  
     void Draw();                    // desenho  
-    void Finalize();                // finalização
+    void Finalize();                // finalizaï¿½ï¿½o
     void UseUpgrade(int index);
 
     void StartUpgrade();

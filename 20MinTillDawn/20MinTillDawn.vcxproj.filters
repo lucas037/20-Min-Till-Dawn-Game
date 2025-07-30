@@ -159,6 +159,10 @@
     <ClCompile Include="DeathParticles.cpp">
       <Filter>Game\Arquivos de Origem</Filter>
     </ClCompile>
+    <ClCompile Include="Shoggoth.cpp">
+      <Filter>Game\Arquivos de Origem</Filter>
+    </ClCompile>
+    <ClCompile Include="Laser.cpp">
     <ClCompile Include="UpgradeIcon.cpp">
       <Filter>Game\Arquivos de Origem</Filter>
     </ClCompile>
@@ -317,6 +321,10 @@
     <ClInclude Include="DeathParticles.h">
       <Filter>Game\Arquivos de Cabeçalho</Filter>
     </ClInclude>
+    <ClInclude Include="Shoggoth.h">
+      <Filter>Game\Arquivos de Cabeçalho</Filter>
+    </ClInclude>
+    <ClInclude Include="Laser.h">
     <ClInclude Include="UpgradeIcon.h">
       <Filter>Game\Arquivos de Cabeçalho</Filter>
     </ClInclude>

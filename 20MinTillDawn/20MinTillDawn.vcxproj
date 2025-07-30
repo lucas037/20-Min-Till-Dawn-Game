@@ -253,6 +253,7 @@
     <ClCompile Include="GameOver.cpp" />
     <ClCompile Include="Geometry.cpp" />
     <ClCompile Include="HomeScreen.cpp" />
+    <ClCompile Include="Laser.cpp" />
     <ClCompile Include="MinutesTillDawn.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="Heart.cpp" />
@@ -266,6 +267,7 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SelectChar.cpp" />
     <ClCompile Include="Shadow.cpp" />
+    <ClCompile Include="Shoggoth.cpp" />
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="TentacleMonster.cpp" />
@@ -302,6 +304,7 @@
     <ClInclude Include="GameOver.h" />
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="HomeScreen.h" />
+    <ClInclude Include="Laser.h" />
     <ClInclude Include="MinutesTillDawn.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Heart.h" />
@@ -317,6 +320,7 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SelectChar.h" />
     <ClInclude Include="Shadow.h" />
+    <ClInclude Include="Shoggoth.h" />
     <ClInclude Include="Sound.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="TentacleMonster.h" />
