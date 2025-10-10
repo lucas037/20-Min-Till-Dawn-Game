@@ -10,8 +10,8 @@ RepulsionArea::RepulsionArea(float x, float y)
 	this->character = nullptr;
 
 	timeCounter = 0.0f;
-	duration = 0.5f;
-	intensity = 3000.0f;
+	duration = 0.3f;
+	intensity = 5000.0f;
 
 	maxHalfWidth = 100.0f;
 	maxHalfHeight = 100.0f;
@@ -30,8 +30,8 @@ RepulsionArea::RepulsionArea(Character* character)
 	this->character = character;
 
 	timeCounter = 0.0f;
-	duration = 1.0f;
-	intensity = 3000.0f;
+	duration = 0.3f;
+	intensity = 5000.0f;
 
 	maxHalfWidth = 150.0f;
 	maxHalfHeight = 150.0f;

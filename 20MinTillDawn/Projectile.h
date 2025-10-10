@@ -4,6 +4,7 @@
 #include "Object.h"
 #include "Vector.h"
 #include "Animation.h"
+#include "Particles.h"
 
 enum AnimationID {
 	FIRING,
@@ -15,6 +16,8 @@ class Projectile : public Object {
 private:
 	Animation* anim;
 	Vector* speed;
+
+	Particles* trailEmitter;
 
 	float rotation; // rotação do projétil
 	bool firing; // indica se o projétil está disparando

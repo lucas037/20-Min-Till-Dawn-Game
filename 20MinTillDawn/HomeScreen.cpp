@@ -18,7 +18,7 @@ void HomeScreen::Init()
     float difx = (game->Width() - window->Width()) / 2.0f;
     float dify = (game->Height() - window->Height()) / 2.0f;
 
-
+    MinutesTillDawn::controller = new Controller();
 }
 
 void HomeScreen::Finalize()
@@ -31,7 +31,16 @@ void HomeScreen::Update()
     if (window->KeyPress(VK_ESCAPE))
         window->Close();
 
-    if (window->KeyPress(VK_RETURN)) {
+    bool xboxOn = MinutesTillDawn::controller->XboxInitialize(0);
+    bool nextFaseButton = false;
+
+    if (xboxOn) {
+        MinutesTillDawn::controller->XboxUpdateState();
+
+        nextFaseButton = MinutesTillDawn::controller->XboxButton(ButtonStart);
+    }
+
+    if (window->KeyPress(VK_RETURN) || nextFaseButton) {
         MinutesTillDawn::NextLevel(GOSELECTCHAR);
     }
 }

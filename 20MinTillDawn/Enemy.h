@@ -27,6 +27,7 @@ public:
 	TileSet* tileset;
 	Animation* anim;
 	bool lookRight = true;
+	bool inRepulsion = false;
 	Sprite* sprite;
 
 	Enemy();

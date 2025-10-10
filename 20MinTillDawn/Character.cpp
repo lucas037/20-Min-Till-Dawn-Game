@@ -1,6 +1,10 @@
 #include "Character.h"
 #include "MinutesTillDawn.h"
 #include "RepulsionArea.h"
+#include "BloodParticles.h"
+#include "Aleatory.h"
+#include "Config.h"
+#include "Shadow.h"
 
 Character::Character()
 {
@@ -18,18 +22,55 @@ Character::Character()
 	right = true;
 	lifePoints = 0;
 	maxLifePoints = 0;
+
+	isStunned = false;
+	stunTimer = 0.0f;
+
+	xpPoints = 0;
+	pointsToNextLevel = 1;
+	level = 1;
 }
 
 void Character::OnCollision(Object* obj)
 {
-	if (obj->Type() == ENEMY) {
+	if (obj->Type() == ENEMY || obj->Type() == LASER) {
 		Damage();
+	}
+
+	if (obj->Type() == EXPERIENCE) {
+		MinutesTillDawn::scene->Delete(obj, MOVING);
+
+		AddExperience();
 	}
 }
 
 void Character::Update()
 {
-	Move();
+	if (MinutesTillDawn::upgrading)
+		return;
+
+	if (isStunned) {
+		stunTimer += gameTime;
+		if (stunTimer >= stunDuration) {
+			isStunned = false;
+		}
+	}
+
+	if (isShooting) {
+		shootTimer += gameTime;
+		if (shootTimer >= shootDuration) {
+			shoot(false);
+			shootTimer = 0.0f;
+		}
+	}
+
+	if (walkingSongActive) {
+		walkTimer += gameTime;
+
+		if (walkTimer >= walkDuration ) {
+			walkingSongActive = false;
+		}
+	}
 
 	if (isInvincible) {
 		timeCounter += gameTime;
@@ -40,12 +81,24 @@ void Character::Update()
 		}
 	}
 
+	if (lifePoints == 1 && !lowHp) {
+		MinutesTillDawn::audio->Play(LOW_HP, true);
+
+		lowHp = true;
+	}
+	else if (lifePoints != 1) {
+		MinutesTillDawn::audio->Stop(LOW_HP);
+		lowHp = false;
+	}
+
+	Move();
+
 	MinutesTillDawn::player->MoveTo(X(), Y());
 }
 
 void Character::Draw()
 {
-	anim->Draw(x, y, Layer::FRONT);
+	anim->Draw(x, y, Layer::FRONT, Scale());
 }
 
 Character::~Character() {}
@@ -54,6 +107,11 @@ Character::~Character() {}
 // METODOS AUXILIARES
 // ---------------------------------------------------------------------------------
 void Character::Move() {
+	if (isStunned) {
+		speed->ScaleTo(0.0f);
+		return;
+	}
+
 	float dx = 0.0f;
 	float dy = 0.0f;
 	float delta = maxSpeed * gameTime;
@@ -67,12 +125,24 @@ void Character::Move() {
 		return;
 	}
 
+	if ((dx != 0 || dy != 0) && !walkingSongActive) {
+		MinutesTillDawn::audio->Play(WALK, false);
+
+		walkingSongActive = true;
+		walkTimer = 0;
+	}
+
 	UpdateAnimationDirection(dx);
 	UpdateMovement(dx, dy);
 
 	speed->ScaleTo(maxSpeed);
 
 	Translate(speed->XComponent() * delta, -speed->YComponent() * delta);
+
+	if (X() < 0 || X() > game->Width() || Y() < 0 || Y() > game->Height()) {
+		MoveTo(game->CenterX(), game->CenterY());
+		Damage();
+	}
 }
 
 void Character::HandleXboxInput(float& dx, float& dy) {
@@ -170,13 +240,34 @@ void Character::StartHearts()
 	}
 }
 
+void Character::shoot(bool shooting)
+{
+	isShooting = shooting;
+
+	if (isShooting) {
+		shootTimer = 0.0f;
+	}
+
+	maxSpeed = shooting ? shootingSpeed : normalSpeed;
+}
+
 void Character::Damage()
 {
 	if (isInvincible || lifePoints <= 0) return;
 
-	//lifePoints--;
+	float lucky = Aleatory::randrange(0, 1000) / 1000.0f;
+	if (lucky < Config::dodgeChance) {
+		MinutesTillDawn::scene->Add(new RepulsionArea(this), MOVING);
+		return;
+	}
+
+	lifePoints--;
+
+	MinutesTillDawn::scene->Add(new BloodParticles(x, y), STATIC);
 
 	MinutesTillDawn::scene->Add(new RepulsionArea(this), MOVING);
+
+	MinutesTillDawn::audio->Play(DAMAGE);
 
 	if (lifePoints < maxLifePoints) {
 		for (uint i = lifePoints; i < maxLifePoints; i++) {
@@ -189,4 +280,44 @@ void Character::Damage()
 
 	isInvincible = true;
 	timeCounter = 0.0f;
+
+	isStunned = true;
+	stunTimer = 0.0f;
+}
+
+void Character::AddExperience()
+{
+	xpPoints++;
+	if (xpPoints >= pointsToNextLevel) {
+		xpPoints = 0;
+		pointsToNextLevel += 10;
+		level++;
+
+		MinutesTillDawn::startUpgrade = true;
+	}
+}
+
+void Character::AddHeart() {
+	if (lifePoints < maxLifePoints) {
+		hearts[lifePoints]->SetActive();
+		lifePoints++;
+	}
+
+}
+
+void Character::AddMaxHeart() {
+
+	Heart* heart = new Heart(50 * maxLifePoints, 40);
+
+	if (lifePoints < maxLifePoints) {
+		hearts[lifePoints]->SetActive();
+		heart->SetInactive();
+	}
+
+	hearts.push_back(heart);
+	MinutesTillDawn::scene->Add(heart, STATIC);
+
+	maxLifePoints++;
+	lifePoints++;
+
 }

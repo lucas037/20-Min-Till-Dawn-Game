@@ -6,18 +6,22 @@
 
 void SelectChar::Init()
 {
-    backg = new Background("Resources/SelectCharScreen.png");
+    backg = new Background("Resources/selectscreen.jpg");
+    border = new Sprite("Resources/selectborder.png");
 
     // calcula posição para manter viewport centralizada
     float difx = (game->Width() - window->Width()) / 2.0f;
     float dify = (game->Height() - window->Height()) / 2.0f;
 
-
+    MinutesTillDawn::controller = new Controller();
+    selected = SHANA;
+    MinutesTillDawn::selectedChar = SHANA;
 }
 
 void SelectChar::Finalize()
 {
     delete backg;
+    delete border;
 }
 
 void SelectChar::Update()
@@ -26,7 +30,32 @@ void SelectChar::Update()
         MinutesTillDawn::NextLevel(GOHOME);
     }
 
-    if (window->KeyPress(VK_RETURN)) {
+    bool xboxOn = MinutesTillDawn::controller->XboxInitialize(0);
+    bool confirmButton = false;
+    bool left = false;
+    bool rigth = false;
+
+    if (xboxOn) {
+        MinutesTillDawn::controller->XboxUpdateState();
+
+        confirmButton = MinutesTillDawn::controller->XboxButton(ButtonA);
+		left = MinutesTillDawn::controller->XboxButton(DpadLeft);
+		rigth = MinutesTillDawn::controller->XboxButton(DpadRight);
+    }
+
+    // Seleciona a Diamond
+    if ((window->KeyPress(VK_RIGHT) || window->KeyPress('D') || rigth) && selected == SHANA) {
+		selected = DIAMOND;
+	    MinutesTillDawn::selectedChar = DIAMOND;
+    }   
+
+    // Seleciona a Shana
+    if ((window->KeyPress(VK_LEFT) || window->KeyPress('A') || left) && selected == DIAMOND) {
+		selected = SHANA;
+		MinutesTillDawn::selectedChar = SHANA;
+    }
+
+    if (window->KeyPress(VK_RETURN) || confirmButton) {
         MinutesTillDawn::NextLevel(GOLEVEL);
     }
 }
@@ -37,4 +66,17 @@ void SelectChar::Draw()
     {
         backg->Draw(viewport);
     }
+
+    Color corTexto = { 0.992f, 0.317f, 0.380f, 1.0f };
+    MinutesTillDawn::font16->Draw(window->CenterX() - 150, window->CenterY() - 250, "Selecione sua personagem", corTexto, 0.0f, 1.0f);
+
+    // Posicoes da borda
+    float border_x[2] = { window->CenterX() - 250, window->CenterX() + 275 };
+    float border_y = window->CenterY() + 50;
+
+    // Desenha a borda 
+    if (border)
+        border->Draw(border_x[selected], border_y);
+
+
 }

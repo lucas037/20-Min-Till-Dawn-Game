@@ -1,4 +1,6 @@
 #include "CharShana.h"
+#include "AtractionArea.h"
+#include "Shadow.h"
 
 CharShana::CharShana()
 {
@@ -17,10 +19,19 @@ CharShana::CharShana()
 
 	BBox(new Rect(-18, -18, 16, 26));
 
-	lifePoints = 3;
+	lifePoints = 4;
 	maxLifePoints = 4;
 
 	StartHearts();
+
+	shootingSpeed = 12.0f;
+	normalSpeed = 15.0f;
+
+	AttractionArea* attractionArea = new AttractionArea(this);
+	MinutesTillDawn::scene->Add(attractionArea, MOVING);
+
+	Shadow* shadow = new Shadow(this);
+	MinutesTillDawn::scene->Add(shadow, STATIC);
 }
 
 CharShana::~CharShana() 
@@ -49,6 +60,9 @@ void CharShana::OnCollision(Object* obj)
 
 void CharShana::Update()
 {
+	if (MinutesTillDawn::upgrading)
+		return;
+
 	Character::Update();
 
 	if (speed->Magnitude() > 0.0f && speed->Magnitude() < 15.0f) {

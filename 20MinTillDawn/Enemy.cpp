@@ -1,8 +1,9 @@
 #include "Enemy.h"
 #include "Aleatory.h"
-#include "MinutesTillDawn.h"-
+#include "MinutesTillDawn.h"
 #include "RepulsionArea.h"
 #include "Config.h"
+#include "Experience.h"
 
 Enemy::Enemy() {
 	id = MinutesTillDawn::newEnemyId;
@@ -98,6 +99,8 @@ void Enemy::OnCollision(Object* obj) {
 			Vector repulsionVector(repulsionAngle, intensity * gameTime);
 
 			speed->Add(repulsionVector);
+
+			inRepulsion = true;
 		}
 	}
 
@@ -107,6 +110,10 @@ void Enemy::OnCollision(Object* obj) {
 
 void Enemy::Update()
 {
+	if (MinutesTillDawn::upgrading) {
+		return;
+	}
+
 	float xPlayer = MinutesTillDawn::player->X();
 	float yPlayer = MinutesTillDawn::player->Y();
 	float xEnemy = X();
@@ -115,10 +122,9 @@ void Enemy::Update()
 	float dx = xPlayer - xEnemy;
 	float dy = yPlayer - yEnemy;
 
-	// TODO: Lucas adicionei esse trecho, dê uma olhada se está correto
 	UpdateMovement(dx, dy);
 	float maxSpeed = 100.0f;
-	if (speed->Magnitude() > maxSpeed) {
+	if (speed->Magnitude() > maxSpeed && !inRepulsion) {
 		speed->ScaleTo(maxSpeed);
 	}
 
@@ -149,6 +155,8 @@ void Enemy::Update()
 
 	if (anim != nullptr)
 		anim->NextFrame();
+
+	inRepulsion = false;
 }
 
 // -------------------------------------------------------------------------------
@@ -160,7 +168,7 @@ void Enemy::Draw() {
 		sprite->Draw(x, y, Layer::MIDDLE);
 }
 
-// Métodos auxiliares
+// Mï¿½todos auxiliares
 void Enemy::UpdateMovement(float dx, float dy) {
 	float magnitude = sqrtf(dx * dx + dy * dy);
 	if (magnitude > 1.0f) {
@@ -185,7 +193,10 @@ void Enemy::TakeDamage(float damage) {
 	life -= damage;
 
 	if (life < 0.0) {
+		MinutesTillDawn::player->AddEnemyKilled();
 		MinutesTillDawn::scene->Delete(this, MOVING);
+
+		MinutesTillDawn::scene->Add(new Experience(x, y), MOVING);
 		
 		for (int i = 0; i < MinutesTillDawn::enemies.size(); ++i) {
 			if (MinutesTillDawn::enemies[i]->id == id) {

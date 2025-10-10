@@ -69,6 +69,7 @@ public:
     void Generate(float x, float y, int count = 1);             // gera novas partículas
     void Update(float delta);                                   // atualiza posição das partículas por delta
     void Draw(float z, float factor = 0.0f);                    // desenha partículas        
+    Particle* Get(int index);
 }; 
 
 // ---------------------------------------------------------------------------------
@@ -81,6 +82,16 @@ inline bool Particles::Inactive()
 
 inline Generator & Particles::Config()
 { return config; }
+
+inline Particle* Particles::Get(int index)
+{
+    if (index < 0 || index >= (int)particles.size())
+        return nullptr;
+
+    auto it = particles.begin();
+    std::advance(it, index);
+    return *it;
+}
 
 // ---------------------------------------------------------------------------------
 

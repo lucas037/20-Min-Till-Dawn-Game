@@ -73,6 +73,12 @@ void Heart::SetInactive()
 	anim->Select(H_INACTIVE);
 }
 
+void Heart::SetActive()
+{
+	state = H_ACTIVE;
+	anim->Select(H_ACTIVE);
+}
+
 Heart::~Heart()
 {
 	delete tile;

@@ -1,11 +1,11 @@
 /**********************************************************************************
-// Player (CÛdigo Fonte)
+// Player (C√≥digo Fonte)
 // 
-// CriaÁ„o:     10 Out 2012
-// AtualizaÁ„o: 01 Nov 2021
+// Cria√ß√£o:     10 Out 2012
+// Atualiza√ß√£o: 01 Nov 2021
 // Compilador:  Visual C++ 2022
 //
-// DescriÁ„o:   Define a classe jogador
+// Descri√ß√£o:   Define a classe jogador
 //
 **********************************************************************************/
 
@@ -16,12 +16,15 @@
 
 Player::Player()
 {
-    // configuraÁ„o do objeto
+    // configura√ß√£o do objeto
     sprite = new Sprite("OldResources/Player.png");
     speed  = new Vector(90.0f, 0.0f);
     BBox(new Circle(18.0f));
     MoveTo(game->CenterX(), game->CenterY());
     type = PLAYER;
+    
+    // Inicializa estat√≠sticas
+    ResetStats();
 }
 
 // -------------------------------------------------------------------------------
@@ -50,8 +53,31 @@ void Player::Update()
 void Player::Draw()
 {
     sprite->Draw(x, y, Layer::MIDDLE, 1.0f, -speed->Angle() + 90.0f);
-    tail->Draw(Layer::LOWER, 1.0f);
+    if (tail) tail->Draw(Layer::LOWER, 1.0f);
 }
 
+// ---------------------------------------------------------------------------------
+// M√âTODOS PARA ESTAT√çSTICAS
+// ---------------------------------------------------------------------------------
+
+void Player::ResetStats()
+{
+    stats.Reset();
+}
+
+void Player::AddEnemyKilled()
+{
+    stats.enemiesKilled++;
+}
+
+void Player::AddUpgradeObtained()
+{
+    stats.upgradesObtained++;
+}
+
+void Player::UpdateSurvivalTime(float time)
+{
+    stats.survivalTime = time;
+}
 
 // -------------------------------------------------------------------------------

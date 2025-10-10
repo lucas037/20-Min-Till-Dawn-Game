@@ -1,6 +1,7 @@
 #include "Weapon.h"
 #include "TileSet.h"
 #include "Config.h"
+#include "MinutesTillDawn.h"
 
 bool flipped = false;
 
@@ -40,6 +41,11 @@ Weapon::~Weapon()
 }
 
 void Weapon::Update() {
+
+	if (MinutesTillDawn::upgrading) {
+		return;
+	}
+
 	//-------------------------------
 	//        Posicionamento
 	//-------------------------------
