@@ -107,7 +107,7 @@ void Weapon::Update() {
 		anim->Select(flipped ? LEFTGUN : RIGHTGUN);
 	}
 
-	if (reloading)
+	if (false)
 	{
 		anim->NextFrame();
 
